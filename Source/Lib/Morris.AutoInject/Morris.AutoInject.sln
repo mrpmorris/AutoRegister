@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{B8DB20E7-F62
 		..\Directory.Build.props = ..\Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInject.SourceGenerators", "..\Morris.AutoInject.SourceGenerators\Morris.AutoInject.SourceGenerators.csproj", "{47A8864D-9634-4F3B-B3B7-657F8E973545}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInject.SourceGeneratorsTests", "..\Morris.AutoInject.SourceGeneratorsTests\Morris.AutoInject.SourceGeneratorsTests.csproj", "{A275EF0B-37D3-43B5-A6AF-EBB1CCE28B03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,11 +24,21 @@ Global
 		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47A8864D-9634-4F3B-B3B7-657F8E973545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47A8864D-9634-4F3B-B3B7-657F8E973545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47A8864D-9634-4F3B-B3B7-657F8E973545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47A8864D-9634-4F3B-B3B7-657F8E973545}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A275EF0B-37D3-43B5-A6AF-EBB1CCE28B03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A275EF0B-37D3-43B5-A6AF-EBB1CCE28B03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A275EF0B-37D3-43B5-A6AF-EBB1CCE28B03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A275EF0B-37D3-43B5-A6AF-EBB1CCE28B03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
+		{47A8864D-9634-4F3B-B3B7-657F8E973545} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
+		{A275EF0B-37D3-43B5-A6AF-EBB1CCE28B03} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
 	EndGlobalSection
 EndGlobal
