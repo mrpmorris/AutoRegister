@@ -15,7 +15,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="FodyPackaging" Version="6.9.1" PrivateAssets="All" />
+		<PackageReference Include="Fody" Version="6.9.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="FodyPackaging" Version="6.9.1" PrivateAssets="all"/>
 	</ItemGroup>
 
 </Project>
