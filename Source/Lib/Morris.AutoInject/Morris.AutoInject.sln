@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInject", "Morris.AutoInject\Morris.AutoInject.csproj", "{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}"
+	ProjectSection(SolutionItems) = preProject
+		..\Directory.Build.props = ..\Directory.Build.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
+	EndGlobalSection
+EndGlobal
