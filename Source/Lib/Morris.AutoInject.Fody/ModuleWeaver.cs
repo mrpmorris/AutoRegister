@@ -13,7 +13,7 @@ public class ModuleWeaver : BaseModuleWeaver
 
 	public override void Execute()
 	{
-		string manifestFilePath = Path.Combine(ProjectDirectoryPath, "autoinject.manifest");
+		string manifestFilePath = Path.Combine(ProjectDirectoryPath, "Morris.AutoInject.manifest");
 		File.WriteAllText(manifestFilePath, "Hello");
 	}
 
