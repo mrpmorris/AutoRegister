@@ -1,5 +1,4 @@
-﻿#nullable enable
-#if NET9_0_OR_GREATER
+﻿#if NET9_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
 #endif
 
@@ -63,13 +62,3 @@ public class AutoInjectAttribute : Attribute
 		WithLifetime = withLifetime;
 	}
 }
-
-
-
-
-
-/// <summary>
-/// Specifies the lifetime of a service.
-/// </summary>
-
-#nullable restore

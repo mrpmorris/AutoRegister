@@ -1,5 +1,8 @@
 ﻿namespace Morris.AutoInject;
 
+/// <summary>
+/// Specifies the lifetime of a service.
+/// </summary>
 public enum WithLifetime
 {
 	/// <summary>

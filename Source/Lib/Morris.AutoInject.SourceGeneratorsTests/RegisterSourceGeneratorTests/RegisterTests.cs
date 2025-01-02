@@ -25,7 +25,41 @@ public sealed class RegisterTests
 				static partial void AfterRegisterServices(IServiceCollection services);
 				public static void RegisterServices(IServiceCollection services)
 				{
-					throw new System.NotImplementedException("Fody weaver has not processed this assembly.");
+					throw new System.NotImplementedException("Morris.AutoInject.Fody has not processed this assembly.");
+				}
+			}
+			""";
+
+		SourceGeneratorExecutor
+			.AssertGeneratedCodeMatches(
+				sourceCode: sourceCode,
+				expectedGeneratedCode: expectedGeneratedCode
+			);
+	}
+
+	[TestMethod]
+	public void WhenClassHasAutoInjectFilterAttribute_ThenRegisterMethodIsAdded()
+	{
+		string sourceCode =
+			$$"""
+			using Morris.AutoInject;
+			namespace Tests
+			{
+				[AutoInjectFilter("hello")]
+				public partial class MyModule {}
+			}
+			""";
+
+		string expectedGeneratedCode =
+			$$"""
+			using Microsoft.Extensions.DependencyInjection;
+
+			namespace Tests
+			{
+				static partial void AfterRegisterServices(IServiceCollection services);
+				public static void RegisterServices(IServiceCollection services)
+				{
+					throw new System.NotImplementedException("Morris.AutoInject.Fody has not processed this assembly.");
 				}
 			}
 			""";

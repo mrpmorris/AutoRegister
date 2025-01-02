@@ -25,10 +25,37 @@ public class RegisterSourceGenerator : IIncrementalGenerator
 					return (namespaceName, targetSymbol.Name);
 				}
 			)
-			.Collect()
-			.Select(static (items, _) => items.Distinct().ToImmutableArray());
+			.Collect();
 
-		context.RegisterSourceOutput(classesWithAutoInjectAttribute, static (context, items) =>
+		IncrementalValueProvider<ImmutableArray<(string? NamespaceName, string Name)>> classesWithAutoInjectFilterAttribute =
+			context
+			.SyntaxProvider
+			.ForAttributeWithMetadataName(
+				fullyQualifiedMetadataName: "Morris.AutoInject.AutoInjectFilterAttribute",
+				predicate: static (_, _) => true,
+				transform: static (context, token) =>
+				{
+					ISymbol targetSymbol = context.TargetSymbol;
+					string? namespaceName =
+						targetSymbol.ContainingNamespace.IsGlobalNamespace
+						? null
+						: targetSymbol.ContainingNamespace.Name;
+					return (namespaceName, targetSymbol.Name);
+				}
+			)
+			.Collect();
+
+		IncrementalValueProvider<ImmutableArray<(string? NamespaceName, string Name)>> allClassesWithAutoInjectAttributes =
+			classesWithAutoInjectAttribute
+			.Combine(classesWithAutoInjectFilterAttribute)
+			.Select(static (combined, _) =>
+			{
+				var (autoInjectClasses, autoInjectFilterClasses) = combined;
+				return autoInjectClasses.Concat(autoInjectFilterClasses).Distinct().ToImmutableArray();
+			});
+
+
+		context.RegisterSourceOutput(allClassesWithAutoInjectAttributes, static (context, items) =>
 		{
 			using var output = new StringWriter();
 			using var writer = new IndentedTextWriter(output);
@@ -59,7 +86,7 @@ public class RegisterSourceGenerator : IIncrementalGenerator
 		writer.WriteLine("{");
 		{
 			writer.Indent++;
-			writer.WriteLine("throw new System.NotImplementedException(\"Fody weaver has not processed this assembly.\");");
+			writer.WriteLine("throw new System.NotImplementedException(\"Morris.AutoInject.Fody has not processed this assembly.\");");
 			writer.Indent--;
 		}
 		writer.WriteLine("}");
