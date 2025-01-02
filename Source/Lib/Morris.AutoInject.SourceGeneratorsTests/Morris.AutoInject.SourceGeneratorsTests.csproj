@@ -30,7 +30,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Morris.AutoInject.SourceGenerators\Morris.AutoInject.SourceGenerators.csproj" />
-	  <ProjectReference Include="..\Morris.AutoInject\Morris.AutoInject\Morris.AutoInject.csproj" />
+	  <ProjectReference Include="..\Morris.AutoInject\Morris.AutoInject.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
