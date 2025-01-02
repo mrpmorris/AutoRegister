@@ -8,7 +8,8 @@ public class ModuleWeaver : BaseModuleWeaver
 {
 	public override IEnumerable<string> GetAssembliesForScanning()
 	{
-		return ["netstandard", "mscorlib"];
+		yield return "netstandard";
+		yield return "mscorlib";
 	}
 
 	public override void Execute()
