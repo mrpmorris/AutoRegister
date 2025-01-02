@@ -27,7 +27,7 @@ public class AutoInjectAttribute : Attribute
 	/// this regular expression will be registered.
 	/// </summary>
 #if NET9_0_OR_GREATER
-[StringSyntax(StringSyntaxAttribute.Regex)]
+	[StringSyntax(StringSyntaxAttribute.Regex)]
 #endif
 	public string? ServiceKeyRegex { get; set; }
 
@@ -36,7 +36,7 @@ public class AutoInjectAttribute : Attribute
 	/// this regular expression will be registered.
 	/// </summary>
 #if NET9_0_OR_GREATER
-[StringSyntax(StringSyntaxAttribute.Regex)]
+	[StringSyntax(StringSyntaxAttribute.Regex)]
 #endif
 	public string? ServiceImplementationRegex { get; set; }
 
@@ -50,6 +50,13 @@ public class AutoInjectAttribute : Attribute
 	/// </summary>
 	public WithLifetime WithLifetime { get; set; }
 
+	/// <summary>
+	/// Creates a new instance of the attribute.
+	/// </summary>
+	/// <param name="find"><see cref="AutoInjectAttribute.Find"/></param>
+	/// <param name="type"><see cref="AutoInjectAttribute.Type"/></param>
+	/// <param name="registerAs"><see cref="AutoInjectAttribute.RegisterAs"/></param>
+	/// <param name="withLifetime"><see cref="AutoInjectAttribute.WithLifetime"/></param>
 	public AutoInjectAttribute(
 		Find find,
 		Type type,

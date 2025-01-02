@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="FodyHelpers" Version="6.9.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Morris.AutoInject\Morris.AutoInject.csproj" />
+	</ItemGroup>
+
+</Project>

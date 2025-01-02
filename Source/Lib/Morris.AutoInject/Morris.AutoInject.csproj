@@ -2,18 +2,20 @@
 
 	<PropertyGroup>
 		<ImplicitUsings>enable</ImplicitUsings>
+
+		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Morris.AutoInject.SourceGenerators\Morris.AutoInject.SourceGenerators.csproj">
+		<ProjectReference Include="..\Morris.AutoInject.SourceGenerators\Morris.AutoInject.SourceGenerators.csproj">
 			<ReferenceOutputAssembly>False</ReferenceOutputAssembly>
 		</ProjectReference>
-		<None
-			Include="..\Morris.AutoInject.SourceGenerators\bin\$(Configuration)\netstandard2.0\Morris.AutoInject.SourceGenerators.dll"
-			Pack="true"
-			PackagePath="analyzers/dotnet/cs"
-			Visible="false" />
+		<None Include="..\Morris.AutoInject.SourceGenerators\bin\$(Configuration)\netstandard2.0\Morris.AutoInject.SourceGenerators.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="FodyPackaging" Version="6.9.1" PrivateAssets="All" />
 	</ItemGroup>
 
 </Project>
