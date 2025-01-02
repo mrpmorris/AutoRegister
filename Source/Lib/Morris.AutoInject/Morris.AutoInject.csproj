@@ -18,12 +18,12 @@
 			<ReferenceOutputAssembly>False</ReferenceOutputAssembly>
 		</ProjectReference>
 		<None Include="..\..\..\Images\logo-small.png">
-		  <Pack>True</Pack>
-		  <PackagePath>\</PackagePath>
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
 		</None>
 		<None Include="..\..\..\README.md">
-		  <Pack>True</Pack>
-		  <PackagePath>\</PackagePath>
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
 		</None>
 		<None Include="..\Morris.AutoInject.SourceGenerators\bin\$(Configuration)\netstandard2.0\Morris.AutoInject.SourceGenerators.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
