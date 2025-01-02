@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Morris.AutoInject.Fody;
 
-internal class ModuleWeaver : BaseModuleWeaver
+public class ModuleWeaver : BaseModuleWeaver
 {
 	public override IEnumerable<string> GetAssembliesForScanning()
 	{

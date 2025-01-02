@@ -8,11 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FodyHelpers" Version="6.9.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Morris.AutoInject\Morris.AutoInject.csproj" />
+		<PackageReference Include="FodyHelpers" Version="6.8.0" />
 	</ItemGroup>
 
 </Project>

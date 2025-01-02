@@ -2,24 +2,35 @@
 
 	<PropertyGroup>
 		<ImplicitUsings>enable</ImplicitUsings>
-
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
+		<PackageId>$(MSBuildProjectName)</PackageId>
+		<Title>AutoInject</Title>
+		<Description>A reflection-free + convention-driven registration library for dependency injection.</Description>
+		<PackageIcon>logo-small.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/mrpmorris/AutoInject</RepositoryUrl>
+		<PackageTags>Dependency injection</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Morris.AutoInject.SourceGenerators\Morris.AutoInject.SourceGenerators.csproj">
 			<ReferenceOutputAssembly>False</ReferenceOutputAssembly>
 		</ProjectReference>
+		<None Include="..\..\..\Images\logo-small.png">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 		<None Include="..\Morris.AutoInject.SourceGenerators\bin\$(Configuration)\netstandard2.0\Morris.AutoInject.SourceGenerators.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fody" Version="6.9.1">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="FodyPackaging" Version="6.9.1" PrivateAssets="all"/>
+		<PackageReference Include="Fody" Version="6.8.0" PrivateAssets="none" />
+		<PackageReference Include="FodyPackaging" Version="6.8.0" PrivateAssets="All" />
 	</ItemGroup>
 
 </Project>
