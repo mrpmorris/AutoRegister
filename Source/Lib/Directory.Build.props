@@ -1,7 +1,5 @@
 <Project>
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0</TargetFrameworks>
-
 		<Authors>Peter Morris</Authors>
 		<Company />
 		<Copyright>Peter Morris</Copyright>
