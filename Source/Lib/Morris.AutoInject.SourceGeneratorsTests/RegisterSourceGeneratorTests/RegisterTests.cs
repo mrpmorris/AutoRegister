@@ -22,10 +22,13 @@ public sealed class RegisterTests
 
 			namespace Tests
 			{
-				static partial void AfterRegisterServices(IServiceCollection services);
-				public static void RegisterServices(IServiceCollection services)
+				partial class MyModule
 				{
-					throw new System.NotImplementedException("Morris.AutoInject.Fody has not processed this assembly.");
+					static partial void AfterRegisterServices(IServiceCollection services);
+					public static void RegisterServices(IServiceCollection services)
+					{
+						throw new System.NotImplementedException("Morris.AutoInject.Fody has not processed this assembly.");
+					}
 				}
 			}
 			""";
@@ -56,10 +59,13 @@ public sealed class RegisterTests
 
 			namespace Tests
 			{
-				static partial void AfterRegisterServices(IServiceCollection services);
-				public static void RegisterServices(IServiceCollection services)
+				partial class MyModule
 				{
-					throw new System.NotImplementedException("Morris.AutoInject.Fody has not processed this assembly.");
+					static partial void AfterRegisterServices(IServiceCollection services);
+					public static void RegisterServices(IServiceCollection services)
+					{
+						throw new System.NotImplementedException("Morris.AutoInject.Fody has not processed this assembly.");
+					}
 				}
 			}
 			""";

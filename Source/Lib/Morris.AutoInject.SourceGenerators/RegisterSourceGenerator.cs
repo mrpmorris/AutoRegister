@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Morris.AutoInject.SourceGenerators.Extensions;
 using System.CodeDom.Compiler;
 using System.Collections.Immutable;
 
@@ -73,28 +74,21 @@ public class RegisterSourceGenerator : IIncrementalGenerator
 		IndentedTextWriter writer,
 		(string? NamespaceName, string Name) item)
 	{
-		writer.WriteLine();
-		if (item.NamespaceName is not null)
+		writer.AddBlankLine();
+		IDisposable? namespaceBlock =
+			item.NamespaceName is not null
+			? writer.CodeBlock($"namespace {item.NamespaceName}")
+			: null;
+
+		using (writer.CodeBlock($"partial class {item.Name}"))
 		{
-			writer.WriteLine($"namespace {item.NamespaceName}");
-			writer.WriteLine("{");
-			writer.Indent++;
+			writer.WriteLine("static partial void AfterRegisterServices(IServiceCollection services);");
+			using (writer.CodeBlock("public static void RegisterServices(IServiceCollection services)"))
+			{
+				writer.WriteLine("throw new System.NotImplementedException(\"Morris.AutoInject.Fody has not processed this assembly.\");");
+			}
 		}
 
-		writer.WriteLine("static partial void AfterRegisterServices(IServiceCollection services);");
-		writer.WriteLine("public static void RegisterServices(IServiceCollection services)");
-		writer.WriteLine("{");
-		{
-			writer.Indent++;
-			writer.WriteLine("throw new System.NotImplementedException(\"Morris.AutoInject.Fody has not processed this assembly.\");");
-			writer.Indent--;
-		}
-		writer.WriteLine("}");
-
-		if (item.NamespaceName is not null)
-		{
-			writer.Indent--;
-			writer.WriteLine("}");
-		}
+		namespaceBlock?.Dispose();
 	}
 }
