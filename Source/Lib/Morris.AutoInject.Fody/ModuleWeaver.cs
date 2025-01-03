@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Morris.AutoInject.Fody;
 
@@ -18,14 +19,21 @@ public class ModuleWeaver : BaseModuleWeaver
 
 	public override void Execute()
 	{
-		IEnumerable<TypeDefinition> classes = ModuleDefinition.Types.Where(x => x.IsClass);
-		foreach (var type in classes)
-			ScanType(type);
+		var manifestBuilder = new StringBuilder();
 
-		WriteManifestFile();
+		IEnumerable<TypeDefinition> classesToScan =
+			ModuleDefinition
+			.Types
+			.Where(x => x.IsClass)
+			.OrderBy(x => x.FullName);
+
+		foreach (TypeDefinition type in classesToScan)
+			ScanType(type, manifestBuilder);
+
+		WriteManifestFile(manifestBuilder.ToString());
 	}
 
-	private void ScanType(TypeDefinition type)
+	private void ScanType(TypeDefinition type, StringBuilder manifestBuilder)
 	{
 		CustomAttribute[] autoInjectAttributes =
 			type
@@ -42,17 +50,19 @@ public class ModuleWeaver : BaseModuleWeaver
 		if (autoInjectAttributes.Length + autoInjectFilterAttributes.Length == 0)
 			return;
 
+		manifestBuilder.Append($"{type.FullName}\n");
 		foreach(var attribute in autoInjectAttributes)
 		{
 			var x = attribute.GetValues();
 		}
+		manifestBuilder.Append("\n");
 	}
 
 
 
-	private void WriteManifestFile()
+	private void WriteManifestFile(string content)
 	{
 		string manifestFilePath = Path.ChangeExtension(ProjectFilePath, "Morris.AutoInject.manifest");
-		File.WriteAllText(manifestFilePath, "Hello");
+		File.WriteAllText(manifestFilePath, content);
 	}
 }
