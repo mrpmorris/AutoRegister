@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInject.Fody", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInject.SourceGeneratorsTests", "Lib\Morris.AutoInject.SourceGeneratorsTests\Morris.AutoInject.SourceGeneratorsTests.csproj", "{CD7B5143-F428-4E21-93CF-34FD560EFB9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInjectTests", "Lib\Morris.AutoInjectTests\Morris.AutoInjectTests.csproj", "{4A71569F-8D98-4554-A5AA-D68DE0CD37C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{CD7B5143-F428-4E21-93CF-34FD560EFB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD7B5143-F428-4E21-93CF-34FD560EFB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD7B5143-F428-4E21-93CF-34FD560EFB9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A71569F-8D98-4554-A5AA-D68DE0CD37C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A71569F-8D98-4554-A5AA-D68DE0CD37C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A71569F-8D98-4554-A5AA-D68DE0CD37C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A71569F-8D98-4554-A5AA-D68DE0CD37C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +56,6 @@ Global
 		{47A8864D-9634-4F3B-B3B7-657F8E973545} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
 		{7E1FF6BB-B4F5-4F97-B086-6F13F4229024} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
 		{CD7B5143-F428-4E21-93CF-34FD560EFB9D} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
+		{4A71569F-8D98-4554-A5AA-D68DE0CD37C5} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
 	EndGlobalSection
 EndGlobal

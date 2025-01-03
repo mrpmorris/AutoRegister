@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
-		
+
 		<ImplicitUsings>enable</ImplicitUsings>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
@@ -29,8 +29,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Morris.AutoInject.SourceGenerators\Morris.AutoInject.SourceGenerators.csproj" />
-	  <ProjectReference Include="..\Morris.AutoInject\Morris.AutoInject.csproj" />
+		<ProjectReference Include="..\Morris.AutoInject.SourceGenerators\Morris.AutoInject.SourceGenerators.csproj" />
+		<ProjectReference Include="..\Morris.AutoInject\Morris.AutoInject.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
