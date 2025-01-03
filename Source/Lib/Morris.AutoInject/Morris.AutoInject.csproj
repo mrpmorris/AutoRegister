@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
-		<PackageId>$(MSBuildProjectName)</PackageId>
+		<PackageId>$(MSBuildProjectName).Fody</PackageId>
 		<Title>AutoInject</Title>
 		<Description>A reflection-free + convention-driven registration library for dependency injection.</Description>
 		<PackageIcon>logo-small.png</PackageIcon>
