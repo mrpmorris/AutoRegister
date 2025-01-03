@@ -3,10 +3,10 @@
 namespace Morris.AutoInjectTests.ModuleWeaverTests;
 
 [TestClass]
-public class Test1
+public class ExecuteTests
 {
 	[TestMethod]
-	public void X()
+	public void WhenClassHasAutoInjectAttribute_ThenClassAppearsInManifest()
 	{
 		string sourceCode =
 			"""
@@ -14,6 +14,25 @@ public class Test1
 
 			namespace MyNamespace;
 			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterface, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+
+			}
+			""";
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+		fodyTestResult.AssertNoDiagnostics();
+		Assert.AreEqual("MyNamespace.MyModule\n\n", manifest);
+	}
+
+	[TestMethod]
+	public void WhenClassHasAutoInjectFilterAttribute_ThenClassAppearsInManifest()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoInject;
+
+			namespace MyNamespace;
+			[AutoInjectFilter("SomeFilter")]
 			public partial class MyModule
 			{
 
