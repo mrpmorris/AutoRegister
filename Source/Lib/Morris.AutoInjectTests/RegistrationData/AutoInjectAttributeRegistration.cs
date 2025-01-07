@@ -8,8 +8,8 @@ internal class AutoInjectAttributeRegistration
 {
 	public Find Find { get; private set; }
 	public RegisterAs RegisterAs { get; private set; }
-	public string? ServiceIdentifierFilter { get; private set; }
-	public string? ServiceImplementationFilter { get; private set; }
+	public string? ServiceTypeFilter { get; private set; }
+	public string? ServiceImplementationTypeFilter { get; private set; }
 	public string TypeFullName { get; private set; }
 	public WithLifetime WithLifetime { get; private set; }
 
@@ -18,13 +18,13 @@ internal class AutoInjectAttributeRegistration
 		string typeFullName,
 		RegisterAs registerAs,
 		WithLifetime withLifetime,
-		string? serviceIdentifierFilter = null,
-		string? serviceImplementationFilter = null)
+		string? serviceTypeFilter = null,
+		string? serviceImplementationTypeFilter = null)
 	{
 		Find = find;
 		RegisterAs = registerAs;
-		ServiceIdentifierFilter = serviceIdentifierFilter;
-		ServiceImplementationFilter = serviceImplementationFilter;
+		ServiceTypeFilter = serviceTypeFilter;
+		ServiceImplementationTypeFilter = serviceImplementationTypeFilter;
 		TypeFullName = typeFullName;
 		WithLifetime = withLifetime;
 	}
@@ -37,11 +37,11 @@ internal class AutoInjectAttributeRegistration
 		builder.Append($" {TypeFullName}");
 		builder.Append($" RegisterAs {RegisterAs}");
 
-		if (ServiceIdentifierFilter is not null)
-			builder.Append($" ServiceIdentifierFilter=\"{ServiceIdentifierFilter}\"");
+		if (ServiceTypeFilter is not null)
+			builder.Append($" ServiceTypeFilter=\"{ServiceTypeFilter}\"");
 
-		if (ServiceImplementationFilter is not null)
-			builder.Append($" ServiceIdentifierFilter=\"{ServiceImplementationFilter}\"");
+		if (ServiceImplementationTypeFilter is not null)
+			builder.Append($" ServiceImplementationTypeFilter=\"{ServiceImplementationTypeFilter}\"");
 		
 		return builder.ToString();
 	}

@@ -20,13 +20,13 @@ internal static class AutoInjectAttributeDataFactory
 		var registerAs = (RegisterAs)attr.ConstructorArguments[RegisterAsParameterIndex!.Value].Value;
 		var withLifetime = (WithLifetime)attr.ConstructorArguments[WithlifetimeParameterIndex!.Value].Value;
 
-		string? serviceIdentifierRegex = null;
+		string? serviceTypeRegex = null;
 		string? serviceImplementationRegex = null;
 
 		foreach (var namedArg in attr.Properties)
 		{
-			if (namedArg.Name == nameof(AutoInjectAttributeData.ServiceIdentifierFilter))
-				serviceIdentifierRegex = (string?)namedArg.Argument.Value;
+			if (namedArg.Name == nameof(AutoInjectAttributeData.ServiceTypeFilter))
+				serviceTypeRegex = (string?)namedArg.Argument.Value;
 			else if (namedArg.Name == nameof(AutoInjectAttribute.ServiceImplementationFilter))
 				serviceImplementationRegex = (string?)namedArg.Argument.Value;
 			else
@@ -36,7 +36,7 @@ internal static class AutoInjectAttributeDataFactory
 		var result = new AutoInjectAttributeData(
 			find: find,
 			registerAs: registerAs,
-			serviceIdentifierFilter: null,
+			serviceTypeFilter: null,
 			serviceImplementationFilter: null,
 			type: type,
 			withLifetime: withLifetime);

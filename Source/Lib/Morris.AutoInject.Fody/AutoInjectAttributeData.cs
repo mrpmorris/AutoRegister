@@ -7,7 +7,7 @@ internal class AutoInjectAttributeData
 {
 	public Find Find { get; private set; }
 	public RegisterAs RegisterAs { get; private set; }
-	public string? ServiceIdentifierFilter { get; private set; }
+	public string? ServiceTypeFilter { get; private set; }
 	public string? ServiceImplementationFilter { get; private set; }
 	public TypeReference Type { get; private set; }
 	public WithLifetime WithLifetime { get; private set; }
@@ -15,14 +15,14 @@ internal class AutoInjectAttributeData
 	public AutoInjectAttributeData(
 		Find find,
 		RegisterAs registerAs,
-		string? serviceIdentifierFilter,
+		string? serviceTypeFilter,
 		string? serviceImplementationFilter,
 		TypeReference type,
 		WithLifetime withLifetime)
 	{
 		Find = find;
 		RegisterAs = registerAs;
-		ServiceIdentifierFilter = serviceIdentifierFilter;
+		ServiceTypeFilter = serviceTypeFilter;
 		ServiceImplementationFilter = serviceImplementationFilter;
 		Type = type;
 		WithLifetime = withLifetime;
@@ -30,9 +30,9 @@ internal class AutoInjectAttributeData
 
 	public bool IsMatch(
 		TypeDefinition type,
-		out TypeReference? serviceIdentifier)
+		out TypeReference? serviceType)
 	{
-		serviceIdentifier = type;
+		serviceType = type;
 		return true;
 	}
 

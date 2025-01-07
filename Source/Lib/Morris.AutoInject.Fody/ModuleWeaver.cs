@@ -14,7 +14,7 @@ namespace Morris.AutoInject.Fody;
 
 public class ModuleWeaver : BaseModuleWeaver
 {
-	public const string ManifestHeader = "Module,Attribute,Scope,ServiceIdentifier,ServiceImplementation";
+	public const string ManifestHeader = "Module,Attribute,Scope,ServiceType,ServiceImplementation";
 
 	public override IEnumerable<string> GetAssembliesForScanning()
 	{
@@ -115,22 +115,22 @@ public class ModuleWeaver : BaseModuleWeaver
 		manifestBuilder.Append($" {autoInjectAttributeData.Type.FullName}");
 		manifestBuilder.Append($" RegisterAs {autoInjectAttributeData.RegisterAs}");
 
-		if (autoInjectAttributeData.ServiceIdentifierFilter is not null)
-			manifestBuilder.Append($" ServiceIdentifierFilter=\"{autoInjectAttributeData.ServiceIdentifierFilter}\"");
+		if (autoInjectAttributeData.ServiceTypeFilter is not null)
+			manifestBuilder.Append($" ServiceTypeFilter=\"{autoInjectAttributeData.ServiceTypeFilter}\"");
 
 		if (autoInjectAttributeData.ServiceImplementationFilter is not null)
-			manifestBuilder.Append($" ServiceIdentifierFilter=\"{autoInjectAttributeData.ServiceImplementationFilter}\"");
+			manifestBuilder.Append($" ServiceImplementationFilter=\"{autoInjectAttributeData.ServiceImplementationFilter}\"");
 
 		manifestBuilder.AppendLinuxLine();
 
 		foreach (TypeDefinition candidate in filteredClasses)
 		{
-			if (autoInjectAttributeData.IsMatch(candidate, out TypeReference? serviceIdentifier))
+			if (autoInjectAttributeData.IsMatch(candidate, out TypeReference? serviceType))
 				RegisterClass(
 					manifestBuilder: manifestBuilder,
 					withLifetime: autoInjectAttributeData.WithLifetime,
-					serviceIdentifier: serviceIdentifier,
-					serviceImplementor: candidate,
+					serviceType: serviceType,
+					serviceImplementationType: candidate,
 					ilProcessor: ilProcessor);
 		}
 	}
@@ -138,14 +138,14 @@ public class ModuleWeaver : BaseModuleWeaver
 	private void RegisterClass(
 		StringBuilder manifestBuilder,
 		WithLifetime withLifetime,
-		TypeReference? serviceIdentifier,
-		TypeDefinition serviceImplementor,
+		TypeReference? serviceType,
+		TypeDefinition serviceImplementationType,
 		ILProcessor ilProcessor)
 	{
 		manifestBuilder.Append(",,");
 		manifestBuilder.Append($"{withLifetime},");
-		manifestBuilder.Append($"{serviceIdentifier!.FullName},");
-		manifestBuilder.Append($"{serviceImplementor!.FullName}");
+		manifestBuilder.Append($"{serviceType!.FullName},");
+		manifestBuilder.Append($"{serviceImplementationType!.FullName}");
 		manifestBuilder.AppendLinuxLine();
 
 		// Get references to needed runtime methods
@@ -167,11 +167,11 @@ public class ModuleWeaver : BaseModuleWeaver
 			extensionType.GetMethod(addMethodName, new[] { typeof(IServiceCollection), typeof(Type), typeof(Type) })
 		);
 
-		// Emit: services.AddXxx(typeof(Identifier), typeof(Implementor));
+		// Emit: services.AddXxx(typeof(ServiceType), typeof(ServiceImplementationType));
 		ilProcessor.Emit(OpCodes.Ldarg_0);
-		ilProcessor.Emit(OpCodes.Ldtoken, serviceIdentifier);
+		ilProcessor.Emit(OpCodes.Ldtoken, serviceType);
 		ilProcessor.Emit(OpCodes.Call, getTypeFromHandleRef);
-		ilProcessor.Emit(OpCodes.Ldtoken, serviceImplementor);
+		ilProcessor.Emit(OpCodes.Ldtoken, serviceImplementationType);
 		ilProcessor.Emit(OpCodes.Call, getTypeFromHandleRef);
 		ilProcessor.Emit(OpCodes.Call, addMethodRef);
 		ilProcessor.Emit(OpCodes.Pop);

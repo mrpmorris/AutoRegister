@@ -45,8 +45,8 @@ public class ExecuteTests
 					services: [
 						new(
 							lifetime: ServiceLifetime.Scoped,
-							serviceIdentifierFullName: "MyNamespace.MyModule",
-							serviceImplementorFullName: "MyNamespace.MyModule"
+							serviceTypeFullName: "MyNamespace.MyModule",
+							serviceImplementationTypeFullName: "MyNamespace.MyModule"
 						),
 					]
 				)

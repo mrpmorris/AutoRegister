@@ -5,19 +5,19 @@ namespace Morris.AutoInjectTests.RegistrationData;
 internal class ServiceRegistration
 {
 	public ServiceLifetime Lifetime { get; private set; }
-	public string ServiceIdentifierFullName {  get; private set; }
-	public string ServiceImplementorFullName {  get; private set; }
+	public string ServiceTypeFullName {  get; private set; }
+	public string ServiceImplementationTypeFullName {  get; private set; }
 
 	public ServiceRegistration(
 		ServiceLifetime lifetime,
-		string serviceIdentifierFullName,
-		string serviceImplementorFullName)
+		string serviceTypeFullName,
+		string serviceImplementationTypeFullName)
 	{
 		Lifetime = lifetime;
-		ServiceIdentifierFullName = serviceIdentifierFullName;
-		ServiceImplementorFullName = serviceImplementorFullName;
+		ServiceTypeFullName = serviceTypeFullName;
+		ServiceImplementationTypeFullName = serviceImplementationTypeFullName;
 	}
 
 	public override string ToString() =>
-		$"{Lifetime},{ServiceIdentifierFullName},{ServiceImplementorFullName}";
+		$"{Lifetime},{ServiceTypeFullName},{ServiceImplementationTypeFullName}";
 }

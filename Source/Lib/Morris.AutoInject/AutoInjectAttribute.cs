@@ -36,7 +36,7 @@ class AutoInjectAttribute : Attribute
 #if NET9_0_OR_GREATER
 	[StringSyntax(StringSyntaxAttribute.Regex)]
 #endif
-	public string? ServiceIdentifierFilter { get; set; }
+	public string? ServiceTypeFilter { get; set; }
 
 	/// <summary>
 	/// If not null, then only depdendency classes with a full name matching
