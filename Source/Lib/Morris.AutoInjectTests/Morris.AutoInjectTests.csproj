@@ -29,6 +29,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Morris.AutoInject.Fody\Morris.AutoInject.Fody.csproj" />
+		<ProjectReference Include="..\Morris.AutoInject.SourceGenerators\Morris.AutoInject.SourceGenerators.csproj" />
 		<ProjectReference Include="..\Morris.AutoInject.TestsShared\Morris.AutoInject.TestsShared.csproj" />
 		<ProjectReference Include="..\Morris.AutoInject\Morris.AutoInject.csproj" />
 	</ItemGroup>

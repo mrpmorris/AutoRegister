@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.RegularExpressions;
 using Morris.AutoInject.SourceGenerators;
 using System.Collections.Immutable;
 using System.Text;

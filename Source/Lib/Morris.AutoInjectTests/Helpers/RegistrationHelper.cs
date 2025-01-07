@@ -38,7 +38,6 @@ internal static class RegistrationHelper
 		Type moduleType = assembly.GetType(module.ClassFullName)!;
 		Assert.IsNotNull(moduleType, $"Module not found \"{module.ClassFullName}\".");
 
-		var xxx = moduleType.GetMethods(BindingFlags.Public | BindingFlags.Static);
 		MethodInfo registerServicesMethod =
 			moduleType
 			.GetMethod("RegisterServices", BindingFlags.Public | BindingFlags.Static)!;

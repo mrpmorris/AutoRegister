@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 using Morris.AutoInject;
 using Morris.AutoInject.Fody;
+using Morris.AutoInject.SourceGenerators;
 using Morris.AutoInjectTests.Extensions;
 using System.Collections.Immutable;
 using System.Text;
@@ -38,6 +39,8 @@ internal static class WeaverExecutor
 		);
 		AssertNoCompileDiagnostics(compilation);
 
+		compilation = AddGeneratedSource(unitTestSyntaxTree, compilation);
+
 		string projectFilePath = Path.Combine(
 			Path.GetTempPath(),
 			$"{Guid.NewGuid()}.csproj"
@@ -66,6 +69,27 @@ internal static class WeaverExecutor
 			if (File.Exists(assemblyFilePath))
 				File.Delete(assemblyFilePath);
 		}
+	}
+
+	private static CSharpCompilation AddGeneratedSource(SyntaxTree unitTestSyntaxTree, CSharpCompilation compilation)
+	{
+		var registerSourceGenerator = new RegisterSourceGenerator().AsSourceGenerator();
+		var driver = CSharpGeneratorDriver
+			.Create(registerSourceGenerator)
+			.RunGenerators(compilation);
+		GeneratorDriverRunResult driverRunResult = driver.GetRunResult();
+		GeneratorRunResult runResult = driverRunResult.Results.Single();
+		var generatedSyntaxTrees = runResult.GeneratedSources.Select(x => x.SyntaxTree);
+		compilation = CSharpCompilation.Create(
+			assemblyName: "TestWithGenerators",
+			syntaxTrees: generatedSyntaxTrees.Append(unitTestSyntaxTree),
+			references: Basic.Reference.Assemblies.Net90.References
+				.All
+				.Union([AutoInjectMetadataReference, MSDependencyInjectionMetadataReference]),
+			options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, reportSuppressedDiagnostics: true)
+		);
+		AssertNoCompileDiagnostics(compilation);
+		return compilation;
 	}
 
 	private static void AssertNoCompileDiagnostics(CSharpCompilation compilation)
