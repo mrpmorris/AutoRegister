@@ -2,6 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 #endif
 
+using System;
+
 namespace Morris.AutoInject;
 
 /// <summary>
@@ -9,7 +11,12 @@ namespace Morris.AutoInject;
 /// the given criteria.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public class AutoInjectAttribute : Attribute
+#if PublicContracts
+public
+#else
+internal
+#endif
+class AutoInjectAttribute : Attribute
 {
 	/// <summary>
 	/// The criteria to use when scanning for candidates to register.

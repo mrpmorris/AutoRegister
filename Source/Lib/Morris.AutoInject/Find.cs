@@ -3,7 +3,12 @@
 /// <summary>
 /// Specifies the search criteria.
 /// </summary>
-public enum Find
+#if PublicContracts
+public
+#else
+internal
+#endif
+enum Find
 {
 	/// <summary>
 	/// Only considers descendants of the specified type

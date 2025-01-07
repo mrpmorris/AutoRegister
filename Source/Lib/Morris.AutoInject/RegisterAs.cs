@@ -3,7 +3,12 @@
 /// <summary>
 /// Specifies what should be used as the service key.
 /// </summary>
-public enum RegisterAs
+#if PublicContracts
+public
+#else
+internal
+#endif
+enum RegisterAs
 {
 	/// <summary>
 	/// The service key will be the type specified in the filter criteria.

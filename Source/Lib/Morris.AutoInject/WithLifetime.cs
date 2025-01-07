@@ -3,7 +3,12 @@
 /// <summary>
 /// Specifies the lifetime of a service.
 /// </summary>
-public enum WithLifetime
+#if PublicContracts
+public
+#else
+internal
+#endif
+enum WithLifetime
 {
 	/// <summary>
 	/// Specifies that a single instance of the service will be created.
