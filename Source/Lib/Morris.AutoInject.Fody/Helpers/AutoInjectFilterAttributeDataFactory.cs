@@ -5,14 +5,14 @@ namespace Morris.AutoInject.Fody.Helpers;
 
 internal static class AutoInjectFilterAttributeDataFactory
 {
-	private static int? ServiceImplementationRegexParameterIndex;
+	private static int? ServiceImplementationFilterParameterIndex;
 
 	public static AutoInjectFilterAttributeData Create(CustomAttribute attr)
 	{
-		if (ServiceImplementationRegexParameterIndex is null)
+		if (ServiceImplementationFilterParameterIndex is null)
 			ResolveParameterIndexes(attr);
 
-		var serviceImplementationRegex = (string?)attr.ConstructorArguments[ServiceImplementationRegexParameterIndex!.Value].Value;
+		var serviceImplementationRegex = (string?)attr.ConstructorArguments[ServiceImplementationFilterParameterIndex!.Value].Value;
 
 		foreach (var namedArg in attr.Properties)
 			throw new NotImplementedException($"Unexpected parameter \"{namedArg.Name}\"");
@@ -31,8 +31,8 @@ internal static class AutoInjectFilterAttributeDataFactory
 			ParameterDefinition parameter = parameters[i];
 			switch (parameter.Name)
 			{
-				case "serviceImplementationRegex":
-					ServiceImplementationRegexParameterIndex = i;
+				case "serviceImplementationFilter":
+					ServiceImplementationFilterParameterIndex = i;
 					break;
 
 				default:
@@ -40,7 +40,7 @@ internal static class AutoInjectFilterAttributeDataFactory
 			}
 		}
 
-		if (ServiceImplementationRegexParameterIndex is null)
+		if (ServiceImplementationFilterParameterIndex is null)
 			throw new InvalidOperationException("Parameter \"serviceImplementationRegex\" was not found.");
 	}
 }

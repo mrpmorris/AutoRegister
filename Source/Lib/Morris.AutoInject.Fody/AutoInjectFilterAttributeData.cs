@@ -5,16 +5,16 @@ namespace Morris.AutoInject.Fody;
 
 internal class AutoInjectFilterAttributeData
 {
-	public string? ServiceImplementationRegex { get; private set; }
+	public string? ServiceImplementationFilter { get; private set; }
 
-	private Regex Regex;
+	private Regex ServiceImplementationRegex;
 
 	public AutoInjectFilterAttributeData(string? serviceImplementationRegex)
 	{
-		ServiceImplementationRegex = serviceImplementationRegex;
-		Regex = new Regex(serviceImplementationRegex, RegexOptions.Compiled);
+		ServiceImplementationFilter = serviceImplementationRegex;
+		ServiceImplementationRegex = new Regex(serviceImplementationRegex, RegexOptions.Compiled);
 	}
 
 	public bool Matches(TypeDefinition typeDefinition) =>
-		Regex.IsMatch(typeDefinition.FullName);
+		ServiceImplementationRegex.IsMatch(typeDefinition.FullName);
 }

@@ -25,9 +25,9 @@ internal static class AutoInjectAttributeDataFactory
 
 		foreach (var namedArg in attr.Properties)
 		{
-			if (namedArg.Name == nameof(AutoInjectAttributeData.ServiceIdentifierRegex))
+			if (namedArg.Name == nameof(AutoInjectAttributeData.ServiceIdentifierFilter))
 				serviceIdentifierRegex = (string?)namedArg.Argument.Value;
-			else if (namedArg.Name == nameof(AutoInjectAttribute.ServiceImplementationRegex))
+			else if (namedArg.Name == nameof(AutoInjectAttribute.ServiceImplementationFilter))
 				serviceImplementationRegex = (string?)namedArg.Argument.Value;
 			else
 				throw new NotImplementedException($"Unexpected parameter \"{namedArg.Name}\"");
@@ -36,8 +36,8 @@ internal static class AutoInjectAttributeDataFactory
 		var result = new AutoInjectAttributeData(
 			find: find,
 			registerAs: registerAs,
-			serviceIdentifierRegex: null,
-			serviceImplementationRegex: null,
+			serviceIdentifierFilter: null,
+			serviceImplementationFilter: null,
 			type: type,
 			withLifetime: withLifetime);
 

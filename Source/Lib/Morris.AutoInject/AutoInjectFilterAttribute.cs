@@ -25,18 +25,18 @@ class AutoInjectFilterAttribute : Attribute
 #if NET9_0_OR_GREATER
 	[StringSyntax(StringSyntaxAttribute.Regex)]
 #endif
-	public string? ServiceImplementationRegex { get; set; }
+	public string? ServiceImplementationFilter { get; set; }
 
 	/// <summary>
 	/// Creates a new instance of the attribute.
 	/// </summary>
-	/// <param name="serviceImplementationRegex"><see cref="AutoInjectFilterAttribute.ServiceImplementationRegex"/></param>
+	/// <param name="serviceImplementationFilter"><see cref="AutoInjectFilterAttribute.ServiceImplementationFilter"/></param>
 	public AutoInjectFilterAttribute(
 #if NET9_0_OR_GREATER
 		[StringSyntax(StringSyntaxAttribute.Regex)]
 #endif
-		string serviceImplementationRegex)
+		string serviceImplementationFilter)
 	{
-		ServiceImplementationRegex = serviceImplementationRegex;
+		ServiceImplementationFilter = serviceImplementationFilter;
 	}
 }
