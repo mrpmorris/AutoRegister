@@ -11,12 +11,7 @@ namespace Morris.AutoInject;
 /// the given criteria.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-#if PublicContracts
-public
-#else
-internal
-#endif
-class AutoInjectAttribute : Attribute
+public class AutoInjectAttribute : Attribute
 {
 	/// <summary>
 	/// The criteria to use when scanning for candidates to register.
