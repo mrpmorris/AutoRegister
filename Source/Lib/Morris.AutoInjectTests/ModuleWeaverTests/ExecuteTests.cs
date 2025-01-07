@@ -31,15 +31,27 @@ public class ExecuteTests
 			"""
 			using Morris.AutoInject;
 
-			namespace MyNamespace;
-			[AutoInjectFilter("SomeFilter")]
-			public partial class MyModule
+			namespace MyNamespace1
 			{
+				[AutoInjectFilter("SomeFilter")]
+				public partial class MyModule
+				{
 
+				}
 			}
+
+			namespace MyNamespace2
+			{
+				[AutoInjectFilter("SomeFilter")]
+				public partial class MyModule
+				{
+			
+				}
+			}
+			
 			""";
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
 		fodyTestResult.AssertNoDiagnostics();
-		Assert.AreEqual("MyNamespace.MyModule\n\n", manifest);
+		Assert.AreEqual("MyNamespace1.MyModule\n\nMyNamespace2.MyModule\n\n", manifest);
 	}
 }
