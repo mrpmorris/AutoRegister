@@ -1,5 +1,6 @@
 ﻿using Fody;
 using Mono.Cecil;
+using Morris.AutoInject.Fody.Extensions;
 using Morris.AutoInject.Fody.Helpers;
 using System.Collections.Generic;
 using System.IO;
@@ -27,8 +28,7 @@ public class ModuleWeaver : BaseModuleWeaver
 	private void ProcessClasses()
 	{
 		var manifestBuilder = new StringBuilder();
-		manifestBuilder.Append(ManifestHeader);
-		manifestBuilder.Append("\n");
+		manifestBuilder.AppendLinuxLine(ManifestHeader);
 
 		IEnumerable<TypeDefinition> classesToScan =
 			ModuleDefinition
@@ -86,7 +86,7 @@ public class ModuleWeaver : BaseModuleWeaver
 			classesToScan
 			.Where(c => autoInjectFilterAttributes.All(f => f.Matches(c)));
 
-		manifestBuilder.Append($"{type.FullName}\n");
+		manifestBuilder.AppendLinuxLine($"{type.FullName}");
 		foreach (AutoInjectAttributeData autoInjectAttributeData in autoInjectAttributes)
 			ProcessAutoInjectAttribute(type, manifestBuilder, filteredClasses, autoInjectAttributeData);
 	}
@@ -108,7 +108,7 @@ public class ModuleWeaver : BaseModuleWeaver
 		if (autoInjectAttributeData.ServiceImplementationFilter is not null)
 			manifestBuilder.Append($" ServiceIdentifierFilter=\"{autoInjectAttributeData.ServiceImplementationFilter}\"");
 
-		manifestBuilder.Append("\n");
+		manifestBuilder.AppendLinuxLine();
 	}
 
 	private void WriteManifestFile(string content)
