@@ -20,7 +20,6 @@ public class ExecuteTests
 			}
 			""";
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
-		fodyTestResult.AssertNoDiagnostics();
 		Assert.AreEqual("MyNamespace.MyModule\n\n", manifest);
 	}
 
@@ -51,7 +50,6 @@ public class ExecuteTests
 			
 			""";
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
-		fodyTestResult.AssertNoDiagnostics();
 		Assert.AreEqual("MyNamespace1.MyModule\n\nMyNamespace2.MyModule\n\n", manifest);
 	}
 }

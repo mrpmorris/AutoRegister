@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.DependencyInjection;
 using Morris.AutoInject;
 using Morris.AutoInject.Fody;
+using Morris.AutoInjectTests.Extensions;
 using System.Collections.Immutable;
 using System.Text;
 
@@ -20,7 +21,11 @@ internal static class WeaverExecutor
 		.CreateFromFile(typeof(ServiceLifetime).Assembly.Location);
 
 
-	public static void Execute(string sourceCode, out Fody.TestResult testResult, out string? manifest)
+	public static void Execute(
+		string sourceCode,
+		out Fody.TestResult testResult,
+		out string? manifest,
+		bool assertNoDiagnosticsOutput = true)
 	{
 		var unitTestSyntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
 		var compilation = CSharpCompilation.Create(
@@ -51,6 +56,8 @@ internal static class WeaverExecutor
 				!File.Exists(manifestFilePath)
 				? null
 				: File.ReadAllText(manifestFilePath);
+			if (assertNoDiagnosticsOutput)
+				testResult.AssertNoDiagnosticsOutput();
 		}
 		finally
 		{

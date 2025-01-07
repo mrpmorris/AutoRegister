@@ -5,7 +5,7 @@ namespace Morris.AutoInjectTests.Extensions;
 
 internal static class FodyTestResultExtensions
 {
-	public static void AssertNoDiagnostics(this Fody.TestResult result)
+	public static void AssertNoDiagnosticsOutput(this Fody.TestResult result)
 	{
 		if (result.Errors.Count + result.Warnings.Count + result.Messages.Count == 0)
 			return;
