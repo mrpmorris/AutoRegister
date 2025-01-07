@@ -1,4 +1,5 @@
-﻿using Morris.AutoInjectTests.Extensions;
+﻿using Morris.AutoInject.Fody;
+using Morris.AutoInjectTests.Extensions;
 
 namespace Morris.AutoInjectTests.ModuleWeaverTests;
 
@@ -20,7 +21,7 @@ public class ExecuteTests
 			}
 			""";
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
-		Assert.AreEqual("MyNamespace.MyModule\n\n", manifest);
+		Assert.AreEqual($"{ModuleWeaver.ManifestHeader}MyNamespace.MyModule\n\n", manifest);
 	}
 
 	[TestMethod]
@@ -50,6 +51,6 @@ public class ExecuteTests
 			
 			""";
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
-		Assert.AreEqual("MyNamespace1.MyModule\n\nMyNamespace2.MyModule\n\n", manifest);
+		Assert.AreEqual($"{ModuleWeaver.ManifestHeader}MyNamespace1.MyModule\n\nMyNamespace2.MyModule\n\n", manifest);
 	}
 }

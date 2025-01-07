@@ -1,4 +1,5 @@
 ﻿using Mono.Cecil;
+using System;
 
 namespace Morris.AutoInject.Fody;
 
@@ -10,6 +11,8 @@ internal class AutoInjectAttributeData
 	public string? ServiceImplementationFilter { get; private set; }
 	public TypeReference Type { get; private set; }
 	public WithLifetime WithLifetime { get; private set; }
+
+	public readonly Func<TypeDefinition, bool> IsMatch;
 
 	public AutoInjectAttributeData(
 		Find find,
@@ -25,6 +28,8 @@ internal class AutoInjectAttributeData
 		ServiceImplementationFilter = serviceImplementationFilter;
 		Type = type;
 		WithLifetime = withLifetime;
+
+		IsMatch = _ => true;
 	}
 
 }

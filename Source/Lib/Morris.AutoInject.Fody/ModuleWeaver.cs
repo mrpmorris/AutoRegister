@@ -1,6 +1,5 @@
 ﻿using Fody;
 using Mono.Cecil;
-using Morris.AutoInject.Fody.Extensions;
 using Morris.AutoInject.Fody.Helpers;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +10,8 @@ namespace Morris.AutoInject.Fody;
 
 public class ModuleWeaver : BaseModuleWeaver
 {
+	public const string ManifestHeader = "Module,Attribute,Scope,ServiceIdentifier,ServiceImplementation\n";
+
 	public override IEnumerable<string> GetAssembliesForScanning()
 	{
 		yield return "netstandard";
@@ -26,6 +27,7 @@ public class ModuleWeaver : BaseModuleWeaver
 	private void ProcessClasses()
 	{
 		var manifestBuilder = new StringBuilder();
+		manifestBuilder.Append(ManifestHeader);
 
 		IEnumerable<TypeDefinition> classesToScan =
 			ModuleDefinition
@@ -68,15 +70,46 @@ public class ModuleWeaver : BaseModuleWeaver
 		if (autoInjectAttributes.Count + autoInjectFilterAttributes.Count == 0)
 			return;
 
+		//MethodDefinition registerServicesMethod = type
+		//	.Methods
+		//	.Single(
+		//		x => x.Name == "RegisterServices"
+		//		&& x.IsPublic
+		//		&& x.IsStatic
+		//		&& x.ReturnType.FullName == "System.Void"
+		//		&& x.Parameters.Count == 1
+		//		&& x.Parameters[0].ParameterType.FullName == "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+		//	);
+
 		IEnumerable<TypeDefinition> filteredClasses =
 			classesToScan
 			.Where(c => autoInjectFilterAttributes.All(f => f.Matches(c)));
 
 		manifestBuilder.Append($"{type.FullName}\n");
+		foreach (AutoInjectAttributeData autoInjectAttributeData in autoInjectAttributes)
+			ProcessAutoInjectAttribute(type, manifestBuilder, filteredClasses, autoInjectAttributeData);
 		manifestBuilder.Append("\n");
 	}
 
+	private void ProcessAutoInjectAttribute(
+		TypeDefinition type,
+		StringBuilder manifestBuilder,
+		IEnumerable<TypeDefinition> filteredClasses,
+		AutoInjectAttributeData autoInjectAttributeData)
+	{
+		manifestBuilder.Append(",");
+		manifestBuilder.Append($"Find {autoInjectAttributeData.Find}");
+		manifestBuilder.Append($" \"{autoInjectAttributeData.Type.FullName}\"");
+		manifestBuilder.Append($" RegisterAs {autoInjectAttributeData.RegisterAs}");
 
+		if (autoInjectAttributeData.ServiceIdentifierFilter is not null)
+			manifestBuilder.Append($" ServiceIdentifierFilter=\"{autoInjectAttributeData.ServiceIdentifierFilter}\"");
+
+		if (autoInjectAttributeData.ServiceImplementationFilter is not null)
+			manifestBuilder.Append($" ServiceIdentifierFilter=\"{autoInjectAttributeData.ServiceImplementationFilter}\"");
+
+		manifestBuilder.Append("\n");
+	}
 
 	private void WriteManifestFile(string content)
 	{
