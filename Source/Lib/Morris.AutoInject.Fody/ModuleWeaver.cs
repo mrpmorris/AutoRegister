@@ -1,6 +1,7 @@
 ﻿using Fody;
 using Mono.Cecil;
 using Morris.AutoInject.Fody.Extensions;
+using Morris.AutoInject.Fody.Helpers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -42,14 +43,15 @@ public class ModuleWeaver : BaseModuleWeaver
 
 	private void ScanType(TypeDefinition type, StringBuilder manifestBuilder)
 	{
-		var autoInjectAttributes = new List<CustomAttribute>();
+		var autoInjectAttributes = new List<AutoInjectAttributeData>();
 		var autoInjectFilterAttributes = new List<CustomAttribute>();
 		for (int i = type.CustomAttributes.Count - 1; i >= 0; i--)
 		{
 			CustomAttribute currentAttribute = type.CustomAttributes[i];
 			if (currentAttribute.AttributeType.FullName == "Morris.AutoInject.AutoInjectAttribute")
 			{
-				autoInjectAttributes.Add(currentAttribute);
+				AutoInjectAttributeData autoInjectAttributeData = AutoInjectAttributeDataFactory.Create(currentAttribute);
+				autoInjectAttributes.Add(autoInjectAttributeData);
 				type.CustomAttributes.RemoveAt(i);
 			}
 			else if (currentAttribute.AttributeType.FullName == "Morris.AutoInject.AutoInjectFilterAttribute")
@@ -63,10 +65,6 @@ public class ModuleWeaver : BaseModuleWeaver
 			return;
 
 		manifestBuilder.Append($"{type.FullName}\n");
-		foreach(var attribute in autoInjectAttributes)
-		{
-			var x = attribute.GetValues();
-		}
 		manifestBuilder.Append("\n");
 	}
 

@@ -11,7 +11,12 @@ namespace Morris.AutoInject;
 /// match the given regex.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public class AutoInjectFilterAttribute : Attribute
+#if PublicContracts
+public
+#else
+internal
+#endif
+class AutoInjectFilterAttribute : Attribute
 {
 	/// <summary>
 	/// If not null, then only depdendency classes with a full name matching

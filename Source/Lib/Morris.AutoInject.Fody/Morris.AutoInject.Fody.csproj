@@ -7,6 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Include="..\Morris.AutoInject\AutoInjectAttribute.cs" Link="AutoInjectAttribute.cs" />
+	  <Compile Include="..\Morris.AutoInject\AutoInjectFilterAttribute.cs" Link="AutoInjectFilterAttribute.cs" />
 	  <Compile Include="..\Morris.AutoInject\Find.cs" Link="Find.cs" />
 	  <Compile Include="..\Morris.AutoInject\RegisterAs.cs" Link="RegisterAs.cs" />
 	  <Compile Include="..\Morris.AutoInject\WithLifetime.cs" Link="WithLifetime.cs" />
