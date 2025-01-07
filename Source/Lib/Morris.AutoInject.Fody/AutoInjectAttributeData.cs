@@ -26,7 +26,6 @@ internal class AutoInjectAttributeData
 		ServiceImplementationFilter = serviceImplementationFilter;
 		Type = type;
 		WithLifetime = withLifetime;
-
 	}
 
 	public bool IsMatch(

@@ -2,7 +2,6 @@
 using Mono.Cecil;
 using Morris.AutoInject.Fody.Extensions;
 using Morris.AutoInject.Fody.Helpers;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -121,12 +120,12 @@ public class ModuleWeaver : BaseModuleWeaver
 		StringBuilder manifestBuilder,
 		WithLifetime withLifetime,
 		TypeReference? serviceIdentifier,
-		TypeDefinition serviceImplementer)
+		TypeDefinition serviceImplementor)
 	{
 		manifestBuilder.Append(",,");
 		manifestBuilder.Append($"{withLifetime},");
 		manifestBuilder.Append($"{serviceIdentifier!.FullName},");
-		manifestBuilder.Append($"{serviceImplementer!.FullName}");
+		manifestBuilder.Append($"{serviceImplementor!.FullName}");
 		manifestBuilder.AppendLinuxLine();
 	}
 

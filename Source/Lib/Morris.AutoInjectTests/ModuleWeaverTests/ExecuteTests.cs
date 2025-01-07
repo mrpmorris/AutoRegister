@@ -1,6 +1,10 @@
-﻿using Morris.AutoInject.Fody;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Morris.AutoInject;
+using Morris.AutoInject.Fody;
 using Morris.AutoInject.TestsShared;
 using Morris.AutoInjectTests.Extensions;
+using Morris.AutoInjectTests.Helpers;
+using Morris.AutoInjectTests.RegistrationData;
 
 namespace Morris.AutoInjectTests.ModuleWeaverTests;
 
@@ -24,15 +28,35 @@ public class ExecuteTests
 
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
 
-		string expectedManifest =
-			$$"""
-			{{ModuleWeaver.ManifestHeader}}
-			MyNamespace.MyModule
-			,Find DescendantsOf System.Object RegisterAs FirstDiscoveredInterface
-			,,Scoped,<Module>,<Module>
-			,,Scoped,MyNamespace.MyModule,MyNamespace.MyModule
-			""";
-		Assert.AreEqual(expectedManifest.StandardizeLines(), manifest.StandardizeLines());
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoInjectAttributes: [
+						new(
+							find: Find.DescendantsOf,
+							typeFullName: "System.Object",
+							registerAs: RegisterAs.FirstDiscoveredInterface,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services: [
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceIdentifierFullName: "<Module>",
+							serviceImplementorFullName: "<Module>"
+						),
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceIdentifierFullName: "MyNamespace.MyModule",
+							serviceImplementorFullName: "MyNamespace.MyModule"
+						),
+					]
+				)
+			]
+		);
 	}
 
 	[TestMethod]
@@ -61,14 +85,24 @@ public class ExecuteTests
 			}
 			
 			""";
+		
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
 
-		string expectedManifest =
-			$$"""
-			{{ModuleWeaver.ManifestHeader}}
-			MyNamespace1.MyModule
-			MyNamespace2.MyModule
-			""";
-		Assert.AreEqual(expectedManifest.StandardizeLines(), manifest.StandardizeLines());
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace1.MyModule",
+					autoInjectAttributes: [],
+					services: []
+				),
+				new(
+					classFullName: "MyNamespace2.MyModule",
+					autoInjectAttributes: [],
+					services: []
+				),
+			]);
 	}
 }
