@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Morris.AutoInject.SourceGenerators;
 using System.Collections.Immutable;
 using System.Text;
+using Morris.AutoInject.TestsShared;
 
 namespace Morris.AutoInject.SourceGeneratorsTests;
 
@@ -46,10 +47,7 @@ internal static class SourceGeneratorExecutor
 		GeneratedSourceResult generatedSource = result.GeneratedSources.Single();
 		Assert.AreEqual("Morris.AutoInject.RegisterSourceGenerator.g.cs", generatedSource.HintName);
 		string generatedCode = generatedSource.SyntaxTree.ToString();
-		Assert.AreEqual(
-			TidyCode(expectedGeneratedCode),
-			TidyCode(generatedCode)
-		);
+		Assert.AreEqual(expectedGeneratedCode.StandardizeLines(), generatedCode.StandardizeLines());
 	}
 
 	private static void AssertNoDiagnostics(CSharpCompilation compilation)
@@ -64,12 +62,4 @@ internal static class SourceGeneratorExecutor
 
 		Assert.Fail("The following compiler errors were found:\r\n" + builder.ToString());
 	}
-
-	private static string TidyCode(string value) =>
-		Regex.Replace(
-			input: value.Replace("\r", ""),
-			pattern: "(?m)^\t+",
-			evaluator: x => new string(' ', x.Length * 4)
-		)
-		.Trim();
 }

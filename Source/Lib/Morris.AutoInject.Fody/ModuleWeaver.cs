@@ -10,7 +10,7 @@ namespace Morris.AutoInject.Fody;
 
 public class ModuleWeaver : BaseModuleWeaver
 {
-	public const string ManifestHeader = "Module,Attribute,Scope,ServiceIdentifier,ServiceImplementation\n";
+	public const string ManifestHeader = "Module,Attribute,Scope,ServiceIdentifier,ServiceImplementation";
 
 	public override IEnumerable<string> GetAssembliesForScanning()
 	{
@@ -28,6 +28,7 @@ public class ModuleWeaver : BaseModuleWeaver
 	{
 		var manifestBuilder = new StringBuilder();
 		manifestBuilder.Append(ManifestHeader);
+		manifestBuilder.Append("\n");
 
 		IEnumerable<TypeDefinition> classesToScan =
 			ModuleDefinition
@@ -88,7 +89,6 @@ public class ModuleWeaver : BaseModuleWeaver
 		manifestBuilder.Append($"{type.FullName}\n");
 		foreach (AutoInjectAttributeData autoInjectAttributeData in autoInjectAttributes)
 			ProcessAutoInjectAttribute(type, manifestBuilder, filteredClasses, autoInjectAttributeData);
-		manifestBuilder.Append("\n");
 	}
 
 	private void ProcessAutoInjectAttribute(

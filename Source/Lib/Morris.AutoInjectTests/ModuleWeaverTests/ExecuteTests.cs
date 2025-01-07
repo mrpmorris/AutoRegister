@@ -1,4 +1,5 @@
 ﻿using Morris.AutoInject.Fody;
+using Morris.AutoInject.TestsShared;
 using Morris.AutoInjectTests.Extensions;
 
 namespace Morris.AutoInjectTests.ModuleWeaverTests;
@@ -20,8 +21,17 @@ public class ExecuteTests
 
 			}
 			""";
+
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
-		Assert.AreEqual($"{ModuleWeaver.ManifestHeader}MyNamespace.MyModule\n\n", manifest);
+
+		string expectedManifest =
+			$$"""
+			{{ModuleWeaver.ManifestHeader}}
+			MyNamespace.MyModule
+			,Find DescendantsOf "System.Object" RegisterAs FirstDiscoveredInterface
+
+			""";
+		Assert.AreEqual(expectedManifest.StandardizeLines(), manifest.StandardizeLines());
 	}
 
 	[TestMethod]
@@ -51,6 +61,13 @@ public class ExecuteTests
 			
 			""";
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
-		Assert.AreEqual($"{ModuleWeaver.ManifestHeader}MyNamespace1.MyModule\n\nMyNamespace2.MyModule\n\n", manifest);
+
+		string expectedManifest =
+			$$"""
+			{{ModuleWeaver.ManifestHeader}}
+			MyNamespace1.MyModule
+			MyNamespace2.MyModule
+			""";
+		Assert.AreEqual(expectedManifest.StandardizeLines(), manifest.StandardizeLines());
 	}
 }
