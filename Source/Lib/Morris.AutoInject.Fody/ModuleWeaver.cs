@@ -36,15 +36,18 @@ public class ModuleWeaver : BaseModuleWeaver
 			.OrderBy(x => x.FullName);
 
 		foreach (TypeDefinition type in classesToScan)
-			ScanType(type, manifestBuilder);
+			ScanType(type, manifestBuilder, classesToScan);
 
 		WriteManifestFile(manifestBuilder.ToString());
 	}
 
-	private void ScanType(TypeDefinition type, StringBuilder manifestBuilder)
+	private void ScanType(
+		TypeDefinition type,
+		StringBuilder manifestBuilder,
+		IEnumerable<TypeDefinition> classesToScan)
 	{
 		var autoInjectAttributes = new List<AutoInjectAttributeData>();
-		var autoInjectFilterAttributes = new List<CustomAttribute>();
+		var autoInjectFilterAttributes = new List<AutoInjectFilterAttributeData>();
 		for (int i = type.CustomAttributes.Count - 1; i >= 0; i--)
 		{
 			CustomAttribute currentAttribute = type.CustomAttributes[i];
@@ -56,13 +59,18 @@ public class ModuleWeaver : BaseModuleWeaver
 			}
 			else if (currentAttribute.AttributeType.FullName == "Morris.AutoInject.AutoInjectFilterAttribute")
 			{
-				autoInjectFilterAttributes.Add(currentAttribute);
+				AutoInjectFilterAttributeData autoInjectFilterAttributeData = AutoInjectFilterAttributeDataFactory.Create(currentAttribute);
+				autoInjectFilterAttributes.Add(autoInjectFilterAttributeData);
 				type.CustomAttributes.RemoveAt(i);
 			}
 		}
 
 		if (autoInjectAttributes.Count + autoInjectFilterAttributes.Count == 0)
 			return;
+
+		IEnumerable<TypeDefinition> filteredClasses =
+			classesToScan
+			.Where(c => autoInjectFilterAttributes.All(f => f.Matches(c)));
 
 		manifestBuilder.Append($"{type.FullName}\n");
 		manifestBuilder.Append("\n");
