@@ -1,10 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Morris.AutoInject;
-using Morris.AutoInject.Fody;
-using Morris.AutoInject.TestsShared;
-using Morris.AutoInjectTests.Extensions;
 using Morris.AutoInjectTests.Helpers;
-using Morris.AutoInjectTests.RegistrationData;
 
 namespace Morris.AutoInjectTests.ModuleWeaverTests;
 
