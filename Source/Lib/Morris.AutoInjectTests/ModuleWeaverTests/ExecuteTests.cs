@@ -28,7 +28,7 @@ public class ExecuteTests
 			$$"""
 			{{ModuleWeaver.ManifestHeader}}
 			MyNamespace.MyModule
-			,Find DescendantsOf "System.Object" RegisterAs FirstDiscoveredInterface
+			,Find DescendantsOf System.Object RegisterAs FirstDiscoveredInterface
 
 			""";
 		Assert.AreEqual(expectedManifest.StandardizeLines(), manifest.StandardizeLines());

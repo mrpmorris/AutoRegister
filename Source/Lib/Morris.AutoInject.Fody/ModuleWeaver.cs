@@ -99,7 +99,7 @@ public class ModuleWeaver : BaseModuleWeaver
 	{
 		manifestBuilder.Append(",");
 		manifestBuilder.Append($"Find {autoInjectAttributeData.Find}");
-		manifestBuilder.Append($" \"{autoInjectAttributeData.Type.FullName}\"");
+		manifestBuilder.Append($" {autoInjectAttributeData.Type.FullName}");
 		manifestBuilder.Append($" RegisterAs {autoInjectAttributeData.RegisterAs}");
 
 		if (autoInjectAttributeData.ServiceIdentifierFilter is not null)
