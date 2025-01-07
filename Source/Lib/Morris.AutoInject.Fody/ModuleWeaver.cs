@@ -30,6 +30,8 @@ public class ModuleWeaver : BaseModuleWeaver
 			ModuleDefinition
 			.Types
 			.Where(x => x.IsClass)
+			.Where(x => !x.HasGenericParameters)
+			.Where(x => !x.IsAbstract)
 			.OrderBy(x => x.FullName);
 
 		foreach (TypeDefinition type in classesToScan)
