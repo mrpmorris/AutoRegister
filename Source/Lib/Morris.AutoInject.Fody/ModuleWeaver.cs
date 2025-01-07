@@ -39,6 +39,7 @@ public class ModuleWeaver : BaseModuleWeaver
 			.Where(x => x.IsClass)
 			.Where(x => !x.HasGenericParameters)
 			.Where(x => !x.IsAbstract)
+			.Where(x => !x.Name.StartsWith("<"))
 			.OrderBy(x => x.FullName);
 
 		foreach (TypeDefinition type in classesToScan)
