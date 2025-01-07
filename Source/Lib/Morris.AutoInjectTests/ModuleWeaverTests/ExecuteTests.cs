@@ -29,7 +29,8 @@ public class ExecuteTests
 			{{ModuleWeaver.ManifestHeader}}
 			MyNamespace.MyModule
 			,Find DescendantsOf System.Object RegisterAs FirstDiscoveredInterface
-
+			,,Scoped,<Module>,<Module>
+			,,Scoped,MyNamespace.MyModule,MyNamespace.MyModule
 			""";
 		Assert.AreEqual(expectedManifest.StandardizeLines(), manifest.StandardizeLines());
 	}

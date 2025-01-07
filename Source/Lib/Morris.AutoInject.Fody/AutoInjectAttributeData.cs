@@ -12,8 +12,6 @@ internal class AutoInjectAttributeData
 	public TypeReference Type { get; private set; }
 	public WithLifetime WithLifetime { get; private set; }
 
-	public readonly Func<TypeDefinition, bool> IsMatch;
-
 	public AutoInjectAttributeData(
 		Find find,
 		RegisterAs registerAs,
@@ -29,7 +27,14 @@ internal class AutoInjectAttributeData
 		Type = type;
 		WithLifetime = withLifetime;
 
-		IsMatch = _ => true;
+	}
+
+	public bool IsMatch(
+		TypeDefinition type,
+		out TypeReference? serviceIdentifier)
+	{
+		serviceIdentifier = type;
+		return true;
 	}
 
 }

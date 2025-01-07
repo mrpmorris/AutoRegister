@@ -2,6 +2,7 @@
 using Mono.Cecil;
 using Morris.AutoInject.Fody.Extensions;
 using Morris.AutoInject.Fody.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -88,11 +89,10 @@ public class ModuleWeaver : BaseModuleWeaver
 
 		manifestBuilder.AppendLinuxLine($"{type.FullName}");
 		foreach (AutoInjectAttributeData autoInjectAttributeData in autoInjectAttributes)
-			ProcessAutoInjectAttribute(type, manifestBuilder, filteredClasses, autoInjectAttributeData);
+			ProcessAutoInjectAttribute(manifestBuilder, filteredClasses, autoInjectAttributeData);
 	}
 
 	private void ProcessAutoInjectAttribute(
-		TypeDefinition type,
 		StringBuilder manifestBuilder,
 		IEnumerable<TypeDefinition> filteredClasses,
 		AutoInjectAttributeData autoInjectAttributeData)
@@ -108,6 +108,25 @@ public class ModuleWeaver : BaseModuleWeaver
 		if (autoInjectAttributeData.ServiceImplementationFilter is not null)
 			manifestBuilder.Append($" ServiceIdentifierFilter=\"{autoInjectAttributeData.ServiceImplementationFilter}\"");
 
+		manifestBuilder.AppendLinuxLine();
+
+		foreach (TypeDefinition candidate in filteredClasses)
+		{
+			if (autoInjectAttributeData.IsMatch(candidate, out TypeReference? serviceIdentifier))
+				RegisterClass(manifestBuilder, autoInjectAttributeData.WithLifetime, serviceIdentifier, candidate);
+		}
+	}
+
+	private void RegisterClass(
+		StringBuilder manifestBuilder,
+		WithLifetime withLifetime,
+		TypeReference? serviceIdentifier,
+		TypeDefinition serviceImplementer)
+	{
+		manifestBuilder.Append(",,");
+		manifestBuilder.Append($"{withLifetime},");
+		manifestBuilder.Append($"{serviceIdentifier!.FullName},");
+		manifestBuilder.Append($"{serviceImplementer!.FullName}");
 		manifestBuilder.AppendLinuxLine();
 	}
 
