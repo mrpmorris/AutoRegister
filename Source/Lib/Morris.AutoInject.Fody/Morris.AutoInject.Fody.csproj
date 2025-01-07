@@ -16,6 +16,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="FodyHelpers" Version="6.9.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.0" />
 	</ItemGroup>
 
 </Project>

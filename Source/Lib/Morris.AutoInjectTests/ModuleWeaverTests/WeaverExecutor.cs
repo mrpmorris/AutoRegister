@@ -28,9 +28,10 @@ internal static class WeaverExecutor
 		out string? manifest,
 		bool assertNoDiagnosticsOutput = true)
 	{
+		Guid uniqueId = Guid.NewGuid();
 		var unitTestSyntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
 		var compilation = CSharpCompilation.Create(
-			assemblyName: "Test",
+			assemblyName: $"Test{uniqueId}",
 			syntaxTrees: [unitTestSyntaxTree],
 			references: Basic.Reference.Assemblies.Net90.References
 				.All
@@ -39,11 +40,11 @@ internal static class WeaverExecutor
 		);
 		AssertNoCompileDiagnostics(compilation);
 
-		compilation = AddGeneratedSource(unitTestSyntaxTree, compilation);
+		compilation = AddGeneratedSource(unitTestSyntaxTree, compilation, uniqueId);
 
 		string projectFilePath = Path.Combine(
 			Path.GetTempPath(),
-			$"{Guid.NewGuid()}.csproj"
+			$"{uniqueId}.csproj"
 		);
 		string manifestFilePath = Path.ChangeExtension(projectFilePath, "Morris.AutoInject.manifest");
 		string assemblyFilePath = Path.ChangeExtension(projectFilePath, "Morris.AutoInject.Tests.dll");
@@ -71,7 +72,10 @@ internal static class WeaverExecutor
 		}
 	}
 
-	private static CSharpCompilation AddGeneratedSource(SyntaxTree unitTestSyntaxTree, CSharpCompilation compilation)
+	private static CSharpCompilation AddGeneratedSource(
+		SyntaxTree unitTestSyntaxTree,
+		CSharpCompilation compilation,
+		Guid uniqueId)
 	{
 		var registerSourceGenerator = new RegisterSourceGenerator().AsSourceGenerator();
 		var driver = CSharpGeneratorDriver
@@ -81,7 +85,7 @@ internal static class WeaverExecutor
 		GeneratorRunResult runResult = driverRunResult.Results.Single();
 		var generatedSyntaxTrees = runResult.GeneratedSources.Select(x => x.SyntaxTree);
 		compilation = CSharpCompilation.Create(
-			assemblyName: "TestWithGenerators",
+			assemblyName: $"TestWithGenerators{uniqueId}",
 			syntaxTrees: generatedSyntaxTrees.Append(unitTestSyntaxTree),
 			references: Basic.Reference.Assemblies.Net90.References
 				.All

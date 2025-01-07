@@ -1,7 +1,10 @@
 ﻿using Fody;
+using Microsoft.Extensions.DependencyInjection;
 using Mono.Cecil;
+using Mono.Cecil.Cil;
 using Morris.AutoInject.Fody.Extensions;
 using Morris.AutoInject.Fody.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -71,16 +74,19 @@ public class ModuleWeaver : BaseModuleWeaver
 		if (autoInjectAttributes.Count + autoInjectFilterAttributes.Count == 0)
 			return;
 
-		//MethodDefinition registerServicesMethod = type
-		//	.Methods
-		//	.Single(
-		//		x => x.Name == "RegisterServices"
-		//		&& x.IsPublic
-		//		&& x.IsStatic
-		//		&& x.ReturnType.FullName == "System.Void"
-		//		&& x.Parameters.Count == 1
-		//		&& x.Parameters[0].ParameterType.FullName == "Microsoft.Extensions.DependencyInjection.IServiceCollection"
-		//	);
+		MethodDefinition registerServicesMethod = type
+			.Methods
+			.Single(
+				x => x.Name == "RegisterServices"
+				&& x.IsPublic
+				&& x.IsStatic
+				&& x.ReturnType.FullName == "System.Void"
+				&& x.Parameters.Count == 1
+				&& x.Parameters[0].ParameterType.FullName == "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+			);
+
+		ILProcessor ilProcessor = registerServicesMethod.Body.GetILProcessor();
+		registerServicesMethod.Body.Instructions.Clear();
 
 		IEnumerable<TypeDefinition> filteredClasses =
 			classesToScan
@@ -88,13 +94,20 @@ public class ModuleWeaver : BaseModuleWeaver
 
 		manifestBuilder.AppendLinuxLine($"{type.FullName}");
 		foreach (AutoInjectAttributeData autoInjectAttributeData in autoInjectAttributes)
-			ProcessAutoInjectAttribute(manifestBuilder, filteredClasses, autoInjectAttributeData);
+			ProcessAutoInjectAttribute(
+				manifestBuilder: manifestBuilder,
+				filteredClasses: filteredClasses,
+				autoInjectAttributeData: autoInjectAttributeData,
+				ilProcessor: ilProcessor);
+
+		ilProcessor.Emit(OpCodes.Ret);
 	}
 
 	private void ProcessAutoInjectAttribute(
 		StringBuilder manifestBuilder,
 		IEnumerable<TypeDefinition> filteredClasses,
-		AutoInjectAttributeData autoInjectAttributeData)
+		AutoInjectAttributeData autoInjectAttributeData,
+		ILProcessor ilProcessor)
 	{
 		manifestBuilder.Append(",");
 		manifestBuilder.Append($"Find {autoInjectAttributeData.Find}");
@@ -112,7 +125,12 @@ public class ModuleWeaver : BaseModuleWeaver
 		foreach (TypeDefinition candidate in filteredClasses)
 		{
 			if (autoInjectAttributeData.IsMatch(candidate, out TypeReference? serviceIdentifier))
-				RegisterClass(manifestBuilder, autoInjectAttributeData.WithLifetime, serviceIdentifier, candidate);
+				RegisterClass(
+					manifestBuilder: manifestBuilder,
+					withLifetime: autoInjectAttributeData.WithLifetime,
+					serviceIdentifier: serviceIdentifier,
+					serviceImplementor: candidate,
+					ilProcessor: ilProcessor);
 		}
 	}
 
@@ -120,13 +138,42 @@ public class ModuleWeaver : BaseModuleWeaver
 		StringBuilder manifestBuilder,
 		WithLifetime withLifetime,
 		TypeReference? serviceIdentifier,
-		TypeDefinition serviceImplementor)
+		TypeDefinition serviceImplementor,
+		ILProcessor ilProcessor)
 	{
 		manifestBuilder.Append(",,");
 		manifestBuilder.Append($"{withLifetime},");
 		manifestBuilder.Append($"{serviceIdentifier!.FullName},");
 		manifestBuilder.Append($"{serviceImplementor!.FullName}");
 		manifestBuilder.AppendLinuxLine();
+
+		// Get references to needed runtime methods
+		var getTypeFromHandleRef = ModuleDefinition.ImportReference(
+			typeof(Type).GetMethod(nameof(Type.GetTypeFromHandle), new[] { typeof(RuntimeTypeHandle) })
+		);
+
+		// Determine which AddXxx method to call
+		var extensionType = typeof(ServiceCollectionServiceExtensions);
+		var addMethodName = withLifetime switch {
+			WithLifetime.Singleton => "AddSingleton",
+			WithLifetime.Scoped => "AddScoped",
+			WithLifetime.Transient => "AddTransient",
+			_ => throw new InvalidOperationException("Unsupported lifetime")
+		};
+
+		// Import the chosen extension method
+		var addMethodRef = ModuleDefinition.ImportReference(
+			extensionType.GetMethod(addMethodName, new[] { typeof(IServiceCollection), typeof(Type), typeof(Type) })
+		);
+
+		// Emit: services.AddXxx(typeof(Identifier), typeof(Implementor));
+		ilProcessor.Emit(OpCodes.Ldarg_0);
+		ilProcessor.Emit(OpCodes.Ldtoken, serviceIdentifier);
+		ilProcessor.Emit(OpCodes.Call, getTypeFromHandleRef);
+		ilProcessor.Emit(OpCodes.Ldtoken, serviceImplementor);
+		ilProcessor.Emit(OpCodes.Call, getTypeFromHandleRef);
+		ilProcessor.Emit(OpCodes.Call, addMethodRef);
+		ilProcessor.Emit(OpCodes.Pop);
 	}
 
 	private void WriteManifestFile(string content)
