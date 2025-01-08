@@ -26,7 +26,7 @@ internal class ModuleRegistration
 		builder.AppendLine(ClassFullName);
 		foreach (AutoInjectAttributeRegistration attribute in AutoInjectAttributes)
 			builder.AppendLinuxLine($",{attribute.ToString()}");
-		foreach (ServiceRegistration service in Services)
+		foreach (ServiceRegistration service in Services.OrderBy(x => x.ServiceTypeFullName))
 			builder.AppendLinuxLine($",,{service.ToString()}");
 		return builder.ToString();
 	}

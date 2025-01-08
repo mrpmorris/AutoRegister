@@ -41,6 +41,7 @@ internal class AutoInjectAttributeData
 
 		GetKey = Find switch {
 			Find.Exactly => FindExactly,
+			Find.AnyTypeOf => FindAnyTypeOf,
 			_ => throw new NotImplementedException(Find.ToString())
 		};
 	}
@@ -63,7 +64,10 @@ internal class AutoInjectAttributeData
 		? definition
 		: null;
 
-
+	private TypeReference? FindAnyTypeOf(TypeDefinition definition) =>
+		definition.IsAssignableTo(Type)
+		? definition
+		: null;
 
 
 
