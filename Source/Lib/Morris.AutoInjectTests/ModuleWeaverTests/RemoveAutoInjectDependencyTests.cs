@@ -15,10 +15,9 @@ public class RemoveAutoInjectDependencyTests
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped)]
+			[AutoInject(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
-
 			}
 			""";
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
@@ -40,10 +39,9 @@ public class RemoveAutoInjectDependencyTests
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped)]
+			[AutoInject(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
-
 			}
 			""";
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
@@ -67,7 +65,6 @@ public class RemoveAutoInjectDependencyTests
 			[AutoInjectFilter("Hello")]
 			public partial class MyModule
 			{
-
 			}
 			""";
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
@@ -90,10 +87,9 @@ public class RemoveAutoInjectDependencyTests
 			namespace MyNamespace;
 			[AutoInjectFilter("Hello")]
 			[System.Serializable]
-			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped)]
+			[AutoInject(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
-
 			}
 			""";
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);

@@ -11,8 +11,10 @@ public sealed class RegisterTests
 			using Morris.AutoInject;
 			namespace Tests
 			{
-				[AutoInject(Find.DescendantsOf, typeof(System.Object), RegisterAs.BaseType, WithLifetime.Scoped)]
-				public partial class MyModule {}
+				[AutoInject(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+				public partial class MyModule
+				{
+				}
 			}
 			""";
 

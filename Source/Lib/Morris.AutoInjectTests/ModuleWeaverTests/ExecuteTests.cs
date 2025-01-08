@@ -15,10 +15,9 @@ public class ExecuteTests
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped)]
+			[AutoInject(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
-
 			}
 			""";
 
@@ -33,18 +32,12 @@ public class ExecuteTests
 					classFullName: "MyNamespace.MyModule",
 					autoInjectAttributes: [
 						new(
-							find: Find.DescendantsOf,
+							find: Find.Exactly,
 							typeFullName: "System.Object",
-							registerAs: RegisterAs.FirstDiscoveredInterfaceOnClass,
+							registerAs: RegisterAs.DiscoveredClass,
 							withLifetime: WithLifetime.Scoped)
 					],
-					services: [
-						new(
-							lifetime: ServiceLifetime.Scoped,
-							serviceTypeFullName: "MyNamespace.MyModule",
-							serviceImplementationTypeFullName: "MyNamespace.MyModule"
-						),
-					]
+					services: []
 				)
 			]
 		);
@@ -62,7 +55,6 @@ public class ExecuteTests
 				[AutoInjectFilter("SomeFilter")]
 				public partial class MyModule
 				{
-
 				}
 			}
 
@@ -71,7 +63,6 @@ public class ExecuteTests
 				[AutoInjectFilter("SomeFilter")]
 				public partial class MyModule
 				{
-			
 				}
 			}
 			
