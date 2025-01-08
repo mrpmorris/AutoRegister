@@ -100,4 +100,97 @@ public class AnyTypeOfTests
 		);
 	}
 
+	[TestMethod]
+	public void WhenCandidateImplementsTheInterfaceInTheCriteria_ThenTheCandidateIsRegistered()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoInject;
+
+			namespace MyNamespace;
+			[AutoInject(Find.AnyTypeOf, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+			}
+
+			public interface ISomeInterface {}
+			public class SomeClass : ISomeInterface {}
+			public class NonQualifyingClass {}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoInjectAttributes:
+					[
+						new(
+							find: Find.AnyTypeOf,
+							typeFullName: "MyNamespace.ISomeInterface",
+							registerAs: RegisterAs.DiscoveredClass,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.SomeClass",
+							serviceImplementationTypeFullName: "MyNamespace.SomeClass")
+					])
+			]
+		);
+	}
+
+	[TestMethod]
+	public void WhenCandidateImplementsDescendantOfTheInterfaceInTheCriteria_ThenTheCandidateIsRegistered()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoInject;
+
+			namespace MyNamespace;
+			[AutoInject(Find.AnyTypeOf, typeof(IBaseInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+			}
+
+			public interface IBaseInterface {}
+			public interface IChildInterface : IBaseInterface {}
+			public class SomeClass : IChildInterface {}
+			public class NonQualifyingClass {}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoInjectAttributes:
+					[
+						new(
+							find: Find.AnyTypeOf,
+							typeFullName: "MyNamespace.IBaseInterface",
+							registerAs: RegisterAs.DiscoveredClass,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.SomeClass",
+							serviceImplementationTypeFullName: "MyNamespace.SomeClass")
+					])
+			]
+		);
+	}
+
 }
