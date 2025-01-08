@@ -21,10 +21,10 @@ enum RegisterAs
 	/// <summary>
 	/// The service key will be the class discovered.
 	/// </summary>
-	DiscoveredClasses,
+	DiscoveredClass,
 	/// <summary>
 	/// A service key will registered for the first interface
 	/// found declared on the class discovered.
 	/// </summary>
-	FirstDiscoveredInterface
+	FirstDiscoveredInterfaceOnClass
 }

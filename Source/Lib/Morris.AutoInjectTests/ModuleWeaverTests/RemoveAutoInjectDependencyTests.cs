@@ -15,7 +15,7 @@ public class RemoveAutoInjectDependencyTests
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterface, WithLifetime.Scoped)]
+			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 
@@ -40,7 +40,7 @@ public class RemoveAutoInjectDependencyTests
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterface, WithLifetime.Scoped)]
+			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 
@@ -90,7 +90,7 @@ public class RemoveAutoInjectDependencyTests
 			namespace MyNamespace;
 			[AutoInjectFilter("Hello")]
 			[System.Serializable]
-			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterface, WithLifetime.Scoped)]
+			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 

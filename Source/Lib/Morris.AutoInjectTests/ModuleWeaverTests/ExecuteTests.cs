@@ -15,7 +15,7 @@ public class ExecuteTests
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterface, WithLifetime.Scoped)]
+			[AutoInject(Find.DescendantsOf, typeof(object), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 
@@ -35,7 +35,7 @@ public class ExecuteTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "System.Object",
-							registerAs: RegisterAs.FirstDiscoveredInterface,
+							registerAs: RegisterAs.FirstDiscoveredInterfaceOnClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services: [

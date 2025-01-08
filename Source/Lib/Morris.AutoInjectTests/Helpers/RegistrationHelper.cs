@@ -24,9 +24,40 @@ internal static class RegistrationHelper
 				missingRegistrations: missingRegistrations,
 				unexpectedRegistrations: unexpectedRegistrations);
 
+		string? errorText = BuildErrorText(missingRegistrations, unexpectedRegistrations);
+		Assert.IsTrue(errorText is null, errorText);
+
 		string expectedManifest = BuildExpectedManifest(expectedModuleRegistrations);
 		Assert.AreEqual(expectedManifest.StandardizeLines(), manifest.StandardizeLines());
+	}
 
+	private static string? BuildErrorText(
+		List<ServiceRegistration> missingRegistrations,
+		List<ServiceRegistration> unexpectedRegistrations)
+	{
+		if (missingRegistrations.Count + unexpectedRegistrations.Count == 0)
+			return null;
+
+		var builder = new StringBuilder();
+		AddRegistrationsErrorText(builder, "Missing registrations", missingRegistrations);
+		AddRegistrationsErrorText(builder, "Unexpected registrations", unexpectedRegistrations);
+
+		return builder.ToString();
+	}
+
+	private static void AddRegistrationsErrorText(
+		StringBuilder builder,
+		string header,
+		List<ServiceRegistration> registrations)
+	{
+		if (registrations.Count == 0)
+			return;
+
+		builder.AppendLine();
+		builder.AppendLine(header);
+		builder.AppendLine(new string('=', header.Length));
+		foreach(ServiceRegistration registration in registrations)
+			builder.AppendLine($"{registration.Lifetime},{registration.ServiceTypeFullName},{registration.ServiceImplementationTypeFullName}");
 	}
 
 	private static void CheckModuleRegistrations(
@@ -48,6 +79,36 @@ internal static class RegistrationHelper
 			obj: null,
 			parameters: [services]
 		);
+
+		var matchedServiceDescriptors = new HashSet<ServiceDescriptor>();
+		foreach(ServiceRegistration expectedService in module.Services)
+		{
+			Type serviceType = assembly.GetType(expectedService.ServiceTypeFullName)!;
+			Type serviceImplementationType = assembly.GetType(expectedService.ServiceImplementationTypeFullName)!;
+
+			ServiceDescriptor? registrationFound =
+				services
+				.FirstOrDefault(x =>
+					x.ServiceType == serviceType
+					&& x.ImplementationType == serviceImplementationType
+					&& x.Lifetime == expectedService.Lifetime
+				);
+			if (registrationFound is null)
+				missingRegistrations.Add(expectedService);
+			else
+				matchedServiceDescriptors.Add(registrationFound);
+		}
+
+		IEnumerable<ServiceDescriptor> unexpectedServiceDescriptors = services.Except(matchedServiceDescriptors);
+		foreach(ServiceDescriptor unexpectedServiceDescriptor in unexpectedServiceDescriptors)
+		{
+			var unexpectedRegistration = new ServiceRegistration(
+				lifetime: unexpectedServiceDescriptor.Lifetime,
+				serviceTypeFullName: unexpectedServiceDescriptor.ServiceType.FullName!,
+				serviceImplementationTypeFullName: unexpectedServiceDescriptor.ImplementationType!.FullName!
+			);
+			unexpectedRegistrations.Add(unexpectedRegistration);
+		}
 	}
 
 	private static string BuildExpectedManifest(IEnumerable<ModuleRegistration> expectedModuleRegistrations)
