@@ -8,7 +8,7 @@ namespace Morris.AutoInjectTests.ModuleWeaverTests.FindTests;
 public class AnyTypeOfTests
 {
 	[TestMethod]
-	public void WhenCriteriaMatchesExactClass_ThenCandidateIsRegistered()
+	public void WhenCandidateIsTheSameClassAsInTheCriteria_ThenTheCandidateIsRegistered()
 	{
 		string sourceCode =
 			"""
@@ -52,7 +52,7 @@ public class AnyTypeOfTests
 	}
 
 	[TestMethod]
-	public void WhenCriteriaMatchesDescendantClass_ThenCandidateIsRegistered()
+	public void WhenCandidateIsADescendantOfTheClassInTheCriteria_ThenTheCandidateIsRegistered()
 	{
 		string sourceCode =
 			"""
