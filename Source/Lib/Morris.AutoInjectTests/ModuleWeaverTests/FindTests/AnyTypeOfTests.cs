@@ -8,7 +8,7 @@ namespace Morris.AutoInjectTests.ModuleWeaverTests.FindTests;
 public class AnyTypeOfTests
 {
 	[TestMethod]
-	public void WhenCandidateIsTheSameClassAsInTheCriteria_ThenTheCandidateIsRegistered()
+	public void WhenFindingAClass_ThenTheSameClassIsRegistered()
 	{
 		string sourceCode =
 			"""
@@ -52,7 +52,7 @@ public class AnyTypeOfTests
 	}
 
 	[TestMethod]
-	public void WhenCandidateIsADescendantOfTheClassInTheCriteria_ThenTheCandidateIsRegistered()
+	public void WhenFindingAClass_ThenDescendantClassesAreRegistered()
 	{
 		string sourceCode =
 			"""
@@ -101,7 +101,7 @@ public class AnyTypeOfTests
 	}
 
 	[TestMethod]
-	public void WhenCandidateImplementsTheInterfaceInTheCriteria_ThenTheCandidateIsRegistered()
+	public void WhenFindingAnInterface_ThenClassesImplementingTheInterfaceAreRegistered()
 	{
 		string sourceCode =
 			"""
@@ -147,7 +147,7 @@ public class AnyTypeOfTests
 	}
 
 	[TestMethod]
-	public void WhenCandidateImplementsDescendantOfTheInterfaceInTheCriteria_ThenTheCandidateIsRegistered()
+	public void WhenFindingAnInterface_ThenClassesImplementingADescendantInterfaceAreRegistered()
 	{
 		string sourceCode =
 			"""

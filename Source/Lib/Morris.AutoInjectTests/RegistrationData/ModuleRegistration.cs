@@ -1,5 +1,4 @@
-﻿using Morris.AutoInject.Fody;
-using Morris.AutoInject.TestsShared;
+﻿using Morris.AutoInject.TestsShared;
 using System.Text;
 
 namespace Morris.AutoInjectTests.RegistrationData;
