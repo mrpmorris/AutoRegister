@@ -113,7 +113,7 @@ public class ModuleWeaver : BaseModuleWeaver
 		manifestBuilder.Append(",");
 		manifestBuilder.Append($"Find {autoInjectAttributeData.Find}");
 		manifestBuilder.Append($" {autoInjectAttributeData.Type.FullName}");
-		manifestBuilder.Append($" RegisterAs {autoInjectAttributeData.RegisterAs}");
+		manifestBuilder.Append($" RegisterAs {autoInjectAttributeData.Register}");
 
 		if (autoInjectAttributeData.ServiceTypeFilter is not null)
 			manifestBuilder.Append($" ServiceTypeFilter=\"{autoInjectAttributeData.ServiceTypeFilter}\"");
@@ -125,7 +125,7 @@ public class ModuleWeaver : BaseModuleWeaver
 
 		foreach (TypeDefinition candidate in filteredClasses)
 		{
-			if (autoInjectAttributeData.IsMatch(candidate, out TypeReference? serviceType))
+			if (autoInjectAttributeData.IsMatch(candidate, out TypeDefinition? serviceType))
 				RegisterClass(
 					manifestBuilder: manifestBuilder,
 					withLifetime: autoInjectAttributeData.WithLifetime,
