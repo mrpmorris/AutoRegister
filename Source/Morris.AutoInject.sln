@@ -23,6 +23,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInjectTests", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInject.TestsShared", "Lib\Morris.AutoInject.TestsShared\Morris.AutoInject.TestsShared.csproj", "{AD16509E-F258-4083-89D1-589975B656DC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{2132FF18-34E9-41F0-AE5A-B68250676FD9}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\Directory.Build.props = Lib\Directory.Build.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
