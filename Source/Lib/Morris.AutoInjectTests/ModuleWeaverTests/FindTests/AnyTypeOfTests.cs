@@ -193,4 +193,48 @@ public class AnyTypeOfTests
 		);
 	}
 
+	[TestMethod]
+	public void WhenFindingOpenGenericClass_ThenClosedGenericDescendantsOfThatClassAreRegistered()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoInject;
+
+			namespace MyNamespace;
+			[AutoInject(Find.AnyTypeOf, typeof(GenericBase<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+			}
+
+			public class GenericBase<T> {}
+			public class QualifyingClass : GenericBase<int> {}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoInjectAttributes:
+					[
+						new(
+							find: Find.AnyTypeOf,
+							typeFullName: "MyNamespace.GenericBase`1",
+							registerAs: RegisterAs.DiscoveredClass,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.QualifyingClass",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass")
+					])
+			]
+		);
+	}
 }

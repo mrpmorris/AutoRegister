@@ -5,7 +5,7 @@ namespace Morris.AutoInject.Fody.Extensions;
 
 internal static class TypeDefinitionGetInterfacesExtension
 {
-	public static IEnumerable<TypeDefinition> GetInterfaces(this TypeDefinition typeDefinition)
+	public static IEnumerable<TypeDefinition> GetAllInterfaces(this TypeDefinition typeDefinition)
 	{
 		var visited = new HashSet<TypeDefinition>();
 

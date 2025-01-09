@@ -36,12 +36,13 @@ internal class AutoInjectAttributeData
 		TypeDefinition resolvedType = type.Resolve();
 		GetPotentialKeys =
 			Type.IsInterface
-			? x => x.GetInterfaces()
+			? x => x.GetAllInterfaces()
 			: x => [x];
 
 		GetKey = Find switch {
 			Find.Exactly => FindExactly,
 			Find.AnyTypeOf => FindAnyTypeOf,
+			Find.DescendantsOf => FindDescendantsOf,
 			_ => throw new NotImplementedException(Find.ToString())
 		};
 	}
@@ -59,15 +60,21 @@ internal class AutoInjectAttributeData
 		return serviceType is not null;
 	}
 
+	private TypeReference? FindAnyTypeOf(TypeDefinition definition) =>
+		definition.IsAssignableTo(Type)
+		? definition
+		: null;
+
+	private TypeReference? FindDescendantsOf(TypeDefinition definition) =>
+		definition.DescendsFrom(Type)
+		? definition
+		: null;
+
 	private TypeReference? FindExactly(TypeDefinition definition) =>
 		definition == Type
 		? definition
 		: null;
 
-	private TypeReference? FindAnyTypeOf(TypeDefinition definition) =>
-		definition.IsAssignableTo(Type)
-		? definition
-		: null;
 
 
 
