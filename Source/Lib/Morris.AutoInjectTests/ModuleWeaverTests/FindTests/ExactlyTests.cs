@@ -221,4 +221,88 @@ public class ExactlyTests
 			]);
 	}
 
+
+	[TestMethod]
+	public void WhenFindingAnOpenGenericInterface_ThenClassesImplementingThatInterfaceAreRegistered()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoInject;
+
+			namespace MyNamespace;
+			[AutoInject(Find.Exactly, typeof(IGenericInterface<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+			}
+
+			public interface IGenericInterface<T> {}
+			public class QualifyingClass : IGenericInterface<int> {}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoInjectAttributes:
+					[
+						new(
+							find: Find.Exactly,
+							typeFullName: "MyNamespace.IGenericInterface`1",
+							registerAs: RegisterAs.DiscoveredClass,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.QualifyingClass",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass")
+					]
+				)
+			]);
+	}
+
+	[TestMethod]
+	public void WhenFindingAnOpenGenericClass_ThenClassesDescendingFromThatClassAreNotRegistered()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoInject;
+
+			namespace MyNamespace;
+			[AutoInject(Find.Exactly, typeof(GenericBase<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+			}
+
+			public abstract class GenericBase<T> {}
+			public class QualifyingClass : GenericBase<int> {}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoInjectAttributes:
+					[
+						new(
+							find: Find.Exactly,
+							typeFullName: "MyNamespace.GenericBase`1",
+							registerAs: RegisterAs.DiscoveredClass,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services: []
+				)
+			]);
+	}
 }
