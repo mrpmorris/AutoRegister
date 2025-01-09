@@ -65,7 +65,7 @@ public class AnyTypeOfTests
 			{
 			}
 
-			public class SomeClass {}
+			public abstract class SomeClass {}
 			public class SomeChildClass : SomeClass {}
 			""";
 
@@ -88,10 +88,6 @@ public class AnyTypeOfTests
 					],
 					services:
 					[
-						new(
-							lifetime: ServiceLifetime.Scoped,
-							serviceTypeFullName: "MyNamespace.SomeClass",
-							serviceImplementationTypeFullName: "MyNamespace.SomeClass"),
 						new(
 							lifetime: ServiceLifetime.Scoped,
 							serviceTypeFullName: "MyNamespace.SomeChildClass",
