@@ -46,7 +46,8 @@ public class AnyTypeOfTests
 							lifetime: ServiceLifetime.Scoped,
 							serviceTypeFullName: "MyNamespace.SomeClass",
 							serviceImplementationTypeFullName: "MyNamespace.SomeClass")
-					])
+					]
+				)
 			]
 		);
 	}
@@ -95,7 +96,8 @@ public class AnyTypeOfTests
 							lifetime: ServiceLifetime.Scoped,
 							serviceTypeFullName: "MyNamespace.SomeChildClass",
 							serviceImplementationTypeFullName: "MyNamespace.SomeChildClass"),
-					])
+					]
+				)
 			]
 		);
 	}
@@ -141,7 +143,8 @@ public class AnyTypeOfTests
 							lifetime: ServiceLifetime.Scoped,
 							serviceTypeFullName: "MyNamespace.SomeClass",
 							serviceImplementationTypeFullName: "MyNamespace.SomeClass")
-					])
+					]
+				)
 			]
 		);
 	}
@@ -188,7 +191,8 @@ public class AnyTypeOfTests
 							lifetime: ServiceLifetime.Scoped,
 							serviceTypeFullName: "MyNamespace.SomeClass",
 							serviceImplementationTypeFullName: "MyNamespace.SomeClass")
-					])
+					]
+				)
 			]
 		);
 	}
@@ -233,7 +237,8 @@ public class AnyTypeOfTests
 							lifetime: ServiceLifetime.Scoped,
 							serviceTypeFullName: "MyNamespace.QualifyingClass",
 							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass")
-					])
+					]
+				)
 			]
 		);
 	}
