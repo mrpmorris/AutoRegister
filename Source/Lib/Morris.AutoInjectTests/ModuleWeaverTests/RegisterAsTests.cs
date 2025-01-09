@@ -131,11 +131,11 @@ public class RegisterAsTests
 			}
 
 			public abstract class BaseClass<TKey, TValue> {}
-			public class NonQualifyingClass<TValue> : BaseClass<int, TValue> {}
+			public class IntBasedValue<T> : BaseClass<int, T> {}
 
 			public class QualifyingClass1 : BaseClass<int, string> {}
 			public class QualifyingClass2 : BaseClass<int, string> {}
-			public class QualifyingClass3 : NonQualifyingClass<string> {}
+			public class QualifyingClass3 : IntBasedValue<string> {}
 			public class QualifyingClass4 : QualifyingClass3 {}
 			""";
 
@@ -160,19 +160,19 @@ public class RegisterAsTests
 					[
 						new(
 							lifetime: ServiceLifetime.Scoped,
-							serviceTypeFullName: "MyNamespace.BaseClass<int, string>",
+							serviceTypeFullName: "MyNamespace.BaseClass<System.Int32, System.String>",
 							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass1"),
 						new(
 							lifetime: ServiceLifetime.Scoped,
-							serviceTypeFullName: "MyNamespace.BaseClass<int, string>",
+							serviceTypeFullName: "MyNamespace.BaseClass<System.Int32, System.String>",
 							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass2"),
 						new(
 							lifetime: ServiceLifetime.Scoped,
-							serviceTypeFullName: "MyNamespace.BaseClass<int, string>",
+							serviceTypeFullName: "MyNamespace.BaseClass<System.Int32, System.String>",
 							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass3"),
 						new(
 							lifetime: ServiceLifetime.Scoped,
-							serviceTypeFullName: "MyNamespace.BaseClass<int, string>",
+							serviceTypeFullName: "MyNamespace.BaseClass<System.Int32, System.String>",
 							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass4"),
 					]
 				)

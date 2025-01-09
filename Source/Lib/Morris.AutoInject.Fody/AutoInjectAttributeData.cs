@@ -18,7 +18,7 @@ internal class AutoInjectAttributeData
 
 	private readonly Func<TypeDefinition, TypeDefinition?> GetKey;
 	private readonly Func<TypeDefinition, IEnumerable<TypeDefinition>> GetPotentialKeys;
-	private readonly Func<ServiceTypeAndImplementation, TypeDefinition> TransformKey;
+	private readonly Func<ServiceTypeAndImplementation, TypeDefinition?> TransformKey;
 
 	public AutoInjectAttributeData(
 		Find find,
@@ -51,6 +51,7 @@ internal class AutoInjectAttributeData
 		TransformKey = Register switch {
 			RegisterAs.DiscoveredClass => x => x.ServiceImplementation,
 			RegisterAs.BaseType => _ => Type,
+			RegisterAs.BaseClosedGenericType => x => x.ServiceType.GetBaseClosedGenericType(Type),
 			_ => throw new NotImplementedException(Register.ToString())
 		};
 	}

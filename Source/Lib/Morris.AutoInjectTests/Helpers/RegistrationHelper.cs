@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Morris.AutoInject.Fody;
 using Morris.AutoInject.TestsShared;
+using Morris.AutoInjectTests.Extensions;
 using Morris.AutoInjectTests.RegistrationData;
 using System.Reflection;
 using System.Text;
@@ -104,8 +105,8 @@ internal static class RegistrationHelper
 		{
 			var unexpectedRegistration = new ServiceRegistration(
 				lifetime: unexpectedServiceDescriptor.Lifetime,
-				serviceTypeFullName: unexpectedServiceDescriptor.ServiceType.FullName!,
-				serviceImplementationTypeFullName: unexpectedServiceDescriptor.ImplementationType!.FullName!
+				serviceTypeFullName: unexpectedServiceDescriptor.ServiceType.ToHumanReadableName(),
+				serviceImplementationTypeFullName: unexpectedServiceDescriptor.ImplementationType!.ToHumanReadableName()
 			);
 			unexpectedRegistrations.Add(unexpectedRegistration);
 		}
@@ -116,9 +117,7 @@ internal static class RegistrationHelper
 		var builder = new StringBuilder();
 		builder.AppendLinuxLine(ModuleWeaver.ManifestHeader);
 		foreach (var module in expectedModuleRegistrations)
-		{
 			builder.Append(module);
-		}
 		return builder.ToString();
 	}
 }

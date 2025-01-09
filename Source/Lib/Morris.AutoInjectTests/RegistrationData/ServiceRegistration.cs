@@ -14,8 +14,8 @@ internal class ServiceRegistration
 		string serviceImplementationTypeFullName)
 	{
 		Lifetime = lifetime;
-		ServiceTypeFullName = serviceTypeFullName;
-		ServiceImplementationTypeFullName = serviceImplementationTypeFullName;
+		ServiceTypeFullName = serviceTypeFullName.Replace(" ", "");
+		ServiceImplementationTypeFullName = serviceImplementationTypeFullName.Replace(" ", "");
 	}
 
 	public override string ToString() =>

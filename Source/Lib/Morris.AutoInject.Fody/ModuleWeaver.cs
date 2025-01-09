@@ -112,7 +112,7 @@ public class ModuleWeaver : BaseModuleWeaver
 	{
 		manifestBuilder.Append(",");
 		manifestBuilder.Append($"Find {autoInjectAttributeData.Find}");
-		manifestBuilder.Append($" {autoInjectAttributeData.Type.FullName}");
+		manifestBuilder.Append($" {autoInjectAttributeData.Type.ToHumanReadableName()}");
 		manifestBuilder.Append($" RegisterAs {autoInjectAttributeData.Register}");
 
 		if (autoInjectAttributeData.ServiceTypeFilter is not null)
@@ -144,8 +144,8 @@ public class ModuleWeaver : BaseModuleWeaver
 	{
 		manifestBuilder.Append(",,");
 		manifestBuilder.Append($"{withLifetime},");
-		manifestBuilder.Append($"{serviceType!.FullName},");
-		manifestBuilder.Append($"{serviceImplementationType!.FullName}");
+		manifestBuilder.Append($"{serviceType!.ToHumanReadableName()},");
+		manifestBuilder.Append($"{serviceImplementationType!.ToHumanReadableName()}");
 		manifestBuilder.AppendLinuxLine();
 
 		// Get references to needed runtime methods
