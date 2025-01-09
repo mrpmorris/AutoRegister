@@ -18,7 +18,7 @@ internal class AutoInjectAttributeData
 
 	private readonly Func<TypeDefinition, TypeDefinition?> GetKey;
 	private readonly Func<TypeDefinition, IEnumerable<TypeDefinition>> GetPotentialKeys;
-	private readonly Func<ServiceTypeAndImplementation, TypeDefinition?> TransformKey;
+	private readonly Func<ServiceTypeAndImplementation, TypeReference?> TransformKey;
 
 	public AutoInjectAttributeData(
 		Find find,
@@ -58,7 +58,7 @@ internal class AutoInjectAttributeData
 
 	public bool IsMatch(
 		TypeDefinition type,
-		out TypeDefinition? serviceType)
+		out TypeReference? serviceType)
 	{
 		serviceType =
 			GetPotentialKeys(type)

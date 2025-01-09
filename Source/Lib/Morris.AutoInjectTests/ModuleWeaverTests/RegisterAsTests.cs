@@ -151,9 +151,9 @@ public class RegisterAsTests
 					autoInjectAttributes:
 					[
 						new(
-							find: Find.AnyTypeOf,
+							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace.BaseClass`2",
-							registerAs: RegisterAs.BaseType,
+							registerAs: RegisterAs.BaseClosedGenericType,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:

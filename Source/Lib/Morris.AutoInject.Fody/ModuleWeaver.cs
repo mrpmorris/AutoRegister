@@ -125,7 +125,7 @@ public class ModuleWeaver : BaseModuleWeaver
 
 		foreach (TypeDefinition candidate in filteredClasses)
 		{
-			if (autoInjectAttributeData.IsMatch(candidate, out TypeDefinition? serviceType))
+			if (autoInjectAttributeData.IsMatch(candidate, out TypeReference? serviceType))
 				RegisterClass(
 					manifestBuilder: manifestBuilder,
 					withLifetime: autoInjectAttributeData.WithLifetime,

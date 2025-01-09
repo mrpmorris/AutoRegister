@@ -6,12 +6,12 @@ namespace Morris.AutoInject.Fody.Extensions;
 
 internal static class TypeDefinitionGetBaseClosedGenericTypeExtension
 {
-	public static TypeDefinition? GetBaseClosedGenericType(
+	public static TypeReference? GetBaseClosedGenericType(
 		this TypeReference descendantType,
 		TypeDefinition baseType)
 	{
 		if (!baseType.HasGenericParameters)
-			return baseType.Resolve();
+			return baseType;
 
 		string baseTypeGenericName = baseType.FullName.Split('<')[0];
 

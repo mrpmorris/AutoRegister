@@ -84,14 +84,11 @@ internal static class RegistrationHelper
 		var matchedServiceDescriptors = new HashSet<ServiceDescriptor>();
 		foreach(ServiceRegistration expectedService in module.Services)
 		{
-			Type serviceType = assembly.GetType(expectedService.ServiceTypeFullName)!;
-			Type serviceImplementationType = assembly.GetType(expectedService.ServiceImplementationTypeFullName)!;
-
 			ServiceDescriptor? registrationFound =
 				services
 				.FirstOrDefault(x =>
-					x.ServiceType == serviceType
-					&& x.ImplementationType == serviceImplementationType
+					x.ServiceType.ToHumanReadableName() == expectedService.ServiceTypeFullName
+					&& x.ImplementationType!.ToHumanReadableName() == expectedService.ServiceImplementationTypeFullName
 					&& x.Lifetime == expectedService.Lifetime
 				);
 			if (registrationFound is null)
