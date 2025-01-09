@@ -117,7 +117,6 @@ public class AnyTypeOfTests
 
 			public interface ISomeInterface {}
 			public class SomeClass : ISomeInterface {}
-			public class NonQualifyingClass {}
 			""";
 
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult fodyTestResult, out string? manifest);
@@ -165,7 +164,6 @@ public class AnyTypeOfTests
 			public interface IBaseInterface {}
 			public interface IChildInterface : IBaseInterface {}
 			public class SomeClass : IChildInterface {}
-			public class NonQualifyingClass {}
 			""";
 
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult fodyTestResult, out string? manifest);
@@ -242,4 +240,65 @@ public class AnyTypeOfTests
 			]
 		);
 	}
+
+	[TestMethod]
+	public void WhenFindingAnOpenGenericInterface_ThenClassesImplementingDescendantsOfThatInterfaceAreRegistered()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoInject;
+
+			namespace MyNamespace;
+			[AutoInject(Find.AnyTypeOf, typeof(IGenericInterface<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+			}
+
+			public interface IGenericInterface<T> {}
+			public class QualifyingClass1 : IGenericInterface<int> {}
+
+			public interface IGenericChildInterface<T> : IGenericInterface<T> {}
+			public class QualifyingClass2 : IGenericChildInterface<int> {}
+
+			public interface INonGenericInterface : IGenericChildInterface<int> {}
+			public class QualifyingClass3: INonGenericInterface {}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoInjectAttributes:
+					[
+						new(
+							find: Find.AnyTypeOf,
+							typeFullName: "MyNamespace.IGenericInterface`1",
+							registerAs: RegisterAs.DiscoveredClass,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.QualifyingClass1",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass1"),
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.QualifyingClass2",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass2"),
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.QualifyingClass3",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass3"),
+					]
+				)
+			]
+		);
+	}
+
 }
