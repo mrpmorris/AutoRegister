@@ -37,7 +37,7 @@ internal class AutoInjectAttributeData
 
 		GetPotentialKeys =
 			Type.IsInterface
-			? x => x.Resolve().GetAllInterfaces()
+			? x => x.GetAllInterfaces()
 			: x => [x];
 
 		GetKey = Find switch {
@@ -82,8 +82,4 @@ internal class AutoInjectAttributeData
 		typeReference == Type
 		? typeReference
 		: null;
-
-
-
-
 }

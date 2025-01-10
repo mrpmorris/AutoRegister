@@ -75,7 +75,9 @@ internal static class TypeDefinitionGetBaseClosedGenericTypeExtension
 		: descendantInterface
 			.Resolve()
 			.Interfaces!
-			.Select(x => FindInterfacePath(x.InterfaceType, baseInterface))
+			.Select(x => x.InterfaceType.Resolve())
+			.Where(x => x.DeclaringType == null)
+			.Select(x => FindInterfacePath(x, baseInterface))
 			.Where(x => x.Any())
 			.First()
 			.Append(descendantInterface)

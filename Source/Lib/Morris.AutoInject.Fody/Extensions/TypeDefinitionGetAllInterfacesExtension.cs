@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Morris.AutoInject.Fody.Extensions;
 
-internal static class TypeDefinitionGetInterfacesExtension
+internal static class TypeDefinitionGetAllInterfacesExtension
 {
-	public static IEnumerable<TypeDefinition> GetAllInterfaces(this TypeDefinition typeDefinition)
+	public static IEnumerable<TypeReference> GetAllInterfaces(this TypeReference typeReference)
 	{
 		var visited = new HashSet<TypeDefinition>();
 
-		TypeDefinition? currentType = typeDefinition;
+		TypeDefinition? currentType = typeReference.Resolve();
 		while (currentType is not null)
 		{
 			foreach (var interfaceImplementation in currentType.Interfaces)

@@ -20,7 +20,7 @@ internal static class TypeDefinitionDescendsFromExtension
 		}
 		else if (child.IsInterface)
 		{
-			if (child != baseType && child.GetAllInterfaces().Any(x => x.IsSameAs(baseType)))
+			if (!child.IsSameAs(baseType) && child.Interfaces.Any(x => x.InterfaceType.IsSameAs(baseType)))
 				return true;
 		}
 
