@@ -79,7 +79,7 @@ internal class AutoInjectAttributeData
 		: null;
 
 	private TypeReference? FindExactly(TypeReference typeReference) =>
-		typeReference == Type
+		typeReference.IsSameAs(Type)
 		? typeReference
 		: null;
 }
