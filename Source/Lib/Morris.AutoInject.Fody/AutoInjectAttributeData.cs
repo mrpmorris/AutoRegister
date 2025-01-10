@@ -49,8 +49,8 @@ internal class AutoInjectAttributeData
 
 		TransformKey = Register switch {
 			RegisterAs.DiscoveredClass => x => x.ServiceImplementation,
-			RegisterAs.BaseType => _ => Type,
-			RegisterAs.BaseClosedGenericType => x => x.ServiceType.GetBaseClosedGenericType(Type),
+			RegisterAs.SearchedType => _ => Type,
+			RegisterAs.SearchedTypeAsClosedGeneric => x => x.ServiceType.GetBaseClosedGenericType(Type),
 			_ => throw new NotImplementedException(Register.ToString())
 		};
 	}

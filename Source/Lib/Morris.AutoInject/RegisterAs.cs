@@ -13,11 +13,11 @@ enum RegisterAs
 	/// <summary>
 	/// The service key will be the type specified in the filter criteria.
 	/// </summary>
-	BaseType,
+	SearchedType,
 	/// <summary>
-	/// The service key will be the base type as a closed-generic type.
+	/// The service key will be the type specified in the filter criteria as a closed-generic type. E.g. List&lt;int&gt; rather than List&lt;&gt;.
 	/// </summary>
-	BaseClosedGenericType,
+	SearchedTypeAsClosedGeneric,
 	/// <summary>
 	/// The service key will be the class discovered.
 	/// </summary>

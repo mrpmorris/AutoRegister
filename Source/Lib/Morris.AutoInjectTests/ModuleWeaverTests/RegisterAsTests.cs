@@ -63,14 +63,14 @@ public class RegisterAsTests
 	}
 
 	[TestMethod]
-	public void WhenRegisteringAsBaseType_ThenTypeFromFindCriteriaIsUsedAsServiceType()
+	public void WhenRegisteringAsSearchedType_ThenTypeFromFindCriteriaIsUsedAsServiceType()
 	{
 		string sourceCode =
 			"""
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(BaseClass), RegisterAs.BaseType, WithLifetime.Scoped)]
+			[AutoInject(Find.DescendantsOf, typeof(BaseClass), RegisterAs.SearchedType, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -95,7 +95,7 @@ public class RegisterAsTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace.BaseClass",
-							registerAs: RegisterAs.BaseType,
+							registerAs: RegisterAs.SearchedType,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -118,14 +118,14 @@ public class RegisterAsTests
 	}
 
 	[TestMethod]
-	public void WhenRegisteringAsBaseClosedGenericType_AndFindCriteriaIsAClass_ThenClosedGenericTypeFromFindCriteriaIsUsedAsServiceType()
+	public void WhenRegisteringSearchedTypeAsClosedGeneric_AndFindCriteriaIsAClass_ThenClosedGenericTypeFromFindCriteriaIsUsedAsServiceType()
 	{
 		string sourceCode =
 			"""
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(BaseClass<,>), RegisterAs.BaseClosedGenericType, WithLifetime.Scoped)]
+			[AutoInject(Find.DescendantsOf, typeof(BaseClass<,>), RegisterAs.SearchedTypeAsClosedGeneric, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -153,7 +153,7 @@ public class RegisterAsTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace.BaseClass`2",
-							registerAs: RegisterAs.BaseClosedGenericType,
+							registerAs: RegisterAs.SearchedTypeAsClosedGeneric,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -180,14 +180,14 @@ public class RegisterAsTests
 	}
 
 	[TestMethod]
-	public void WhenRegisteringAsBaseClosedGenericType_AndFindCriteriaIsAnInterface_ThenClosedGenericTypeFromFindCriteriaIsUsedAsServiceType()
+	public void WhenRegisteringSearchedTypeAsClosedGeneric_AndFindCriteriaIsAnInterface_ThenClosedGenericTypeFromFindCriteriaIsUsedAsServiceType()
 	{
 		string sourceCode =
 			"""
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.AnyTypeOf, typeof(IBaseInterface<,>), RegisterAs.BaseClosedGenericType, WithLifetime.Scoped)]
+			[AutoInject(Find.AnyTypeOf, typeof(IBaseInterface<,>), RegisterAs.SearchedTypeAsClosedGeneric, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -215,7 +215,7 @@ public class RegisterAsTests
 						new(
 							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.IBaseInterface`2",
-							registerAs: RegisterAs.BaseClosedGenericType,
+							registerAs: RegisterAs.SearchedTypeAsClosedGeneric,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -242,14 +242,14 @@ public class RegisterAsTests
 	}
 
 	[TestMethod]
-	public void WhenRegisteringAsBaseClosedGenericType_AndFindCriteriaIsNotOpenGeneric_ThenTypeFromFindCriteriaIsUsedAsServiceType()
+	public void WhenRegisteringSearchedTypeAsClosedGeneric_AndFindCriteriaIsNotOpenGeneric_ThenTypeFromFindCriteriaIsUsedAsServiceType()
 	{
 		string sourceCode =
 			"""
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(BaseClass), RegisterAs.BaseClosedGenericType, WithLifetime.Scoped)]
+			[AutoInject(Find.DescendantsOf, typeof(BaseClass), RegisterAs.SearchedTypeAsClosedGeneric, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -274,7 +274,7 @@ public class RegisterAsTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace.BaseClass",
-							registerAs: RegisterAs.BaseClosedGenericType,
+							registerAs: RegisterAs.SearchedTypeAsClosedGeneric,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
