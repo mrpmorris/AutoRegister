@@ -7,19 +7,16 @@ internal static class TypeDefinitionGetAllInterfacesExtension
 {
 	public static IEnumerable<TypeReference> GetAllInterfaces(this TypeReference typeReference)
 	{
-		var visited = new HashSet<TypeDefinition>();
+		var result = new HashSet<TypeReference>();
 
 		TypeDefinition? currentType = typeReference.Resolve();
 		while (currentType is not null)
 		{
-			foreach (var interfaceImplementation in currentType.Interfaces)
-			{
-				TypeDefinition interfaceTypeDef = interfaceImplementation.InterfaceType.Resolve();
-				if (interfaceTypeDef is not null && visited.Add(interfaceTypeDef))
-					yield return interfaceTypeDef;
-			}
+			foreach (InterfaceImplementation interfaceImplementation in currentType.Interfaces)
+				result.Add(interfaceImplementation.InterfaceType);
 
 			currentType = currentType.BaseType?.Resolve();
 		}
+		return result;
 	}
 }
