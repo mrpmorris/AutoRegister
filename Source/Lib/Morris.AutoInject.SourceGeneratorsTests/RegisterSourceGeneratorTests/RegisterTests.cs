@@ -29,6 +29,7 @@ public sealed class RegisterTests
 					static partial void AfterRegisterServices(IServiceCollection services);
 					public static void RegisterServices(IServiceCollection services)
 					{
+						AfterRegisterServices(services);
 						throw new System.NotImplementedException("Morris.AutoInject.Fody has not processed this assembly.");
 					}
 				}
@@ -66,6 +67,7 @@ public sealed class RegisterTests
 					static partial void AfterRegisterServices(IServiceCollection services);
 					public static void RegisterServices(IServiceCollection services)
 					{
+						AfterRegisterServices(services);
 						throw new System.NotImplementedException("Morris.AutoInject.Fody has not processed this assembly.");
 					}
 				}

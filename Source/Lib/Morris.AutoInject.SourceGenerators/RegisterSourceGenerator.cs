@@ -86,6 +86,7 @@ public class RegisterSourceGenerator : IIncrementalGenerator
 			writer.WriteLine("static partial void AfterRegisterServices(IServiceCollection services);");
 			using (writer.CodeBlock("public static void RegisterServices(IServiceCollection services)"))
 			{
+				writer.WriteLine("AfterRegisterServices(services);");
 				writer.WriteLine("throw new System.NotImplementedException(\"Morris.AutoInject.Fody has not processed this assembly.\");");
 			}
 		}

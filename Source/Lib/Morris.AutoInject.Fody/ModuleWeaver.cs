@@ -75,10 +75,11 @@ public class ModuleWeaver : BaseModuleWeaver
 		if (autoInjectAttributes.Count + autoInjectFilterAttributes.Count == 0)
 			return;
 
-		MethodDefinition registerServicesMethod = type
+		MethodDefinition registerServicesMethod =
+			type
 			.Methods
-			.Single(
-				x => x.Name == "RegisterServices"
+			.Single(x =>
+				x.Name == "RegisterServices"
 				&& x.IsPublic
 				&& x.IsStatic
 				&& x.ReturnType.FullName == "System.Void"
@@ -101,7 +102,30 @@ public class ModuleWeaver : BaseModuleWeaver
 				autoInjectAttributeData: autoInjectAttributeData,
 				ilProcessor: ilProcessor);
 
+		AddCallToAfterRegisterServices(type, ilProcessor);
+
 		ilProcessor.Emit(OpCodes.Ret);
+	}
+
+	private static void AddCallToAfterRegisterServices(
+		TypeDefinition type,
+		ILProcessor ilProcessor)
+	{
+		MethodDefinition? afterRegisterServicesMethod =
+			type
+			.Methods
+			.SingleOrDefault(x =>
+				x.Name == "AfterRegisterServices"
+				&& x.IsStatic
+				&& x.ReturnType.FullName == "System.Void"
+				&& x.Parameters.Count == 1
+				&& x.Parameters[0].ParameterType.FullName == "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+			);
+		if (afterRegisterServicesMethod is not null)
+		{
+			ilProcessor.Emit(OpCodes.Ldarg_0);
+			ilProcessor.Emit(OpCodes.Call, afterRegisterServicesMethod);
+		}
 	}
 
 	private void ProcessAutoInjectAttribute(

@@ -73,8 +73,6 @@ internal static class TypeDefinitionGetBaseClosedGenericTypeExtension
 
 		IEnumerable<TypeReference> FindInterfacePathRecursive(TypeReference descendantInterface, TypeReference baseInterface)
 		{
-			if (descendantInterface is null)
-				return [];
 			if (descendantInterface.IsSameAs(baseInterface))
 				return [descendantInterface];
 
@@ -96,18 +94,4 @@ internal static class TypeDefinitionGetBaseClosedGenericTypeExtension
 				: childRoute.Append(descendantInterface);
 		}
 	}
-		//descendantInterface is null
-		//? Array.Empty<TypeReference>()
-		//: descendantInterface.IsSameAs(baseInterface)
-		//? [baseInterface]
-		//: descendantInterface
-		//	.Resolve()
-		//	.Interfaces!
-		//	.Select(x => x.InterfaceType.Resolve())
-		//	.Where(x => x.DeclaringType == null)
-		//	.Select(x => FindInterfacePath(x, baseInterface))
-		//	.Where(x => x.Any())
-		//	.First()
-		//	.Append(descendantInterface)
-		//	.Reverse();
 }

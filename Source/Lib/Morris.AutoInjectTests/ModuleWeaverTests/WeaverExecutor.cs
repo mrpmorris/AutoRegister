@@ -26,21 +26,32 @@ internal static class WeaverExecutor
 		string sourceCode,
 		out Fody.TestResult testResult,
 		out string? manifest,
-		bool assertNoDiagnosticsOutput = true)
+		bool assertNoDiagnosticsOutput = true,
+		string? partialMethodsSourceCode = null)
 	{
 		Guid uniqueId = Guid.NewGuid();
-		var unitTestSyntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-		var compilation = CSharpCompilation.Create(
-			assemblyName: $"Test{uniqueId}",
-			syntaxTrees: [unitTestSyntaxTree],
-			references: Basic.Reference.Assemblies.Net90.References
-				.All
-				.Union([AutoInjectMetadataReference, MSDependencyInjectionMetadataReference]),
-			options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, reportSuppressedDiagnostics: true)
+		SyntaxTree unitTestSyntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
+
+		ImmutableArray<SyntaxTree> generatedSourceSyntaxTrees = GetGeneratedSourceSyntaxTrees(unitTestSyntaxTree, uniqueId);
+
+		SyntaxTree? partialMethodsSyntaxTree =
+			partialMethodsSourceCode is null
+			? null
+			: CSharpSyntaxTree.ParseText(partialMethodsSourceCode);
+
+		ImmutableArray<SyntaxTree> allSyntaxTrees =
+			generatedSourceSyntaxTrees
+			.Append(unitTestSyntaxTree)
+			.Append(partialMethodsSyntaxTree!)
+			.Where(x => x != null)
+			.ToImmutableArray();
+
+		CSharpCompilation compilation = Compile(
+			assemblyName: "UnitTest",
+			uniqueId: uniqueId,
+			syntaxTrees: allSyntaxTrees
 		);
 		AssertNoCompileDiagnostics(compilation);
-
-		compilation = AddGeneratedSource(unitTestSyntaxTree, compilation, uniqueId);
 
 		string projectFilePath = Path.Combine(
 			Path.GetTempPath(),
@@ -72,28 +83,46 @@ internal static class WeaverExecutor
 		}
 	}
 
-	private static CSharpCompilation AddGeneratedSource(
+	private static ImmutableArray<SyntaxTree> GetGeneratedSourceSyntaxTrees(
 		SyntaxTree unitTestSyntaxTree,
-		CSharpCompilation compilation,
 		Guid uniqueId)
 	{
+		var compilation = CSharpCompilation.Create(
+			assemblyName: $"Roslyn{uniqueId}",
+			syntaxTrees: [unitTestSyntaxTree],
+			references: Basic.Reference.Assemblies.Net90.References
+				.All
+				.Union([AutoInjectMetadataReference, MSDependencyInjectionMetadataReference]),
+			options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, reportSuppressedDiagnostics: true)
+		);
+
 		var registerSourceGenerator = new RegisterSourceGenerator().AsSourceGenerator();
 		var driver = CSharpGeneratorDriver
 			.Create(registerSourceGenerator)
 			.RunGenerators(compilation);
 		GeneratorDriverRunResult driverRunResult = driver.GetRunResult();
 		GeneratorRunResult runResult = driverRunResult.Results.Single();
-		var generatedSyntaxTrees = runResult.GeneratedSources.Select(x => x.SyntaxTree);
-		compilation = CSharpCompilation.Create(
-			assemblyName: $"TestWithGenerators{uniqueId}",
-			syntaxTrees: generatedSyntaxTrees.Append(unitTestSyntaxTree),
-			references: Basic.Reference.Assemblies.Net90.References
-				.All
-				.Union([AutoInjectMetadataReference, MSDependencyInjectionMetadataReference]),
-			options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, reportSuppressedDiagnostics: true)
-		);
-		AssertNoCompileDiagnostics(compilation);
-		return compilation;
+
+		ImmutableArray<SyntaxTree> result = runResult.GeneratedSources.Select(x => x.SyntaxTree).ToImmutableArray();
+		return result;
+	}
+
+	private static CSharpCompilation Compile(
+		string assemblyName,
+		Guid uniqueId,
+		ImmutableArray<SyntaxTree> syntaxTrees)
+	{
+		CSharpCompilation result = CSharpCompilation
+			.Create(
+				assemblyName: $"{assemblyName}{uniqueId}",
+				syntaxTrees: syntaxTrees,
+				references: Basic.Reference.Assemblies.Net90.References
+					.All
+					.Union([AutoInjectMetadataReference, MSDependencyInjectionMetadataReference]),
+				options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, reportSuppressedDiagnostics: true)
+			);
+
+		return result;
 	}
 
 	private static void AssertNoCompileDiagnostics(CSharpCompilation compilation)
