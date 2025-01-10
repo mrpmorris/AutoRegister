@@ -16,8 +16,8 @@ internal static class TypeDefinitionGetBaseClosedGenericTypeExtension
 
 		TypeReference[] types =
 			baseType.IsInterface
-			? FindInterfacePath(descendantType, baseType)?.ToArray()!
-			: FindClassPath(descendantType, baseType).ToArray();
+			? FindInterfacePath(descendantType, baseType)
+			: FindClassPath(descendantType, baseType);
 		if (types.Length == 0)
 			return null;
 
@@ -53,7 +53,7 @@ internal static class TypeDefinitionGetBaseClosedGenericTypeExtension
 		return baseType.GetGenericType(parameters);
 	}
 
-	private static IEnumerable<TypeReference> FindClassPath(TypeReference descendantClass, TypeReference baseClass)
+	private static TypeReference[] FindClassPath(TypeReference descendantClass, TypeReference baseClass)
 	{
 		var result = new List<TypeReference>();
 		TypeReference? current = descendantClass;
@@ -61,25 +61,53 @@ internal static class TypeDefinitionGetBaseClosedGenericTypeExtension
 		{
 			result.Add(current);
 			if (current.IsSameAs(baseClass))
-				return result;
+				return result.ToArray();
 			current = current.Resolve().BaseType;
 		}
 		return Array.Empty<TypeReference>();
 	}
 
-	private static IEnumerable<TypeReference> FindInterfacePath(TypeReference? descendantInterface, TypeReference baseInterface) =>
-		descendantInterface is null
-		? Array.Empty<TypeReference>()
-		: descendantInterface.IsSameAs(baseInterface)
-		? [baseInterface]
-		: descendantInterface
-			.Resolve()
-			.Interfaces!
-			.Select(x => x.InterfaceType.Resolve())
-			.Where(x => x.DeclaringType == null)
-			.Select(x => FindInterfacePath(x, baseInterface))
-			.Where(x => x.Any())
-			.First()
-			.Append(descendantInterface)
-			.Reverse();
+	private static TypeReference[] FindInterfacePath(TypeReference descendantInterface, TypeReference baseInterface)
+	{
+		return FindInterfacePathRecursive(descendantInterface: descendantInterface, baseInterface: baseInterface).Reverse().ToArray();
+
+		IEnumerable<TypeReference> FindInterfacePathRecursive(TypeReference descendantInterface, TypeReference baseInterface)
+		{
+			if (descendantInterface is null)
+				return [];
+			if (descendantInterface.IsSameAs(baseInterface))
+				return [descendantInterface];
+
+			IEnumerable<TypeReference> interfaces =
+				descendantInterface
+				.Resolve()
+				.Interfaces
+				.Select(x => x.InterfaceType);
+
+			IEnumerable<TypeReference> childRoute =
+				interfaces
+				.Select(x => FindInterfacePathRecursive(x, baseInterface))
+				.Where(x => x.Any())
+				.OrderBy(x => x.Count())
+				.FirstOrDefault();
+
+			return childRoute is null
+				? []
+				: childRoute.Append(descendantInterface);
+		}
+	}
+		//descendantInterface is null
+		//? Array.Empty<TypeReference>()
+		//: descendantInterface.IsSameAs(baseInterface)
+		//? [baseInterface]
+		//: descendantInterface
+		//	.Resolve()
+		//	.Interfaces!
+		//	.Select(x => x.InterfaceType.Resolve())
+		//	.Where(x => x.DeclaringType == null)
+		//	.Select(x => FindInterfacePath(x, baseInterface))
+		//	.Where(x => x.Any())
+		//	.First()
+		//	.Append(descendantInterface)
+		//	.Reverse();
 }

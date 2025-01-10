@@ -187,7 +187,7 @@ public class RegisterAsTests
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(IBaseInterface<,>), RegisterAs.BaseClosedGenericType, WithLifetime.Scoped)]
+			[AutoInject(Find.AnyTypeOf, typeof(IBaseInterface<,>), RegisterAs.BaseClosedGenericType, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -195,10 +195,10 @@ public class RegisterAsTests
 			public interface IBaseInterface<TKey, TValue> {}
 			public interface IIntBasedValue<T> : IBaseInterface<int, T> {}
 
-			//public class QualifyingClass1 : IBaseInterface<int, string> {}
-			//public class QualifyingClass2 : IBaseInterface<int, string> {}
+			public class QualifyingClass1 : IBaseInterface<int, string> {}
+			public class QualifyingClass2 : IBaseInterface<int, string> {}
 			public class QualifyingClass3 : IIntBasedValue<string> {}
-			//public class QualifyingClass4 : QualifyingClass3 {}
+			public class QualifyingClass4 : QualifyingClass3 {}
 			""";
 
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
@@ -213,7 +213,7 @@ public class RegisterAsTests
 					autoInjectAttributes:
 					[
 						new(
-							find: Find.DescendantsOf,
+							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.IBaseInterface`2",
 							registerAs: RegisterAs.BaseClosedGenericType,
 							withLifetime: WithLifetime.Scoped)
