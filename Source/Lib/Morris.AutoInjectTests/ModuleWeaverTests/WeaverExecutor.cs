@@ -98,7 +98,11 @@ internal static class WeaverExecutor
 
 	private static void AssertNoCompileDiagnostics(CSharpCompilation compilation)
 	{
-		ImmutableArray<Diagnostic> diagnostics = compilation.GetDiagnostics();
+		ImmutableArray<Diagnostic> diagnostics =
+			compilation
+			.GetDiagnostics()
+			.Where(x => x.DefaultSeverity != DiagnosticSeverity.Hidden)
+			.ToImmutableArray();
 		if (!diagnostics.Any())
 			return;
 
