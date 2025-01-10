@@ -12,7 +12,7 @@ internal static class TypeDefinitionDescendsFromExtension
 			TypeDefinition? current = child.BaseType?.Resolve();
 			while (current is not null)
 			{
-				if (current == baseType)
+				if (current.IsSameAs(baseType))
 					return true;
 
 				current = current.BaseType?.Resolve();
@@ -20,11 +20,10 @@ internal static class TypeDefinitionDescendsFromExtension
 		}
 		else if (child.IsInterface)
 		{
-			if (child != baseType && child.GetAllInterfaces().Any(x => x == baseType))
+			if (child != baseType && child.GetAllInterfaces().Any(x => x.IsSameAs(baseType)))
 				return true;
 		}
 
 		return false;
 	}
-
 }

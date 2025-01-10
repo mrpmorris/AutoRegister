@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Morris.AutoInject.Fody;
-using ServiceTypeAndImplementation = (TypeDefinition ServiceType, TypeDefinition ServiceImplementation);
+using ServiceTypeAndImplementation = (TypeReference ServiceType, TypeReference ServiceImplementation);
 
 internal class AutoInjectAttributeData
 {
@@ -16,8 +16,8 @@ internal class AutoInjectAttributeData
 	public TypeDefinition Type { get; private set; }
 	public WithLifetime WithLifetime { get; private set; }
 
-	private readonly Func<TypeDefinition, TypeDefinition?> GetKey;
-	private readonly Func<TypeDefinition, IEnumerable<TypeDefinition>> GetPotentialKeys;
+	private readonly Func<TypeReference, TypeReference?> GetKey;
+	private readonly Func<TypeReference, IEnumerable<TypeReference>> GetPotentialKeys;
 	private readonly Func<ServiceTypeAndImplementation, TypeReference?> TransformKey;
 
 	public AutoInjectAttributeData(
@@ -35,10 +35,9 @@ internal class AutoInjectAttributeData
 		Type = type.Resolve();
 		WithLifetime = withLifetime;
 
-		TypeDefinition resolvedType = type.Resolve();
 		GetPotentialKeys =
 			Type.IsInterface
-			? x => x.GetAllInterfaces()
+			? x => x.Resolve().GetAllInterfaces()
 			: x => [x];
 
 		GetKey = Find switch {
@@ -57,7 +56,7 @@ internal class AutoInjectAttributeData
 	}
 
 	public bool IsMatch(
-		TypeDefinition type,
+		TypeReference type,
 		out TypeReference? serviceType)
 	{
 		serviceType =
@@ -65,23 +64,23 @@ internal class AutoInjectAttributeData
 			.Select(GetKey)
 			.FirstOrDefault();
 		if (serviceType is not null)
-			serviceType = TransformKey((serviceType.Resolve(), type));
+			serviceType = TransformKey((serviceType, type));
 		return serviceType is not null;
 	}
 
-	private TypeDefinition? FindAnyTypeOf(TypeDefinition definition) =>
-		definition.IsAssignableTo(Type)
-		? definition
+	private TypeReference? FindAnyTypeOf(TypeReference typeReference) =>
+		typeReference.Resolve().IsAssignableTo(Type)
+		? typeReference
 		: null;
 
-	private TypeDefinition? FindDescendantsOf(TypeDefinition definition) =>
-		definition.DescendsFrom(Type)
-		? definition
+	private TypeReference? FindDescendantsOf(TypeReference typeReference) =>
+		typeReference.Resolve().DescendsFrom(Type)
+		? typeReference
 		: null;
 
-	private TypeDefinition? FindExactly(TypeDefinition definition) =>
-		definition == Type
-		? definition
+	private TypeReference? FindExactly(TypeReference typeReference) =>
+		typeReference == Type
+		? typeReference
 		: null;
 
 

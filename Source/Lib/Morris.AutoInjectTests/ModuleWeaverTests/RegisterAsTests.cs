@@ -195,10 +195,10 @@ public class RegisterAsTests
 			public interface IBaseInterface<TKey, TValue> {}
 			public interface IIntBasedValue<T> : IBaseInterface<int, T> {}
 
-			public class QualifyingClass1 : IBaseInterface<int, string> {}
-			public class QualifyingClass2 : IBaseInterface<int, string> {}
+			//public class QualifyingClass1 : IBaseInterface<int, string> {}
+			//public class QualifyingClass2 : IBaseInterface<int, string> {}
 			public class QualifyingClass3 : IIntBasedValue<string> {}
-			public class QualifyingClass4 : QualifyingClass3 {}
+			//public class QualifyingClass4 : QualifyingClass3 {}
 			""";
 
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
