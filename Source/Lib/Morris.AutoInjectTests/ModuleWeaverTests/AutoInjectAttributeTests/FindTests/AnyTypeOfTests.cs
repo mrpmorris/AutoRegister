@@ -2,20 +2,20 @@
 using Morris.AutoInject;
 using Morris.AutoInjectTests.Helpers;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests.FindTests;
+namespace Morris.AutoInjectTests.ModuleWeaverTests.AutoInjectAttributeTests.FindTests;
 
 [TestClass]
-public class DescendantsOfTests
+public class AnyTypeOfTests
 {
 	[TestMethod]
-	public void WhenFindingAClass_ThenTheSameClassIsNotRegistered()
+	public void WhenFindingAClass_ThenTheSameClassIsRegistered()
 	{
 		string sourceCode =
 			"""
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoInject(Find.AnyTypeOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -35,12 +35,18 @@ public class DescendantsOfTests
 					autoInjectAttributes:
 					[
 						new(
-							find: Find.DescendantsOf,
+							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.SomeClass",
 							registerAs: RegisterAs.DiscoveredClass,
 							withLifetime: WithLifetime.Scoped)
 					],
-					services: []
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.SomeClass",
+							serviceImplementationTypeFullName: "MyNamespace.SomeClass")
+					]
 				)
 			]
 		);
@@ -54,7 +60,7 @@ public class DescendantsOfTests
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoInject(Find.AnyTypeOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -75,7 +81,7 @@ public class DescendantsOfTests
 					autoInjectAttributes:
 					[
 						new(
-							find: Find.DescendantsOf,
+							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.SomeClass",
 							registerAs: RegisterAs.DiscoveredClass,
 							withLifetime: WithLifetime.Scoped)
@@ -93,14 +99,14 @@ public class DescendantsOfTests
 	}
 
 	[TestMethod]
-	public void WhenFindingAnInterface_ThenClassesImplementingTheExactInterfaceAreNotRegistered()
+	public void WhenFindingAnInterface_ThenClassesImplementingTheInterfaceAreRegistered()
 	{
 		string sourceCode =
 			"""
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoInject(Find.AnyTypeOf, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -121,12 +127,18 @@ public class DescendantsOfTests
 					autoInjectAttributes:
 					[
 						new(
-							find: Find.DescendantsOf,
+							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.ISomeInterface",
 							registerAs: RegisterAs.DiscoveredClass,
 							withLifetime: WithLifetime.Scoped)
 					],
-					services: []
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.SomeClass",
+							serviceImplementationTypeFullName: "MyNamespace.SomeClass")
+					]
 				)
 			]
 		);
@@ -140,7 +152,7 @@ public class DescendantsOfTests
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(IBaseInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoInject(Find.AnyTypeOf, typeof(IBaseInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -162,7 +174,7 @@ public class DescendantsOfTests
 					autoInjectAttributes:
 					[
 						new(
-							find: Find.DescendantsOf,
+							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.IBaseInterface",
 							registerAs: RegisterAs.DiscoveredClass,
 							withLifetime: WithLifetime.Scoped)
@@ -187,7 +199,7 @@ public class DescendantsOfTests
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(GenericBase<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoInject(Find.AnyTypeOf, typeof(GenericBase<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -208,7 +220,7 @@ public class DescendantsOfTests
 					autoInjectAttributes:
 					[
 						new(
-							find: Find.DescendantsOf,
+							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.GenericBase`1",
 							registerAs: RegisterAs.DiscoveredClass,
 							withLifetime: WithLifetime.Scoped)
@@ -233,7 +245,7 @@ public class DescendantsOfTests
 			using Morris.AutoInject;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(IGenericInterface<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoInject(Find.AnyTypeOf, typeof(IGenericInterface<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -260,13 +272,17 @@ public class DescendantsOfTests
 					autoInjectAttributes:
 					[
 						new(
-							find: Find.DescendantsOf,
+							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.IGenericInterface`1",
 							registerAs: RegisterAs.DiscoveredClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
 					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.QualifyingClass1",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass1"),
 						new(
 							lifetime: ServiceLifetime.Scoped,
 							serviceTypeFullName: "MyNamespace.QualifyingClass2",
@@ -280,4 +296,5 @@ public class DescendantsOfTests
 			]
 		);
 	}
+
 }

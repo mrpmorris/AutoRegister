@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Morris.AutoInject;
+﻿using Morris.AutoInject;
 using Morris.AutoInjectTests.Helpers;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests;
+namespace Morris.AutoInjectTests.ModuleWeaverTests.AutoInjectAttributeTests;
 
 [TestClass]
-public class ExecuteTests
+public class ModuleTests
 {
 	[TestMethod]
 	public void WhenClassHasAutoInjectAttribute_ThenClassAppearsInManifest()
@@ -65,9 +64,8 @@ public class ExecuteTests
 				{
 				}
 			}
-			
 			""";
-		
+
 		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
 
 		RegistrationHelper.AssertRegistration(
@@ -85,6 +83,36 @@ public class ExecuteTests
 					autoInjectAttributes: [],
 					services: []
 				),
-			]);
+			]
+		);
+	}
+
+	[TestMethod]
+	public void WhenClassHasNoAutoInjectAttributes_ThenClassDoesNotAppearInManifest()
+	{
+		string sourceCode =
+			"""
+			namespace MyNamespace1
+			{
+				public partial class MyModule
+				{
+				}
+			}
+
+			namespace MyNamespace2
+			{
+				public partial class MyModule
+				{
+				}
+			}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations: []
+		);
 	}
 }

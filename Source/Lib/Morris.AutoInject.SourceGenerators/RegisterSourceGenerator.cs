@@ -61,7 +61,10 @@ public class RegisterSourceGenerator : IIncrementalGenerator
 			using var output = new StringWriter();
 			using var writer = new IndentedTextWriter(output);
 
+			writer.WriteLine("#pragma warning disable IDE0005 // Disable unnecessary using directive warning");
+			writer.WriteLine("#pragma warning disable CS8019 // Disable unnecessary using directive warning");
 			writer.WriteLine("using Microsoft.Extensions.DependencyInjection;");
+
 			foreach (var item in items)
 				GenerateCodeForTarget(writer, item);
 

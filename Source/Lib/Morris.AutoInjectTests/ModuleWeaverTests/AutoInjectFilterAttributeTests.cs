@@ -5,7 +5,7 @@ using Morris.AutoInjectTests.Helpers;
 namespace Morris.AutoInjectTests.ModuleWeaverTests;
 
 [TestClass]
-public class AutoInjectFilterTests
+public class AutoInjectFilterAttributeTests
 {
 	[TestMethod]
 	public void WhenModuleHasAnAutoInjectFilterAttribute_ThenOnlyCandidatesMatchingTheFilterAreRegistered()

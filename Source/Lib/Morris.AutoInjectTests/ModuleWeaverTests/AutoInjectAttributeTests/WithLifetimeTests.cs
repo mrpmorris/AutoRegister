@@ -2,7 +2,7 @@
 using Morris.AutoInject;
 using Morris.AutoInjectTests.Helpers;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests;
+namespace Morris.AutoInjectTests.ModuleWeaverTests.AutoInjectAttributeTests;
 
 [TestClass]
 public class WithLifetimeTests

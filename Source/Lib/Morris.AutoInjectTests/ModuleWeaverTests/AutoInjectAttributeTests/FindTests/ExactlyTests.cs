@@ -2,7 +2,7 @@
 using Morris.AutoInject;
 using Morris.AutoInjectTests.Helpers;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests.FindTests;
+namespace Morris.AutoInjectTests.ModuleWeaverTests.AutoInjectAttributeTests.FindTests;
 
 [TestClass]
 public class ExactlyTests
