@@ -4,9 +4,13 @@ internal static class TypeToHumandReadableNameExtension
 {
 	public static string ToHumanReadableName(this Type type)
 	{
+		if (Nullable.GetUnderlyingType(type) is Type underlyingType)
+			return $"System.Nullable<{underlyingType.ToHumanReadableName()}>";
+
+		string name;
 		if (type.IsGenericType)
 		{
-			string genericTypeName = type.GetGenericTypeDefinition().FullName!;
+			string genericTypeName = type.GetGenericTypeDefinition().Name;
 			int backtickIndex = genericTypeName?.IndexOf('`') ?? -1;
 
 			if (backtickIndex > 0)
@@ -17,23 +21,26 @@ internal static class TypeToHumandReadableNameExtension
 				.GetGenericArguments()
 				.Select(arg => arg.ToHumanReadableName());
 
-			return $"{genericTypeName}<{string.Join(", ", genericArguments)}>";
+			name = $"{genericTypeName}<{string.Join(", ", genericArguments)}>";
 		}
-
-		if (type.IsArray)
+		else if (type.IsArray)
 		{
 			Type? elementType = type.GetElementType();
 			int rank = type.GetArrayRank();
 
 			// Handle multi-dimensional arrays
 			string rankSpecifier = rank == 1 ? "[]" : $"[{new string(',', rank - 1)}]";
-			return $"{elementType?.ToHumanReadableName()}{rankSpecifier}";
+			name = $"{elementType!.ToHumanReadableName()}{rankSpecifier}";
 		}
+		else
+			name = type.Name;
 
-		// Handle nullable types
-		if (Nullable.GetUnderlyingType(type) is Type underlyingType)
-			return $"System.Nullable<{underlyingType.ToHumanReadableName()}>";
+		if (type.DeclaringType is not null)
+			return $"{type.DeclaringType.ToHumanReadableName()}+{name}";
 
-		return type.FullName ?? type.Name;
+		if (type.Namespace is null)
+			return name;
+
+		return $"{type.Namespace}.{name}";
 	}
 }

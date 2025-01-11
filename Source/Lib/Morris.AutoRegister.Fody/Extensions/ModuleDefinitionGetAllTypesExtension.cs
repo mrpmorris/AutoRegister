@@ -7,20 +7,20 @@ internal static class ModuleDefinitionGetAllTypesExtension
 {
 	public static IEnumerable<TypeDefinition> GetAllTypes(this ModuleDefinition module)
 	{
+		var result = new List<TypeDefinition>();
 		foreach (TypeDefinition type in module.Types)
 		{
-			yield return type;
-			foreach (TypeDefinition nestedType in GetTypeAndNestedTypes(type))
-				yield return nestedType;
+			result.Add(type);
+			AddNestedTypes(result, type);
 		}
+		return result;
 
-		IEnumerable<TypeDefinition> GetTypeAndNestedTypes(TypeDefinition type)
+		void AddNestedTypes(List<TypeDefinition> result, TypeDefinition type)
 		{
-			yield return type;
 			foreach (TypeDefinition nestedType in type.NestedTypes)
 			{
-				foreach (TypeDefinition inner in GetTypeAndNestedTypes(nestedType))
-					yield return inner;
+				result.Add(nestedType);
+				AddNestedTypes(result, nestedType);
 			}
 		}
 	}
