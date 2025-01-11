@@ -5,7 +5,10 @@ namespace Morris.AutoRegister.Fody.Extensions;
 
 internal static class TypeDefinitionToHumanReadableNameExtension
 {
-	public static string ToHumanReadableName(this TypeReference typeReference)
+	public static string ToHumanReadableName(this TypeReference typeReference) =>
+		ToHumanReadableNameImpl(typeReference).Replace('/', '+');
+
+	private static string ToHumanReadableNameImpl(TypeReference typeReference)
 	{
 		if (typeReference is GenericInstanceType genericType)
 		{

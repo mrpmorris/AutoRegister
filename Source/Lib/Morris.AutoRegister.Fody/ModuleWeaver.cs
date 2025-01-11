@@ -35,7 +35,7 @@ public class ModuleWeaver : BaseModuleWeaver
 
 		IEnumerable<TypeDefinition> classesToScan =
 			ModuleDefinition
-			.Types
+			.GetAllTypes()
 			.Where(x => x.IsClass)
 			.Where(x => !x.HasGenericParameters)
 			.Where(x => !x.IsAbstract)
@@ -94,7 +94,7 @@ public class ModuleWeaver : BaseModuleWeaver
 			classesToScan
 			.Where(c => autoRegisterFilterAttributes.All(f => f.Matches(c)));
 
-		manifestBuilder.AppendLinuxLine($"{type.FullName}");
+		manifestBuilder.AppendLinuxLine($"{type.ToHumanReadableName()}");
 		foreach (AutoRegisterAttributeData autoRegisterAttributeData in autoRegisterAttributes)
 			ProcessAutoRegisterAttribute(
 				manifestBuilder: manifestBuilder,
