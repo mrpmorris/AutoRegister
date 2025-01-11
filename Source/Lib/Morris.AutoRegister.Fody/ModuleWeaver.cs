@@ -140,10 +140,10 @@ public class ModuleWeaver : BaseModuleWeaver
 		manifestBuilder.Append($" RegisterAs {autoRegisterAttributeData.Register}");
 
 		if (autoRegisterAttributeData.ServiceTypeFilter is not null)
-			manifestBuilder.Append($" ServiceTypeFilter=\"{autoRegisterAttributeData.ServiceTypeFilter}\"");
+			manifestBuilder.Append($" {nameof(AutoRegisterAttribute.ServiceTypeFilter)}=\"{autoRegisterAttributeData.ServiceTypeFilter}\"");
 
-		if (autoRegisterAttributeData.ServiceImplementationFilter is not null)
-			manifestBuilder.Append($" ServiceImplementationFilter=\"{autoRegisterAttributeData.ServiceImplementationFilter}\"");
+		if (autoRegisterAttributeData.ServiceImplementationTypeFilter is not null)
+			manifestBuilder.Append($" {nameof(AutoRegisterAttribute.ServiceImplementationTypeFilter)}=\"{autoRegisterAttributeData.ServiceImplementationTypeFilter}\"");
 
 		manifestBuilder.AppendLinuxLine();
 

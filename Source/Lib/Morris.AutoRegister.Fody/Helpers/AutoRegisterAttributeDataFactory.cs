@@ -20,15 +20,15 @@ internal static class AutoRegisterAttributeDataFactory
 		var registerAs = (RegisterAs)attr.ConstructorArguments[RegisterAsParameterIndex!.Value].Value;
 		var withLifetime = (WithLifetime)attr.ConstructorArguments[WithlifetimeParameterIndex!.Value].Value;
 
-		string? serviceTypeRegex = null;
-		string? serviceImplementationRegex = null;
+		string? serviceTypeFilter = null;
+		string? serviceImplementationTypeFilter = null;
 
 		foreach (var namedArg in attr.Properties)
 		{
 			if (namedArg.Name == nameof(AutoRegisterAttributeData.ServiceTypeFilter))
-				serviceTypeRegex = (string?)namedArg.Argument.Value;
-			else if (namedArg.Name == nameof(AutoRegisterAttribute.ServiceImplementationFilter))
-				serviceImplementationRegex = (string?)namedArg.Argument.Value;
+				serviceTypeFilter = (string?)namedArg.Argument.Value;
+			else if (namedArg.Name == nameof(AutoRegisterAttribute.ServiceImplementationTypeFilter))
+				serviceImplementationTypeFilter = (string?)namedArg.Argument.Value;
 			else
 				throw new NotImplementedException($"Unexpected parameter \"{namedArg.Name}\"");
 		}
@@ -36,8 +36,8 @@ internal static class AutoRegisterAttributeDataFactory
 		var result = new AutoRegisterAttributeData(
 			find: find,
 			registerAs: registerAs,
-			serviceTypeFilter: null,
-			serviceImplementationFilter: null,
+			serviceTypeFilter: serviceTypeFilter,
+			serviceImplementationTypeFilter: serviceImplementationTypeFilter,
 			type: type,
 			withLifetime: withLifetime);
 

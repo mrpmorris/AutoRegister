@@ -5,19 +5,19 @@ namespace Morris.AutoRegister.Fody.Helpers;
 
 internal static class AutoRegisterFilterAttributeDataFactory
 {
-	private static int? ServiceImplementationFilterParameterIndex;
+	private static int? ServiceImplementationTypeFilterParameterIndex;
 
 	public static AutoRegisterFilterAttributeData Create(CustomAttribute attr)
 	{
-		if (ServiceImplementationFilterParameterIndex is null)
+		if (ServiceImplementationTypeFilterParameterIndex is null)
 			ResolveParameterIndexes(attr);
 
-		var serviceImplementationRegex = (string?)attr.ConstructorArguments[ServiceImplementationFilterParameterIndex!.Value].Value;
+		var serviceImplementationRegex = (string?)attr.ConstructorArguments[ServiceImplementationTypeFilterParameterIndex!.Value].Value;
 
 		foreach (var namedArg in attr.Properties)
 			throw new NotImplementedException($"Unexpected parameter \"{namedArg.Name}\"");
 
-		var result = new AutoRegisterFilterAttributeData(serviceImplementationRegex: serviceImplementationRegex);
+		var result = new AutoRegisterFilterAttributeData(serviceImplementationTypeFilter: serviceImplementationRegex);
 
 		return result;
 	}
@@ -31,8 +31,8 @@ internal static class AutoRegisterFilterAttributeDataFactory
 			ParameterDefinition parameter = parameters[i];
 			switch (parameter.Name)
 			{
-				case "serviceImplementationFilter":
-					ServiceImplementationFilterParameterIndex = i;
+				case "serviceImplementationTypeFilter":
+					ServiceImplementationTypeFilterParameterIndex = i;
 					break;
 
 				default:
@@ -40,7 +40,7 @@ internal static class AutoRegisterFilterAttributeDataFactory
 			}
 		}
 
-		if (ServiceImplementationFilterParameterIndex is null)
+		if (ServiceImplementationTypeFilterParameterIndex is null)
 			throw new InvalidOperationException("Parameter \"serviceImplementationRegex\" was not found.");
 	}
 }

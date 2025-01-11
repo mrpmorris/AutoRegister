@@ -25,18 +25,18 @@ class AutoRegisterFilterAttribute : Attribute
 #if NET9_0_OR_GREATER
 	[StringSyntax(StringSyntaxAttribute.Regex)]
 #endif
-	public string? ServiceImplementationFilter { get; set; }
+	public string? ServiceImplementationTypeFilter { get; set; }
 
 	/// <summary>
 	/// Creates a new instance of the attribute.
 	/// </summary>
-	/// <param name="serviceImplementationFilter"><see cref="AutoRegisterFilterAttribute.ServiceImplementationFilter"/></param>
+	/// <param name="serviceImplementationTypeFilter"><see cref="AutoRegisterFilterAttribute.ServiceImplementationTypeFilter"/></param>
 	public AutoRegisterFilterAttribute(
 #if NET9_0_OR_GREATER
 		[StringSyntax(StringSyntaxAttribute.Regex)]
 #endif
-		string serviceImplementationFilter)
+		string serviceImplementationTypeFilter)
 	{
-		ServiceImplementationFilter = serviceImplementationFilter;
+		ServiceImplementationTypeFilter = serviceImplementationTypeFilter;
 	}
 }

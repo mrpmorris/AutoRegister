@@ -5,14 +5,14 @@ namespace Morris.AutoRegister.Fody;
 
 internal class AutoRegisterFilterAttributeData
 {
-	public string? ServiceImplementationFilter { get; private set; }
+	public string? ServiceImplementationTypeFilter { get; private set; }
 
 	private Regex ServiceImplementationRegex;
 
-	public AutoRegisterFilterAttributeData(string? serviceImplementationRegex)
+	public AutoRegisterFilterAttributeData(string? serviceImplementationTypeFilter)
 	{
-		ServiceImplementationFilter = serviceImplementationRegex;
-		ServiceImplementationRegex = new Regex(serviceImplementationRegex, RegexOptions.Compiled);
+		ServiceImplementationTypeFilter = serviceImplementationTypeFilter;
+		ServiceImplementationRegex = new Regex(serviceImplementationTypeFilter, RegexOptions.Compiled);
 	}
 
 	public bool Matches(TypeDefinition typeDefinition) =>

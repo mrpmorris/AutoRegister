@@ -45,7 +45,7 @@ class AutoRegisterAttribute : Attribute
 #if NET9_0_OR_GREATER
 	[StringSyntax(StringSyntaxAttribute.Regex)]
 #endif
-	public string? ServiceImplementationFilter { get; set; }
+	public string? ServiceImplementationTypeFilter { get; set; }
 
 	/// <summary>
 	/// The type to use when scanning for candidates to register.
