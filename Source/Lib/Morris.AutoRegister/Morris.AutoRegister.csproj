@@ -11,7 +11,7 @@
 		<PackageIcon>logo-small.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/mrpmorris/AutoRegister</RepositoryUrl>
-		<PackageTags>Dependency injection</PackageTags>
+		<PackageTags>Dependency injection, Dependency registration, Convention</PackageTags>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
