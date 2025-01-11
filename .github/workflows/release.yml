@@ -28,4 +28,4 @@ jobs:
 
       - name: Push to NuGet
         run: |
-          dotnet nuget push artifacts/Morris.AutoRegister.${{ github.event.release.tag_name }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+          dotnet nuget push artifacts/Morris.AutoRegister.Fody.${{ github.event.release.tag_name }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
