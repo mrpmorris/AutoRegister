@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Morris.AutoInjectTests.RegistrationData;
+namespace Morris.AutoRegisterTests.RegistrationData;
 
 internal class ServiceRegistration
 {

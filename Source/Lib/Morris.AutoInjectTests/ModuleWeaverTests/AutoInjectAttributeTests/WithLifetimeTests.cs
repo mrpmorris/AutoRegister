@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Morris.AutoInject;
-using Morris.AutoInjectTests.Helpers;
+using Morris.AutoRegister;
+using Morris.AutoRegisterTests.Helpers;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests.AutoInjectAttributeTests;
+namespace Morris.AutoRegisterTests.ModuleWeaverTests.AutoRegisterAttributeTests;
 
 [TestClass]
 public class WithLifetimeTests
@@ -12,10 +12,10 @@ public class WithLifetimeTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Singleton)]
+			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Singleton)]
 			public partial class MyModule
 			{
 			}
@@ -32,7 +32,7 @@ public class WithLifetimeTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.Exactly,
@@ -56,10 +56,10 @@ public class WithLifetimeTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -76,7 +76,7 @@ public class WithLifetimeTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.Exactly,
@@ -100,10 +100,10 @@ public class WithLifetimeTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Transient)]
+			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Transient)]
 			public partial class MyModule
 			{
 			}
@@ -120,7 +120,7 @@ public class WithLifetimeTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.Exactly,

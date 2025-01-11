@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Morris.AutoInject.Fody;
-using Morris.AutoInject.TestsShared;
-using Morris.AutoInjectTests.Extensions;
-using Morris.AutoInjectTests.RegistrationData;
+using Morris.AutoRegister.Fody;
+using Morris.AutoRegister.TestsShared;
+using Morris.AutoRegisterTests.Extensions;
+using Morris.AutoRegisterTests.RegistrationData;
 using System.Reflection;
 using System.Text;
 
-namespace Morris.AutoInjectTests.Helpers;
+namespace Morris.AutoRegisterTests.Helpers;
 
 internal static class RegistrationHelper
 {

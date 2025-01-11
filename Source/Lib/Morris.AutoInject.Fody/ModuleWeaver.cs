@@ -2,15 +2,15 @@
 using Microsoft.Extensions.DependencyInjection;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using Morris.AutoInject.Fody.Extensions;
-using Morris.AutoInject.Fody.Helpers;
+using Morris.AutoRegister.Fody.Extensions;
+using Morris.AutoRegister.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Morris.AutoInject.Fody;
+namespace Morris.AutoRegister.Fody;
 
 public class ModuleWeaver : BaseModuleWeaver
 {
@@ -53,26 +53,26 @@ public class ModuleWeaver : BaseModuleWeaver
 		StringBuilder manifestBuilder,
 		IEnumerable<TypeDefinition> classesToScan)
 	{
-		var autoInjectAttributes = new List<AutoInjectAttributeData>();
-		var autoInjectFilterAttributes = new List<AutoInjectFilterAttributeData>();
+		var autoRegisterAttributes = new List<AutoRegisterAttributeData>();
+		var autoRegisterFilterAttributes = new List<AutoRegisterFilterAttributeData>();
 		for (int i = type.CustomAttributes.Count - 1; i >= 0; i--)
 		{
 			CustomAttribute currentAttribute = type.CustomAttributes[i];
-			if (currentAttribute.AttributeType.FullName == "Morris.AutoInject.AutoInjectAttribute")
+			if (currentAttribute.AttributeType.FullName == "Morris.AutoRegister.AutoRegisterAttribute")
 			{
-				AutoInjectAttributeData autoInjectAttributeData = AutoInjectAttributeDataFactory.Create(currentAttribute);
-				autoInjectAttributes.Add(autoInjectAttributeData);
+				AutoRegisterAttributeData autoRegisterAttributeData = AutoRegisterAttributeDataFactory.Create(currentAttribute);
+				autoRegisterAttributes.Add(autoRegisterAttributeData);
 				type.CustomAttributes.RemoveAt(i);
 			}
-			else if (currentAttribute.AttributeType.FullName == "Morris.AutoInject.AutoInjectFilterAttribute")
+			else if (currentAttribute.AttributeType.FullName == "Morris.AutoRegister.AutoRegisterFilterAttribute")
 			{
-				AutoInjectFilterAttributeData autoInjectFilterAttributeData = AutoInjectFilterAttributeDataFactory.Create(currentAttribute);
-				autoInjectFilterAttributes.Add(autoInjectFilterAttributeData);
+				AutoRegisterFilterAttributeData autoRegisterFilterAttributeData = AutoRegisterFilterAttributeDataFactory.Create(currentAttribute);
+				autoRegisterFilterAttributes.Add(autoRegisterFilterAttributeData);
 				type.CustomAttributes.RemoveAt(i);
 			}
 		}
 
-		if (autoInjectAttributes.Count + autoInjectFilterAttributes.Count == 0)
+		if (autoRegisterAttributes.Count + autoRegisterFilterAttributes.Count == 0)
 			return;
 
 		MethodDefinition registerServicesMethod =
@@ -92,14 +92,14 @@ public class ModuleWeaver : BaseModuleWeaver
 
 		IEnumerable<TypeDefinition> filteredClasses =
 			classesToScan
-			.Where(c => autoInjectFilterAttributes.All(f => f.Matches(c)));
+			.Where(c => autoRegisterFilterAttributes.All(f => f.Matches(c)));
 
 		manifestBuilder.AppendLinuxLine($"{type.FullName}");
-		foreach (AutoInjectAttributeData autoInjectAttributeData in autoInjectAttributes)
-			ProcessAutoInjectAttribute(
+		foreach (AutoRegisterAttributeData autoRegisterAttributeData in autoRegisterAttributes)
+			ProcessAutoRegisterAttribute(
 				manifestBuilder: manifestBuilder,
 				filteredClasses: filteredClasses,
-				autoInjectAttributeData: autoInjectAttributeData,
+				autoRegisterAttributeData: autoRegisterAttributeData,
 				ilProcessor: ilProcessor);
 
 		AddCallToAfterRegisterServices(type, ilProcessor);
@@ -128,31 +128,31 @@ public class ModuleWeaver : BaseModuleWeaver
 		}
 	}
 
-	private void ProcessAutoInjectAttribute(
+	private void ProcessAutoRegisterAttribute(
 		StringBuilder manifestBuilder,
 		IEnumerable<TypeDefinition> filteredClasses,
-		AutoInjectAttributeData autoInjectAttributeData,
+		AutoRegisterAttributeData autoRegisterAttributeData,
 		ILProcessor ilProcessor)
 	{
 		manifestBuilder.Append(",");
-		manifestBuilder.Append($"Find {autoInjectAttributeData.Find}");
-		manifestBuilder.Append($" {autoInjectAttributeData.Type.ToHumanReadableName()}");
-		manifestBuilder.Append($" RegisterAs {autoInjectAttributeData.Register}");
+		manifestBuilder.Append($"Find {autoRegisterAttributeData.Find}");
+		manifestBuilder.Append($" {autoRegisterAttributeData.Type.ToHumanReadableName()}");
+		manifestBuilder.Append($" RegisterAs {autoRegisterAttributeData.Register}");
 
-		if (autoInjectAttributeData.ServiceTypeFilter is not null)
-			manifestBuilder.Append($" ServiceTypeFilter=\"{autoInjectAttributeData.ServiceTypeFilter}\"");
+		if (autoRegisterAttributeData.ServiceTypeFilter is not null)
+			manifestBuilder.Append($" ServiceTypeFilter=\"{autoRegisterAttributeData.ServiceTypeFilter}\"");
 
-		if (autoInjectAttributeData.ServiceImplementationFilter is not null)
-			manifestBuilder.Append($" ServiceImplementationFilter=\"{autoInjectAttributeData.ServiceImplementationFilter}\"");
+		if (autoRegisterAttributeData.ServiceImplementationFilter is not null)
+			manifestBuilder.Append($" ServiceImplementationFilter=\"{autoRegisterAttributeData.ServiceImplementationFilter}\"");
 
 		manifestBuilder.AppendLinuxLine();
 
 		foreach (TypeDefinition candidate in filteredClasses)
 		{
-			if (autoInjectAttributeData.IsMatch(candidate, out TypeReference? serviceType))
+			if (autoRegisterAttributeData.IsMatch(candidate, out TypeReference? serviceType))
 				RegisterClass(
 					manifestBuilder: manifestBuilder,
-					withLifetime: autoInjectAttributeData.WithLifetime,
+					withLifetime: autoRegisterAttributeData.WithLifetime,
 					serviceType: serviceType,
 					serviceImplementationType: candidate,
 					ilProcessor: ilProcessor);
@@ -203,7 +203,7 @@ public class ModuleWeaver : BaseModuleWeaver
 
 	private void WriteManifestFile(string content)
 	{
-		string manifestFilePath = Path.ChangeExtension(ProjectFilePath, "Morris.AutoInject.manifest");
+		string manifestFilePath = Path.ChangeExtension(ProjectFilePath, "Morris.AutoRegister.manifest");
 		File.WriteAllText(manifestFilePath, content);
 	}
 
@@ -212,7 +212,7 @@ public class ModuleWeaver : BaseModuleWeaver
 		var assemblyReference =
 			ModuleDefinition
 			.AssemblyReferences
-			.FirstOrDefault(x => x.Name == "Morris.AutoInject");
+			.FirstOrDefault(x => x.Name == "Morris.AutoRegister");
 
 		if (assemblyReference is not null)
 			ModuleDefinition.AssemblyReferences.Remove(assemblyReference);

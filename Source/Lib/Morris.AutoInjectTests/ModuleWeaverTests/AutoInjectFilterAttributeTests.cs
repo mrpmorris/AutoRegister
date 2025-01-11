@@ -1,22 +1,22 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Morris.AutoInject;
-using Morris.AutoInjectTests.Helpers;
+using Morris.AutoRegister;
+using Morris.AutoRegisterTests.Helpers;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests;
+namespace Morris.AutoRegisterTests.ModuleWeaverTests;
 
 [TestClass]
-public class AutoInjectFilterAttributeTests
+public class AutoRegisterFilterAttributeTests
 {
 	[TestMethod]
-	public void WhenModuleHasAnAutoInjectFilterAttribute_ThenOnlyCandidatesMatchingTheFilterAreRegistered()
+	public void WhenModuleHasAnAutoRegisterFilterAttribute_ThenOnlyCandidatesMatchingTheFilterAreRegistered()
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInjectFilter(@"\.ValidClass\d+")]
-			[AutoInject(Find.AnyTypeOf, typeof(BaseClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegisterFilter(@"\.ValidClass\d+")]
+			[AutoRegister(Find.AnyTypeOf, typeof(BaseClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -37,7 +37,7 @@ public class AutoInjectFilterAttributeTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.AnyTypeOf,

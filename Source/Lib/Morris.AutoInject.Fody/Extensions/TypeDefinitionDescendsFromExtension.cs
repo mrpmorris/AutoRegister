@@ -1,7 +1,7 @@
 ﻿using Mono.Cecil;
 using System.Linq;
 
-namespace Morris.AutoInject.Fody.Extensions;
+namespace Morris.AutoRegister.Fody.Extensions;
 
 internal static class TypeDefinitionDescendsFromExtension
 {

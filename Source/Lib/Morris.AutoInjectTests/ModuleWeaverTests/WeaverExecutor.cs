@@ -2,20 +2,20 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.DependencyInjection;
-using Morris.AutoInject;
-using Morris.AutoInject.Fody;
-using Morris.AutoInject.SourceGenerators;
-using Morris.AutoInjectTests.Extensions;
+using Morris.AutoRegister;
+using Morris.AutoRegister.Fody;
+using Morris.AutoRegister.SourceGenerators;
+using Morris.AutoRegisterTests.Extensions;
 using System.Collections.Immutable;
 using System.Text;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests;
+namespace Morris.AutoRegisterTests.ModuleWeaverTests;
 
 internal static class WeaverExecutor
 {
-	private static readonly MetadataReference AutoInjectMetadataReference =
+	private static readonly MetadataReference AutoRegisterMetadataReference =
 		MetadataReference
-		.CreateFromFile(typeof(AutoInjectAttribute).Assembly.Location);
+		.CreateFromFile(typeof(AutoRegisterAttribute).Assembly.Location);
 
 	private static readonly MetadataReference MSDependencyInjectionMetadataReference =
 		MetadataReference
@@ -57,8 +57,8 @@ internal static class WeaverExecutor
 			Path.GetTempPath(),
 			$"{uniqueId}.csproj"
 		);
-		string manifestFilePath = Path.ChangeExtension(projectFilePath, "Morris.AutoInject.manifest");
-		string assemblyFilePath = Path.ChangeExtension(projectFilePath, "Morris.AutoInject.Tests.dll");
+		string manifestFilePath = Path.ChangeExtension(projectFilePath, "Morris.AutoRegister.manifest");
+		string assemblyFilePath = Path.ChangeExtension(projectFilePath, "Morris.AutoRegister.Tests.dll");
 
 		try
 		{
@@ -92,7 +92,7 @@ internal static class WeaverExecutor
 			syntaxTrees: [unitTestSyntaxTree],
 			references: Basic.Reference.Assemblies.Net90.References
 				.All
-				.Union([AutoInjectMetadataReference, MSDependencyInjectionMetadataReference]),
+				.Union([AutoRegisterMetadataReference, MSDependencyInjectionMetadataReference]),
 			options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, reportSuppressedDiagnostics: true)
 		);
 
@@ -118,7 +118,7 @@ internal static class WeaverExecutor
 				syntaxTrees: syntaxTrees,
 				references: Basic.Reference.Assemblies.Net90.References
 					.All
-					.Union([AutoInjectMetadataReference, MSDependencyInjectionMetadataReference]),
+					.Union([AutoRegisterMetadataReference, MSDependencyInjectionMetadataReference]),
 				options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, reportSuppressedDiagnostics: true)
 			);
 

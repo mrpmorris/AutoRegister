@@ -1,4 +1,4 @@
-﻿namespace Morris.AutoInject.SourceGenerators;
+﻿namespace Morris.AutoRegister.SourceGenerators;
 
 internal class DisposableAction : IDisposable
 {

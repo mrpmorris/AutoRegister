@@ -1,18 +1,18 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
-using Morris.AutoInject.SourceGenerators;
+using Morris.AutoRegister.SourceGenerators;
 using System.Collections.Immutable;
 using System.Text;
-using Morris.AutoInject.TestsShared;
+using Morris.AutoRegister.TestsShared;
 
-namespace Morris.AutoInject.SourceGeneratorsTests;
+namespace Morris.AutoRegister.SourceGeneratorsTests;
 
 internal static class SourceGeneratorExecutor
 {
-	private static readonly MetadataReference AutoInjectMetadataReference =
+	private static readonly MetadataReference AutoRegisterMetadataReference =
 		MetadataReference
-		.CreateFromFile(typeof(AutoInjectAttribute).Assembly.Location);
+		.CreateFromFile(typeof(AutoRegisterAttribute).Assembly.Location);
 
 	private static readonly MetadataReference MSDependencyInjectionMetadataReference =
 		MetadataReference
@@ -29,7 +29,7 @@ internal static class SourceGeneratorExecutor
 			syntaxTrees: [unitTestSyntaxTree],
 			references: Basic.Reference.Assemblies.Net90.References
 				.All
-				.Union([AutoInjectMetadataReference, MSDependencyInjectionMetadataReference]),
+				.Union([AutoRegisterMetadataReference, MSDependencyInjectionMetadataReference]),
 			options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, reportSuppressedDiagnostics: true)
 		);
 
@@ -44,7 +44,7 @@ internal static class SourceGeneratorExecutor
 		GeneratorRunResult result = runResult.Results.Single();
 
 		GeneratedSourceResult generatedSource = result.GeneratedSources.Single();
-		Assert.AreEqual("Morris.AutoInject.RegisterSourceGenerator.g.cs", generatedSource.HintName);
+		Assert.AreEqual("Morris.AutoRegister.RegisterSourceGenerator.g.cs", generatedSource.HintName);
 		string generatedCode = generatedSource.SyntaxTree.ToString();
 		Assert.AreEqual(expectedGeneratedCode.StandardizeLines(), generatedCode.StandardizeLines());
 	}

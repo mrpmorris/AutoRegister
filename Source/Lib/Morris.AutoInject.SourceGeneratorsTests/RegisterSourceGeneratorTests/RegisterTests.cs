@@ -1,17 +1,17 @@
-﻿namespace Morris.AutoInject.SourceGeneratorsTests.RegisterSourceGeneratorTests;
+﻿namespace Morris.AutoRegister.SourceGeneratorsTests.RegisterSourceGeneratorTests;
 
 [TestClass]
 public sealed class RegisterTests
 {
 	[TestMethod]
-	public void WhenClassHasAutoInjectAttribute_ThenRegisterMethodIsAdded()
+	public void WhenClassHasAutoRegisterAttribute_ThenRegisterMethodIsAdded()
 	{
 		string sourceCode =
 			$$"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 			namespace Tests
 			{
-				[AutoInject(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+				[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 				public partial class MyModule
 				{
 				}
@@ -30,7 +30,7 @@ public sealed class RegisterTests
 					public static void RegisterServices(IServiceCollection services)
 					{
 						AfterRegisterServices(services);
-						throw new System.NotImplementedException("Morris.AutoInject.Fody has not processed this assembly.");
+						throw new System.NotImplementedException("Morris.AutoRegister.Fody has not processed this assembly.");
 					}
 				}
 			}
@@ -44,14 +44,14 @@ public sealed class RegisterTests
 	}
 
 	[TestMethod]
-	public void WhenClassHasAutoInjectFilterAttribute_ThenRegisterMethodIsAdded()
+	public void WhenClassHasAutoRegisterFilterAttribute_ThenRegisterMethodIsAdded()
 	{
 		string sourceCode =
 			$$"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 			namespace Tests
 			{
-				[AutoInjectFilter("hello")]
+				[AutoRegisterFilter("hello")]
 				public partial class MyModule {}
 			}
 			""";
@@ -68,7 +68,7 @@ public sealed class RegisterTests
 					public static void RegisterServices(IServiceCollection services)
 					{
 						AfterRegisterServices(services);
-						throw new System.NotImplementedException("Morris.AutoInject.Fody has not processed this assembly.");
+						throw new System.NotImplementedException("Morris.AutoRegister.Fody has not processed this assembly.");
 					}
 				}
 			}

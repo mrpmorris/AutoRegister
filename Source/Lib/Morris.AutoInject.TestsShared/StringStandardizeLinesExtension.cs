@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Morris.AutoInject.TestsShared;
+namespace Morris.AutoRegister.TestsShared;
 
 public static class StringStandardizeLinesExtension
 {

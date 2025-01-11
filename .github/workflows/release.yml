@@ -24,8 +24,8 @@ jobs:
 
       - name: Pack
         run: |
-          dotnet pack "./Source/Lib/Morris.AutoInject/Morris.AutoInject.csproj" --configuration Release --no-build -p:Version=${{ github.event.release.tag_name }} -p:AssemblyVersion=${{ github.event.release.tag_name }} -p:FileVersion=${{ github.event.release.tag_name }} -o artifacts
+          dotnet pack "./Source/Lib/Morris.AutoRegister/Morris.AutoRegister.csproj" --configuration Release --no-build -p:Version=${{ github.event.release.tag_name }} -p:AssemblyVersion=${{ github.event.release.tag_name }} -p:FileVersion=${{ github.event.release.tag_name }} -o artifacts
 
       - name: Push to NuGet
         run: |
-          dotnet nuget push artifacts/Morris.AutoInject.${{ github.event.release.tag_name }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+          dotnet nuget push artifacts/Morris.AutoRegister.${{ github.event.release.tag_name }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

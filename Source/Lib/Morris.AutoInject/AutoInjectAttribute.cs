@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using System;
 
-namespace Morris.AutoInject;
+namespace Morris.AutoRegister;
 
 /// <summary>
 /// Scans the assembly and registers all dependencies that match
@@ -16,7 +16,7 @@ public
 #else
 internal
 #endif
-class AutoInjectAttribute : Attribute
+class AutoRegisterAttribute : Attribute
 {
 	/// <summary>
 	/// The criteria to use when scanning for candidates to register.
@@ -60,11 +60,11 @@ class AutoInjectAttribute : Attribute
 	/// <summary>
 	/// Creates a new instance of the attribute.
 	/// </summary>
-	/// <param name="find"><see cref="AutoInjectAttribute.Find"/></param>
-	/// <param name="type"><see cref="AutoInjectAttribute.Type"/></param>
-	/// <param name="registerAs"><see cref="AutoInjectAttribute.RegisterAs"/></param>
-	/// <param name="withLifetime"><see cref="AutoInjectAttribute.WithLifetime"/></param>
-	public AutoInjectAttribute(
+	/// <param name="find"><see cref="AutoRegisterAttribute.Find"/></param>
+	/// <param name="type"><see cref="AutoRegisterAttribute.Type"/></param>
+	/// <param name="registerAs"><see cref="AutoRegisterAttribute.RegisterAs"/></param>
+	/// <param name="withLifetime"><see cref="AutoRegisterAttribute.WithLifetime"/></param>
+	public AutoRegisterAttribute(
 		Find find,
 		Type type,
 		RegisterAs registerAs,

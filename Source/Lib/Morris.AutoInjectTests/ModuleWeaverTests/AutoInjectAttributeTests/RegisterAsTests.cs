@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Morris.AutoInject;
-using Morris.AutoInjectTests.Helpers;
+using Morris.AutoRegister;
+using Morris.AutoRegisterTests.Helpers;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests.AutoInjectAttributeTests;
+namespace Morris.AutoRegisterTests.ModuleWeaverTests.AutoRegisterAttributeTests;
 
 [TestClass]
 public class RegisterAsTests
@@ -12,10 +12,10 @@ public class RegisterAsTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.AnyTypeOf, typeof(IMarker), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(IMarker), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -35,7 +35,7 @@ public class RegisterAsTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.AnyTypeOf,
@@ -67,10 +67,10 @@ public class RegisterAsTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(BaseClass), RegisterAs.SearchedType, WithLifetime.Scoped)]
+			[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.SearchedType, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -90,7 +90,7 @@ public class RegisterAsTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.DescendantsOf,
@@ -122,10 +122,10 @@ public class RegisterAsTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(BaseClass<,>), RegisterAs.SearchedTypeAsClosedGeneric, WithLifetime.Scoped)]
+			[AutoRegister(Find.DescendantsOf, typeof(BaseClass<,>), RegisterAs.SearchedTypeAsClosedGeneric, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -148,7 +148,7 @@ public class RegisterAsTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.DescendantsOf,
@@ -184,10 +184,10 @@ public class RegisterAsTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.AnyTypeOf, typeof(IBaseInterface<,>), RegisterAs.SearchedTypeAsClosedGeneric, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(IBaseInterface<,>), RegisterAs.SearchedTypeAsClosedGeneric, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -210,7 +210,7 @@ public class RegisterAsTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.AnyTypeOf,
@@ -246,10 +246,10 @@ public class RegisterAsTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.DescendantsOf, typeof(BaseClass), RegisterAs.SearchedTypeAsClosedGeneric, WithLifetime.Scoped)]
+			[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.SearchedTypeAsClosedGeneric, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -269,7 +269,7 @@ public class RegisterAsTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.DescendantsOf,

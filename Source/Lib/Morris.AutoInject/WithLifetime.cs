@@ -1,4 +1,4 @@
-﻿namespace Morris.AutoInject;
+﻿namespace Morris.AutoRegister;
 
 /// <summary>
 /// Specifies the lifetime of a service.

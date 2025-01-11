@@ -6,11 +6,11 @@
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<PackageId>$(MSBuildProjectName).Fody</PackageId>
-		<Title>AutoInject</Title>
+		<Title>AutoRegister</Title>
 		<Description>A reflection-free + convention-driven registration library for dependency injection.</Description>
 		<PackageIcon>logo-small.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/mrpmorris/AutoInject</RepositoryUrl>
+		<RepositoryUrl>https://github.com/mrpmorris/AutoRegister</RepositoryUrl>
 		<PackageTags>Dependency injection</PackageTags>
 	</PropertyGroup>
 
@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Morris.AutoInject.SourceGenerators\Morris.AutoInject.SourceGenerators.csproj">
+		<ProjectReference Include="..\Morris.AutoRegister.SourceGenerators\Morris.AutoRegister.SourceGenerators.csproj">
 			<ReferenceOutputAssembly>False</ReferenceOutputAssembly>
 		</ProjectReference>
 		<None Include="..\..\..\Images\logo-small.png">
@@ -34,7 +34,7 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<None Include="..\Morris.AutoInject.SourceGenerators\bin\$(Configuration)\netstandard2.0\Morris.AutoInject.SourceGenerators.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+		<None Include="..\Morris.AutoRegister.SourceGenerators\bin\$(Configuration)\netstandard2.0\Morris.AutoRegister.SourceGenerators.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 
 	<ItemGroup>

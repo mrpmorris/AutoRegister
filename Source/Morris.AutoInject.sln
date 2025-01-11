@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35521.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInject", "Lib\Morris.AutoInject\Morris.AutoInject.csproj", "{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoRegister", "Lib\Morris.AutoRegister\Morris.AutoRegister.csproj", "{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7E1FF6BB-B4F5-4F97-B086-6F13F4229024} = {7E1FF6BB-B4F5-4F97-B086-6F13F4229024}
 	EndProjectSection
@@ -13,15 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{B8DB20E7-F62
 		Lib\Directory.Build.props = Lib\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInject.SourceGenerators", "Lib\Morris.AutoInject.SourceGenerators\Morris.AutoInject.SourceGenerators.csproj", "{47A8864D-9634-4F3B-B3B7-657F8E973545}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoRegister.SourceGenerators", "Lib\Morris.AutoRegister.SourceGenerators\Morris.AutoRegister.SourceGenerators.csproj", "{47A8864D-9634-4F3B-B3B7-657F8E973545}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInject.Fody", "Lib\Morris.AutoInject.Fody\Morris.AutoInject.Fody.csproj", "{7E1FF6BB-B4F5-4F97-B086-6F13F4229024}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoRegister.Fody", "Lib\Morris.AutoRegister.Fody\Morris.AutoRegister.Fody.csproj", "{7E1FF6BB-B4F5-4F97-B086-6F13F4229024}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInject.SourceGeneratorsTests", "Lib\Morris.AutoInject.SourceGeneratorsTests\Morris.AutoInject.SourceGeneratorsTests.csproj", "{CD7B5143-F428-4E21-93CF-34FD560EFB9D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoRegister.SourceGeneratorsTests", "Lib\Morris.AutoRegister.SourceGeneratorsTests\Morris.AutoRegister.SourceGeneratorsTests.csproj", "{CD7B5143-F428-4E21-93CF-34FD560EFB9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInjectTests", "Lib\Morris.AutoInjectTests\Morris.AutoInjectTests.csproj", "{4A71569F-8D98-4554-A5AA-D68DE0CD37C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoRegisterTests", "Lib\Morris.AutoRegisterTests\Morris.AutoRegisterTests.csproj", "{4A71569F-8D98-4554-A5AA-D68DE0CD37C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoInject.TestsShared", "Lib\Morris.AutoInject.TestsShared\Morris.AutoInject.TestsShared.csproj", "{AD16509E-F258-4083-89D1-589975B656DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoRegister.TestsShared", "Lib\Morris.AutoRegister.TestsShared\Morris.AutoRegister.TestsShared.csproj", "{AD16509E-F258-4083-89D1-589975B656DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{2132FF18-34E9-41F0-AE5A-B68250676FD9}"
 	ProjectSection(SolutionItems) = preProject

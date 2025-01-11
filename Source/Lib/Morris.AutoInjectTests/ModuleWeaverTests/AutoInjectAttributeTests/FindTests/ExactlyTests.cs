@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Morris.AutoInject;
-using Morris.AutoInjectTests.Helpers;
+using Morris.AutoRegister;
+using Morris.AutoRegisterTests.Helpers;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests.AutoInjectAttributeTests.FindTests;
+namespace Morris.AutoRegisterTests.ModuleWeaverTests.AutoRegisterAttributeTests.FindTests;
 
 [TestClass]
 public class ExactlyTests
@@ -12,10 +12,10 @@ public class ExactlyTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -32,7 +32,7 @@ public class ExactlyTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.Exactly,
@@ -56,10 +56,10 @@ public class ExactlyTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(BaseClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(BaseClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -77,7 +77,7 @@ public class ExactlyTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.Exactly,
@@ -95,10 +95,10 @@ public class ExactlyTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -116,7 +116,7 @@ public class ExactlyTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.Exactly,
@@ -140,10 +140,10 @@ public class ExactlyTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -162,7 +162,7 @@ public class ExactlyTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.Exactly,
@@ -186,10 +186,10 @@ public class ExactlyTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(IBaseInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(IBaseInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -208,7 +208,7 @@ public class ExactlyTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.Exactly,
@@ -227,10 +227,10 @@ public class ExactlyTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(IGenericInterface<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(IGenericInterface<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -248,7 +248,7 @@ public class ExactlyTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.Exactly,
@@ -272,10 +272,10 @@ public class ExactlyTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(GenericBase<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(GenericBase<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -293,7 +293,7 @@ public class ExactlyTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.Exactly,

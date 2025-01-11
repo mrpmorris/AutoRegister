@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Morris.AutoInject.Fody.Extensions;
+namespace Morris.AutoRegister.Fody.Extensions;
 
 internal static class StringBuilderAppendLinuxLineExtension
 {

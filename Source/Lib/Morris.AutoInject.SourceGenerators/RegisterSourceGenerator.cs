@@ -1,20 +1,20 @@
 ﻿using Microsoft.CodeAnalysis;
-using Morris.AutoInject.SourceGenerators.Extensions;
+using Morris.AutoRegister.SourceGenerators.Extensions;
 using System.CodeDom.Compiler;
 using System.Collections.Immutable;
 
-namespace Morris.AutoInject.SourceGenerators;
+namespace Morris.AutoRegister.SourceGenerators;
 
 [Generator]
 public class RegisterSourceGenerator : IIncrementalGenerator
 {
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
-		IncrementalValueProvider<ImmutableArray<(string? NamespaceName, string Name)>> classesWithAutoInjectAttribute =
+		IncrementalValueProvider<ImmutableArray<(string? NamespaceName, string Name)>> classesWithAutoRegisterAttribute =
 			context
 			.SyntaxProvider
 			.ForAttributeWithMetadataName(
-				fullyQualifiedMetadataName: "Morris.AutoInject.AutoInjectAttribute",
+				fullyQualifiedMetadataName: "Morris.AutoRegister.AutoRegisterAttribute",
 				predicate: static (_, _) => true,
 				transform: static (context, token) =>
 				{
@@ -28,11 +28,11 @@ public class RegisterSourceGenerator : IIncrementalGenerator
 			)
 			.Collect();
 
-		IncrementalValueProvider<ImmutableArray<(string? NamespaceName, string Name)>> classesWithAutoInjectFilterAttribute =
+		IncrementalValueProvider<ImmutableArray<(string? NamespaceName, string Name)>> classesWithAutoRegisterFilterAttribute =
 			context
 			.SyntaxProvider
 			.ForAttributeWithMetadataName(
-				fullyQualifiedMetadataName: "Morris.AutoInject.AutoInjectFilterAttribute",
+				fullyQualifiedMetadataName: "Morris.AutoRegister.AutoRegisterFilterAttribute",
 				predicate: static (_, _) => true,
 				transform: static (context, token) =>
 				{
@@ -46,17 +46,17 @@ public class RegisterSourceGenerator : IIncrementalGenerator
 			)
 			.Collect();
 
-		IncrementalValueProvider<ImmutableArray<(string? NamespaceName, string Name)>> allClassesWithAutoInjectAttributes =
-			classesWithAutoInjectAttribute
-			.Combine(classesWithAutoInjectFilterAttribute)
+		IncrementalValueProvider<ImmutableArray<(string? NamespaceName, string Name)>> allClassesWithAutoRegisterAttributes =
+			classesWithAutoRegisterAttribute
+			.Combine(classesWithAutoRegisterFilterAttribute)
 			.Select(static (combined, _) =>
 			{
-				var (autoInjectClasses, autoInjectFilterClasses) = combined;
-				return autoInjectClasses.Concat(autoInjectFilterClasses).Distinct().ToImmutableArray();
+				var (autoRegisterClasses, autoRegisterFilterClasses) = combined;
+				return autoRegisterClasses.Concat(autoRegisterFilterClasses).Distinct().ToImmutableArray();
 			});
 
 
-		context.RegisterSourceOutput(allClassesWithAutoInjectAttributes, static (context, items) =>
+		context.RegisterSourceOutput(allClassesWithAutoRegisterAttributes, static (context, items) =>
 		{
 			using var output = new StringWriter();
 			using var writer = new IndentedTextWriter(output);
@@ -67,7 +67,7 @@ public class RegisterSourceGenerator : IIncrementalGenerator
 				GenerateCodeForTarget(writer, item);
 
 			writer.Flush();
-			context.AddSource($"Morris.AutoInject.{nameof(RegisterSourceGenerator)}.g.cs", output.ToString());
+			context.AddSource($"Morris.AutoRegister.{nameof(RegisterSourceGenerator)}.g.cs", output.ToString());
 		});
 	}
 
@@ -87,7 +87,7 @@ public class RegisterSourceGenerator : IIncrementalGenerator
 			using (writer.CodeBlock("public static void RegisterServices(IServiceCollection services)"))
 			{
 				writer.WriteLine("AfterRegisterServices(services);");
-				writer.WriteLine("throw new System.NotImplementedException(\"Morris.AutoInject.Fody has not processed this assembly.\");");
+				writer.WriteLine("throw new System.NotImplementedException(\"Morris.AutoRegister.Fody has not processed this assembly.\");");
 			}
 		}
 

@@ -6,7 +6,7 @@
 		<PackageLicenseFile></PackageLicenseFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 
-		<PackageProjectUrl>https://github.com/mrpmorris/AutoInject</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/mrpmorris/AutoRegister</PackageProjectUrl>
 		<PackageIconUrl />
 
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>

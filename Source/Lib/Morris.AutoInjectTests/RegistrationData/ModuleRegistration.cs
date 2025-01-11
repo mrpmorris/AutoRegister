@@ -1,21 +1,21 @@
-﻿using Morris.AutoInject.TestsShared;
+﻿using Morris.AutoRegister.TestsShared;
 using System.Text;
 
-namespace Morris.AutoInjectTests.RegistrationData;
+namespace Morris.AutoRegisterTests.RegistrationData;
 
 internal class ModuleRegistration
 {
 	public string ClassFullName { get; private set; }
-	public IEnumerable<AutoInjectAttributeRegistration> AutoInjectAttributes { get; private set; }
+	public IEnumerable<AutoRegisterAttributeRegistration> AutoRegisterAttributes { get; private set; }
 	public IEnumerable<ServiceRegistration> Services { get; private set; }
 
 	public ModuleRegistration(
 		string classFullName,
-		IEnumerable<AutoInjectAttributeRegistration> autoInjectAttributes,
+		IEnumerable<AutoRegisterAttributeRegistration> autoRegisterAttributes,
 		IEnumerable<ServiceRegistration> services)
 	{
 		ClassFullName = classFullName;
-		AutoInjectAttributes = autoInjectAttributes.ToArray();
+		AutoRegisterAttributes = autoRegisterAttributes.ToArray();
 		Services = services.ToArray();
 	}
 
@@ -23,7 +23,7 @@ internal class ModuleRegistration
 	{
 		var builder = new StringBuilder();
 		builder.AppendLine(ClassFullName);
-		foreach (AutoInjectAttributeRegistration attribute in AutoInjectAttributes)
+		foreach (AutoRegisterAttributeRegistration attribute in AutoRegisterAttributes)
 			builder.AppendLinuxLine($",{attribute.ToString()}");
 		foreach (ServiceRegistration service in Services.OrderBy(x => x.ServiceTypeFullName))
 			builder.AppendLinuxLine($",,{service.ToString()}");

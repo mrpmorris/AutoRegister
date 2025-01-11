@@ -1,13 +1,13 @@
 ﻿using Mono.Cecil;
 using System;
 
-namespace Morris.AutoInject.Fody.Helpers;
+namespace Morris.AutoRegister.Fody.Helpers;
 
-internal static class AutoInjectFilterAttributeDataFactory
+internal static class AutoRegisterFilterAttributeDataFactory
 {
 	private static int? ServiceImplementationFilterParameterIndex;
 
-	public static AutoInjectFilterAttributeData Create(CustomAttribute attr)
+	public static AutoRegisterFilterAttributeData Create(CustomAttribute attr)
 	{
 		if (ServiceImplementationFilterParameterIndex is null)
 			ResolveParameterIndexes(attr);
@@ -17,7 +17,7 @@ internal static class AutoInjectFilterAttributeDataFactory
 		foreach (var namedArg in attr.Properties)
 			throw new NotImplementedException($"Unexpected parameter \"{namedArg.Name}\"");
 
-		var result = new AutoInjectFilterAttributeData(serviceImplementationRegex: serviceImplementationRegex);
+		var result = new AutoRegisterFilterAttributeData(serviceImplementationRegex: serviceImplementationRegex);
 
 		return result;
 	}

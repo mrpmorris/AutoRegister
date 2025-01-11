@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using System;
 
-namespace Morris.AutoInject;
+namespace Morris.AutoRegister;
 
 /// <summary>
 /// Restricts the scanning of classes to only candidates that
@@ -16,7 +16,7 @@ public
 #else
 internal
 #endif
-class AutoInjectFilterAttribute : Attribute
+class AutoRegisterFilterAttribute : Attribute
 {
 	/// <summary>
 	/// If not null, then only depdendency classes with a full name matching
@@ -30,8 +30,8 @@ class AutoInjectFilterAttribute : Attribute
 	/// <summary>
 	/// Creates a new instance of the attribute.
 	/// </summary>
-	/// <param name="serviceImplementationFilter"><see cref="AutoInjectFilterAttribute.ServiceImplementationFilter"/></param>
-	public AutoInjectFilterAttribute(
+	/// <param name="serviceImplementationFilter"><see cref="AutoRegisterFilterAttribute.ServiceImplementationFilter"/></param>
+	public AutoRegisterFilterAttribute(
 #if NET9_0_OR_GREATER
 		[StringSyntax(StringSyntaxAttribute.Regex)]
 #endif

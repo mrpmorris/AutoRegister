@@ -1,7 +1,7 @@
 ﻿using Fody;
 using System.Text;
 
-namespace Morris.AutoInjectTests.Extensions;
+namespace Morris.AutoRegisterTests.Extensions;
 
 internal static class FodyTestResultExtensions
 {

@@ -1,22 +1,22 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Morris.AutoInject;
-using Morris.AutoInjectTests.Helpers;
+using Morris.AutoRegister;
+using Morris.AutoRegisterTests.Helpers;
 using System.Reflection;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests;
+namespace Morris.AutoRegisterTests.ModuleWeaverTests;
 
 [TestClass]
 public class ModuleTests
 {
 	[TestMethod]
-	public void WhenClassHasAutoInjectAttribute_ThenClassAppearsInManifest()
+	public void WhenClassHasAutoRegisterAttribute_ThenClassAppearsInManifest()
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -31,7 +31,7 @@ public class ModuleTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes: [
+					autoRegisterAttributes: [
 						new(
 							find: Find.Exactly,
 							typeFullName: "System.Object",
@@ -45,15 +45,15 @@ public class ModuleTests
 	}
 
 	[TestMethod]
-	public void WhenClassHasAutoInjectFilterAttribute_ThenClassAppearsInManifest()
+	public void WhenClassHasAutoRegisterFilterAttribute_ThenClassAppearsInManifest()
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace1
 			{
-				[AutoInjectFilter("SomeFilter")]
+				[AutoRegisterFilter("SomeFilter")]
 				public partial class MyModule
 				{
 				}
@@ -61,7 +61,7 @@ public class ModuleTests
 
 			namespace MyNamespace2
 			{
-				[AutoInjectFilter("SomeFilter")]
+				[AutoRegisterFilter("SomeFilter")]
 				public partial class MyModule
 				{
 				}
@@ -77,12 +77,12 @@ public class ModuleTests
 			[
 				new(
 					classFullName: "MyNamespace1.MyModule",
-					autoInjectAttributes: [],
+					autoRegisterAttributes: [],
 					services: []
 				),
 				new(
 					classFullName: "MyNamespace2.MyModule",
-					autoInjectAttributes: [],
+					autoRegisterAttributes: [],
 					services: []
 				),
 			]
@@ -90,7 +90,7 @@ public class ModuleTests
 	}
 
 	[TestMethod]
-	public void WhenClassHasNoAutoInjectAttributes_ThenClassDoesNotAppearInManifest()
+	public void WhenClassHasNoAutoRegisterAttributes_ThenClassDoesNotAppearInManifest()
 	{
 		string sourceCode =
 			"""
@@ -123,11 +123,11 @@ public class ModuleTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 			using Microsoft.Extensions.DependencyInjection;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}

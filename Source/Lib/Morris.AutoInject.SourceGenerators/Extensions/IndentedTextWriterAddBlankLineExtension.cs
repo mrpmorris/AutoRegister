@@ -1,7 +1,7 @@
 ﻿using System.CodeDom.Compiler;
 using System.Runtime.CompilerServices;
 
-namespace Morris.AutoInject.SourceGenerators.Extensions;
+namespace Morris.AutoRegister.SourceGenerators.Extensions;
 
 internal static class IndentedTextWriterAddBlankLineExtension
 {

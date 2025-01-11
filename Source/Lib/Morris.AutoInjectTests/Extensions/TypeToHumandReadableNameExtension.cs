@@ -1,4 +1,4 @@
-﻿namespace Morris.AutoInjectTests.Extensions;
+﻿namespace Morris.AutoRegisterTests.Extensions;
 
 internal static class TypeToHumandReadableNameExtension
 {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Morris.AutoInject;
-using Morris.AutoInjectTests.Helpers;
+using Morris.AutoRegister;
+using Morris.AutoRegisterTests.Helpers;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests.AutoInjectAttributeTests.FindTests;
+namespace Morris.AutoRegisterTests.ModuleWeaverTests.AutoRegisterAttributeTests.FindTests;
 
 [TestClass]
 public class AnyTypeOfTests
@@ -12,10 +12,10 @@ public class AnyTypeOfTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.AnyTypeOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -32,7 +32,7 @@ public class AnyTypeOfTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.AnyTypeOf,
@@ -57,10 +57,10 @@ public class AnyTypeOfTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.AnyTypeOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -78,7 +78,7 @@ public class AnyTypeOfTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.AnyTypeOf,
@@ -103,10 +103,10 @@ public class AnyTypeOfTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.AnyTypeOf, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -124,7 +124,7 @@ public class AnyTypeOfTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.AnyTypeOf,
@@ -149,10 +149,10 @@ public class AnyTypeOfTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.AnyTypeOf, typeof(IBaseInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(IBaseInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -171,7 +171,7 @@ public class AnyTypeOfTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.AnyTypeOf,
@@ -196,10 +196,10 @@ public class AnyTypeOfTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.AnyTypeOf, typeof(GenericBase<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(GenericBase<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -217,7 +217,7 @@ public class AnyTypeOfTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.AnyTypeOf,
@@ -242,10 +242,10 @@ public class AnyTypeOfTests
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.AnyTypeOf, typeof(IGenericInterface<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(IGenericInterface<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -269,7 +269,7 @@ public class AnyTypeOfTests
 			[
 				new(
 					classFullName: "MyNamespace.MyModule",
-					autoInjectAttributes:
+					autoRegisterAttributes:
 					[
 						new(
 							find: Find.AnyTypeOf,

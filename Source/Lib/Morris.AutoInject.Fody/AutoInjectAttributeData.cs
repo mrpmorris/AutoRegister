@@ -1,13 +1,13 @@
 ﻿using Mono.Cecil;
-using Morris.AutoInject.Fody.Extensions;
+using Morris.AutoRegister.Fody.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Morris.AutoInject.Fody;
+namespace Morris.AutoRegister.Fody;
 using ServiceTypeAndImplementation = (TypeReference ServiceType, TypeReference ServiceImplementation);
 
-internal class AutoInjectAttributeData
+internal class AutoRegisterAttributeData
 {
 	public Find Find { get; private set; }
 	public RegisterAs Register { get; private set; }
@@ -20,7 +20,7 @@ internal class AutoInjectAttributeData
 	private readonly Func<TypeReference, IEnumerable<TypeReference>> GetPotentialKeys;
 	private readonly Func<ServiceTypeAndImplementation, TypeReference?> TransformKey;
 
-	public AutoInjectAttributeData(
+	public AutoRegisterAttributeData(
 		Find find,
 		RegisterAs registerAs,
 		string? serviceTypeFilter,

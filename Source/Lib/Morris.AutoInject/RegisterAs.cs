@@ -1,4 +1,4 @@
-﻿namespace Morris.AutoInject;
+﻿namespace Morris.AutoRegister;
 
 /// <summary>
 /// Specifies what should be used as the service key.

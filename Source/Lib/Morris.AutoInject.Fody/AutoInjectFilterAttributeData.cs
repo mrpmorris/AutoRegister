@@ -1,15 +1,15 @@
 ﻿using Mono.Cecil;
 using System.Text.RegularExpressions;
 
-namespace Morris.AutoInject.Fody;
+namespace Morris.AutoRegister.Fody;
 
-internal class AutoInjectFilterAttributeData
+internal class AutoRegisterFilterAttributeData
 {
 	public string? ServiceImplementationFilter { get; private set; }
 
 	private Regex ServiceImplementationRegex;
 
-	public AutoInjectFilterAttributeData(string? serviceImplementationRegex)
+	public AutoRegisterFilterAttributeData(string? serviceImplementationRegex)
 	{
 		ServiceImplementationFilter = serviceImplementationRegex;
 		ServiceImplementationRegex = new Regex(serviceImplementationRegex, RegexOptions.Compiled);

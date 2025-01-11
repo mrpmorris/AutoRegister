@@ -2,20 +2,20 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 
-namespace Morris.AutoInjectTests.ModuleWeaverTests;
+namespace Morris.AutoRegisterTests.ModuleWeaverTests;
 
 [TestClass]
-public class RemoveAutoInjectDependencyTests
+public class RemoveAutoRegisterDependencyTests
 {
 	[TestMethod]
-	public void WhenWeavingIsSuccessful_ThenReferenceToAutoInjectShouldHaveBeenRemoved()
+	public void WhenWeavingIsSuccessful_ThenReferenceToAutoRegisterShouldHaveBeenRemoved()
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -27,19 +27,19 @@ public class RemoveAutoInjectDependencyTests
 			.Assembly
 			.GetReferencedAssemblies()
 			.Select(x => x.FullName.Split(',')[0])
-			.Any(x => x == "Morris.AutoInject");
-		Assert.IsFalse(isReferenced, "Morris.AutoInject should not be referenced.");
+			.Any(x => x == "Morris.AutoRegister");
+		Assert.IsFalse(isReferenced, "Morris.AutoRegister should not be referenced.");
 	}
 
 	[TestMethod]
-	public void WhenWeavingIsSuccessful_ThenAutoInjectAttributesShouldHaveBeenRemoved()
+	public void WhenWeavingIsSuccessful_ThenAutoRegisterAttributesShouldHaveBeenRemoved()
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInject(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -55,14 +55,14 @@ public class RemoveAutoInjectDependencyTests
 	}
 
 	[TestMethod]
-	public void WhenWeavingIsSuccessful_ThenAutoInjectFilterAttributesShouldHaveBeenRemoved()
+	public void WhenWeavingIsSuccessful_ThenAutoRegisterFilterAttributesShouldHaveBeenRemoved()
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInjectFilter("Hello")]
+			[AutoRegisterFilter("Hello")]
 			public partial class MyModule
 			{
 			}
@@ -78,16 +78,16 @@ public class RemoveAutoInjectDependencyTests
 	}
 
 	[TestMethod]
-	public void WhenWeavingIsSuccessful_ThenNonAutoInjectAttributesShouldBePreserved()
+	public void WhenWeavingIsSuccessful_ThenNonAutoRegisterAttributesShouldBePreserved()
 	{
 		string sourceCode =
 			"""
-			using Morris.AutoInject;
+			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoInjectFilter("Hello")]
+			[AutoRegisterFilter("Hello")]
 			[System.Serializable]
-			[AutoInject(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
