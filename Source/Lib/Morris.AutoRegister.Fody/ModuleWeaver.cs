@@ -1,5 +1,4 @@
 ﻿using Fody;
-using Microsoft.Extensions.DependencyInjection;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Morris.AutoRegister.Fody.Extensions;
@@ -178,7 +177,7 @@ public class ModuleWeaver : BaseModuleWeaver
 		);
 
 		// Determine which AddXxx method to call
-		var extensionType = typeof(ServiceCollectionServiceExtensions);
+		TypeDefinition extensionType = FindTypeDefinition("Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions");
 		var addMethodName = withLifetime switch {
 			WithLifetime.Singleton => "AddSingleton",
 			WithLifetime.Scoped => "AddScoped",
@@ -187,9 +186,18 @@ public class ModuleWeaver : BaseModuleWeaver
 		};
 
 		// Import the chosen extension method
-		var addMethodRef = ModuleDefinition.ImportReference(
-			extensionType.GetMethod(addMethodName, new[] { typeof(IServiceCollection), typeof(Type), typeof(Type) })
-		);
+		MethodDefinition addMethodRef = extensionType
+			.Methods
+			.Where(x =>
+				x.Name == addMethodName
+				&& x.IsStatic
+				&& !x.HasGenericParameters
+				&& x.Parameters.Count == 3
+				&& x.Parameters[0].ParameterType.FullName == "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+				&& x.Parameters[1].ParameterType.FullName == "System.Type"
+				&& x.Parameters[2].ParameterType.FullName == "System.Type"
+			)
+			.Single();
 
 		// Emit: services.AddXxx(typeof(ServiceType), typeof(ServiceImplementationType));
 		ilProcessor.Emit(OpCodes.Ldarg_0);
