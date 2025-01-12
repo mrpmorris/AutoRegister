@@ -176,8 +176,23 @@ public class ModuleWeaver : BaseModuleWeaver
 			typeof(Type).GetMethod(nameof(Type.GetTypeFromHandle), new[] { typeof(RuntimeTypeHandle) })
 		);
 
+		AssemblyNameReference assemblyReference =
+			ModuleDefinition
+			.AssemblyReferences
+			.Single(ar => ar.Name == "Microsoft.Extensions.DependencyInjection.Abstractions");
+
+		AssemblyDefinition assemblyDefinition =
+			ModuleDefinition
+			.AssemblyResolver
+			.Resolve(assemblyReference);
+
 		// Determine which AddXxx method to call
-		TypeDefinition extensionType = FindTypeDefinition("Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions");
+		TypeDefinition extensionType =
+			assemblyDefinition
+			.MainModule
+			.Types
+			.First(t => t.FullName == "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions");
+
 		var addMethodName = withLifetime switch {
 			WithLifetime.Singleton => "AddSingleton",
 			WithLifetime.Scoped => "AddScoped",
@@ -186,7 +201,7 @@ public class ModuleWeaver : BaseModuleWeaver
 		};
 
 		// Import the chosen extension method
-		MethodDefinition addMethodRef = extensionType
+		MethodReference addMethodRef = extensionType
 			.Methods
 			.Where(x =>
 				x.Name == addMethodName
@@ -198,6 +213,8 @@ public class ModuleWeaver : BaseModuleWeaver
 				&& x.Parameters[2].ParameterType.FullName == "System.Type"
 			)
 			.Single();
+
+		addMethodRef = ModuleDefinition.ImportReference(addMethodRef);
 
 		// Emit: services.AddXxx(typeof(ServiceType), typeof(ServiceImplementationType));
 		ilProcessor.Emit(OpCodes.Ldarg_0);
