@@ -21,9 +21,6 @@ internal static class WeaverExecutor
 		MetadataReference
 		.CreateFromFile(typeof(ServiceLifetime).Assembly.Location);
 
-	private static readonly MetadataReference[] MetadataReferences =
-		[AutoRegisterMetadataReference, MSDependencyInjectionMetadataReference];
-
 	static WeaverExecutor()
 	{
 		var filePaths = Directory.GetFiles(Path.GetTempPath(), "*.Morris.AutoRegister.Tests.dll");
