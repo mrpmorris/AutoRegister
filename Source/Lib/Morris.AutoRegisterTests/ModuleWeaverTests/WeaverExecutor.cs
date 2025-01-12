@@ -21,6 +21,12 @@ internal static class WeaverExecutor
 		MetadataReference
 		.CreateFromFile(typeof(ServiceLifetime).Assembly.Location);
 
+	static WeaverExecutor()
+	{
+		var filePaths = Directory.GetFiles(Path.GetTempPath(), "*.Morris.AutoRegister.Tests.dll");
+		Parallel.ForEach(filePaths, x => File.Delete(x));
+	}
+
 
 	public static void Execute(
 		string sourceCode,
