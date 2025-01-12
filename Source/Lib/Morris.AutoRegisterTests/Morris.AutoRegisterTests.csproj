@@ -16,15 +16,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Basic.Reference.Assemblies.Net90" Version="1.7.9" />
+		<PackageReference Include="Basic.Reference.Assemblies.Net90" Version="1.8.0" />
 		<PackageReference Include="FodyHelpers" Version="6.9.1" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-		<PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.12.6" />
-		<PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.4.0" />
-		<PackageReference Include="MSTest" Version="3.6.1" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+		<PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.13.1" />
+		<PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.5.0" />
+		<PackageReference Include="MSTest" Version="3.7.0" />
 	</ItemGroup>
 
 	<ItemGroup>
