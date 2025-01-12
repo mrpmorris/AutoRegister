@@ -21,6 +21,9 @@ internal static class WeaverExecutor
 		MetadataReference
 		.CreateFromFile(typeof(ServiceLifetime).Assembly.Location);
 
+	private static readonly MetadataReference[] MetadataReferences =
+		[AutoRegisterMetadataReference, MSDependencyInjectionMetadataReference];
+
 	static WeaverExecutor()
 	{
 		var filePaths = Directory.GetFiles(Path.GetTempPath(), "*.Morris.AutoRegister.Tests.dll");
@@ -93,13 +96,10 @@ internal static class WeaverExecutor
 		SyntaxTree unitTestSyntaxTree,
 		Guid uniqueId)
 	{
-		var compilation = CSharpCompilation.Create(
+		CSharpCompilation compilation = Compile(
 			assemblyName: $"Roslyn{uniqueId}",
-			syntaxTrees: [unitTestSyntaxTree],
-			references: Basic.Reference.Assemblies.Net90.References
-				.All
-				.Union([AutoRegisterMetadataReference, MSDependencyInjectionMetadataReference]),
-			options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, reportSuppressedDiagnostics: true)
+			uniqueId: uniqueId,
+			syntaxTrees: [unitTestSyntaxTree]
 		);
 
 		var registerSourceGenerator = new RegisterSourceGenerator().AsSourceGenerator();
@@ -122,14 +122,17 @@ internal static class WeaverExecutor
 			.Create(
 				assemblyName: $"{assemblyName}{uniqueId}",
 				syntaxTrees: syntaxTrees,
-				references: Basic.Reference.Assemblies.Net90.References
-					.All
-					.Union([AutoRegisterMetadataReference, MSDependencyInjectionMetadataReference]),
+				references: GetMetadataReferences(),
 				options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, reportSuppressedDiagnostics: true)
 			);
 
 		return result;
 	}
+
+	private static IEnumerable<MetadataReference> GetMetadataReferences() =>
+		Basic.Reference.Assemblies.Net90.References
+			.All
+			.Union([AutoRegisterMetadataReference, MSDependencyInjectionMetadataReference]);
 
 	private static void AssertNoCompileDiagnostics(CSharpCompilation compilation)
 	{
