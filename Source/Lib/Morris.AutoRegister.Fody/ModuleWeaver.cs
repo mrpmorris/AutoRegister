@@ -19,6 +19,7 @@ public class ModuleWeaver : BaseModuleWeaver
 	{
 		yield return "netstandard";
 		yield return "mscorlib";
+		yield return "Microsoft.Extensions.DependencyInjection.Abstractions";
 	}
 
 	public override void Execute()
@@ -172,28 +173,17 @@ public class ModuleWeaver : BaseModuleWeaver
 		manifestBuilder.AppendLinuxLine();
 
 		// Get references to needed runtime methods
-		var getTypeFromHandleRef = ModuleDefinition.ImportReference(
-			typeof(Type).GetMethod(nameof(Type.GetTypeFromHandle), new[] { typeof(RuntimeTypeHandle) })
+		MethodReference getTypeFromHandleRef = 
+			ModuleDefinition
+			.ImportReference(
+				typeof(Type).GetMethod(nameof(Type.GetTypeFromHandle),
+				new[] { typeof(RuntimeTypeHandle) }
+			)
 		);
 
-		AssemblyNameReference assemblyReference =
-			ModuleDefinition
-			.AssemblyReferences
-			.Single(ar => ar.Name == "Microsoft.Extensions.DependencyInjection.Abstractions");
+		TypeDefinition extensionType = FindTypeDefinition("Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions");
 
-		AssemblyDefinition assemblyDefinition =
-			ModuleDefinition
-			.AssemblyResolver
-			.Resolve(assemblyReference);
-
-		// Determine which AddXxx method to call
-		TypeDefinition extensionType =
-			assemblyDefinition
-			.MainModule
-			.Types
-			.First(t => t.FullName == "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions");
-
-		var addMethodName = withLifetime switch {
+		string addMethodName = withLifetime switch {
 			WithLifetime.Singleton => "AddSingleton",
 			WithLifetime.Scoped => "AddScoped",
 			WithLifetime.Transient => "AddTransient",
