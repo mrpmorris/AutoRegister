@@ -29,7 +29,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Morris.AutoRegister.Fody\Morris.AutoRegister.Fody.csproj" />
-		<ProjectReference Include="..\Morris.AutoRegister.TestsShared\Morris.AutoRegister.TestsShared.csproj" />
 		<ProjectReference Include="..\Morris.AutoRegister\Morris.AutoRegister.csproj" />
 	</ItemGroup>
 
