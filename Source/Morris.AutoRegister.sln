@@ -13,11 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{B8DB20E7-F62
 		Lib\Directory.Build.props = Lib\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoRegister.SourceGenerators", "Lib\Morris.AutoRegister.SourceGenerators\Morris.AutoRegister.SourceGenerators.csproj", "{47A8864D-9634-4F3B-B3B7-657F8E973545}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoRegister.Fody", "Lib\Morris.AutoRegister.Fody\Morris.AutoRegister.Fody.csproj", "{7E1FF6BB-B4F5-4F97-B086-6F13F4229024}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoRegister.SourceGeneratorsTests", "Lib\Morris.AutoRegister.SourceGeneratorsTests\Morris.AutoRegister.SourceGeneratorsTests.csproj", "{CD7B5143-F428-4E21-93CF-34FD560EFB9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morris.AutoRegisterTests", "Lib\Morris.AutoRegisterTests\Morris.AutoRegisterTests.csproj", "{4A71569F-8D98-4554-A5AA-D68DE0CD37C5}"
 EndProject
@@ -43,18 +39,10 @@ Global
 		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086}.Release|Any CPU.Build.0 = Release|Any CPU
-		{47A8864D-9634-4F3B-B3B7-657F8E973545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{47A8864D-9634-4F3B-B3B7-657F8E973545}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{47A8864D-9634-4F3B-B3B7-657F8E973545}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{47A8864D-9634-4F3B-B3B7-657F8E973545}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E1FF6BB-B4F5-4F97-B086-6F13F4229024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E1FF6BB-B4F5-4F97-B086-6F13F4229024}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E1FF6BB-B4F5-4F97-B086-6F13F4229024}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E1FF6BB-B4F5-4F97-B086-6F13F4229024}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD7B5143-F428-4E21-93CF-34FD560EFB9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD7B5143-F428-4E21-93CF-34FD560EFB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD7B5143-F428-4E21-93CF-34FD560EFB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD7B5143-F428-4E21-93CF-34FD560EFB9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A71569F-8D98-4554-A5AA-D68DE0CD37C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A71569F-8D98-4554-A5AA-D68DE0CD37C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A71569F-8D98-4554-A5AA-D68DE0CD37C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,9 +57,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F9B4F19F-B6F2-4733-88CD-0E90CEE51086} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
-		{47A8864D-9634-4F3B-B3B7-657F8E973545} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
 		{7E1FF6BB-B4F5-4F97-B086-6F13F4229024} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
-		{CD7B5143-F428-4E21-93CF-34FD560EFB9D} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
 		{4A71569F-8D98-4554-A5AA-D68DE0CD37C5} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
 		{AD16509E-F258-4083-89D1-589975B656DC} = {B8DB20E7-F62B-4EB5-BAE9-A9EFAC09E804}
 	EndGlobalSection

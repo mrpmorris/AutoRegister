@@ -23,9 +23,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Morris.AutoRegister.SourceGenerators\Morris.AutoRegister.SourceGenerators.csproj">
-			<ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-		</ProjectReference>
 		<None Include="..\..\..\Images\logo-small.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
@@ -34,7 +31,6 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<None Include="..\Morris.AutoRegister.SourceGenerators\bin\$(Configuration)\netstandard2.0\Morris.AutoRegister.SourceGenerators.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 
 	<ItemGroup>
