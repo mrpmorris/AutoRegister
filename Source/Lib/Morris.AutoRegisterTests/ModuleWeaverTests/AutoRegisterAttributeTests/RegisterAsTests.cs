@@ -297,7 +297,7 @@ public class RegisterAsTests
 	}
 
 	[TestMethod]
-	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_ThenFirstInterfaceIsRegistered()
+	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_AndClassHasMultipleInterfaces_ThenFirstInterfaceIsRegistered()
 	{
 		string sourceCode =
 			"""
@@ -349,4 +349,141 @@ public class RegisterAsTests
 			]);
 	}
 
+	[TestMethod]
+	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_AndClassHasNoInterfaces_ThenClassIsNotRegistered()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoRegister;
+
+			namespace MyNamespace;
+			[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+			}
+
+			public abstract class BaseClass {}
+			public class QualifyingClass1 : BaseClass{}
+			public class QualifyingClass2 : BaseClass{}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoRegisterAttributes:
+					[
+						new(
+							find: Find.DescendantsOf,
+							typeFullName: "MyNamespace.BaseClass",
+							registerAs: RegisterAs.FirstDiscoveredInterfaceOnClass,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services: []
+				)
+			]);
+	}
+
+	[TestMethod]
+	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_ThenFirstInterfaceMatchingServiceTypeFilterIsRegistered()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoRegister;
+
+			namespace MyNamespace;
+			[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped, ServiceTypeFilter = "1")]
+			public partial class MyModule
+			{
+			}
+
+			public interface IInterface1 {}
+			public interface IInterface2 {}
+
+			public abstract class BaseClass {}
+			public class QualifyingClass1 : BaseClass, IInterface1, IInterface2 {}
+			public class QualifyingClass2 : BaseClass, IInterface2, IInterface1 {}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoRegisterAttributes:
+					[
+						new(
+							find: Find.DescendantsOf,
+							typeFullName: "MyNamespace.BaseClass",
+							registerAs: RegisterAs.FirstDiscoveredInterfaceOnClass,
+							withLifetime: WithLifetime.Scoped,
+							serviceTypeFilter: "1")
+					],
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.IInterface1",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass1"),
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.IInterface1",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass2")
+					]
+				)
+			]);
+	}
+
+	[TestMethod]
+	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_AndClassesInterfacesDoNotMatchServiceTypeFilter_ThenClassIsNotRegistered()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoRegister;
+
+			namespace MyNamespace;
+			[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped, ServiceTypeFilter = "1")]
+			public partial class MyModule
+			{
+			}
+
+			public interface IInterface1 {}
+			public interface IInterface2 {}
+
+			public abstract class BaseClass {}
+			public class QualifyingClass1 : BaseClass, IInterface1, IInterface2 {}
+			public class QualifyingClass2 : BaseClass, IInterface2, IInterface1 {}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoRegisterAttributes:
+					[
+						new(
+							find: Find.DescendantsOf,
+							typeFullName: "MyNamespace.BaseClass",
+							registerAs: RegisterAs.FirstDiscoveredInterfaceOnClass,
+							withLifetime: WithLifetime.Scoped,
+							serviceTypeFilter: "IDoNotExist")
+					],
+					services: []
+				)
+			]);
+	}
 }
