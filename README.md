@@ -15,7 +15,7 @@ public partial class MyModule
 ```
 
 # Documentation
-* [Installation](./Docs/installation.md)
+* [Getting started](./Docs/getting-started.md)
 * [Source control](./Docs/source-control.md)
 * [Examples](./Docs/examples.md)
 * [Release notes](./Docs/releases.md)

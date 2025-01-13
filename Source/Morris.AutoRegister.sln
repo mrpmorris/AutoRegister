@@ -36,8 +36,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4D99F97B-C9AD-44D6-8E4F-1301744FE901}"
 	ProjectSection(SolutionItems) = preProject
 		..\Docs\examples.md = ..\Docs\examples.md
-		..\Docs\installation.md = ..\Docs\installation.md
 		..\README.md = ..\README.md
+		..\Docs\getting-started.md = ..\Docs\getting-started.md
 		..\Docs\releases.md = ..\Docs\releases.md
 		..\Docs\source-control.md = ..\Docs\source-control.md
 	EndProjectSection
