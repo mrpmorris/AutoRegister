@@ -2,7 +2,7 @@
 
 * [Installation](#installation)
 * [First steps](#first-steps)
-* [Identifying which classes to inject](#search-criteria)
+* [Identifying which classes to register](#search-criteria)
 * [Specifying the service type](#specifying-the-service-type)
 * [Specifying the service lifetime](#specifying-the-service-lifetime)
 * [Filtering](#filtering)
@@ -32,12 +32,12 @@ public partial class DependencyRegistration {}
 
 
 <a id="search-criteria"></a>
-## Identifying which classes to inject
+## Identifying which classes to register
 You declare a convention using the `[AutoRegister]` attribute.
 
 
 The first two arguments you pass determine which classes in the current project
-should be considered candidates for injection, `Find` and `Type`. Every class
+should be considered candidates for registration, `Find` and `Type`. Every class
 in the project (candidate) is compared against these two arguments to determine if
 they should be registered or not.
 
@@ -115,7 +115,7 @@ third argument `RegisterAs` determines how the service should be registered.
 ```
 
 **Note**: It is possible to further filter the interface to register using the
-`ServiceTypeFilter` property on `[AutoInjectAttribute]`.
+`ServiceTypeFilter` property on `[AutoRegisterAttribute]`.
 
 ```c#
 [AutoRegister(
@@ -126,4 +126,72 @@ third argument `RegisterAs` determines how the service should be registered.
     // Regex: Service type full name must end with "Repository".
     ServiceTypeFilter = "Repository$)]
 // => AddScoped(typeof(IPersonRepository), typeof(PersonRepository))
+```
+
+<a id="specifying-the-service-lifetime"></a>
+## Specifying the service lifetime
+The 4th argument you pass to `[AutoRegister]` specifies the lifetime to use when
+registering the dependency.
+
+* [Withlifetime.Singleton](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#singleton)
+* [Withlifetime.Scoped](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#scoped)
+* [Withlifetime.Transient](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#transient)
+
+<a id="filtering"></a>
+## Filtering
+There are various ways of specifying filtering as part of the registration convention.
+
+### AutoRegisterFilter
+AutoRegister registers classes in the current project based on conventions it finds
+in `[AutoRegister]` attributes on a registration/module class. If the registration module
+class also has `[AutoRegisterFilter]` attributes, only classes matching the regular
+expression on *all* of the filters will be considered as candidates for registration on this module.
+
+```c#
+// Do not include any classes from the .OptionalPlugins. namespace
+[AutoRegisterFilter(@"^(?!.*\.OptionalPlugins\.).*$")]
+[AutoRegister(Find.AnyTypeOf, typeof(IService), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+public partial class DependencyRegistration
+{
+}
+```
+
+### AutoRegister.ServiceImplementationFilter
+If specified on an `[AutoRegister]` attribute, this will ensure that only classes
+with a full name matching this regular expression will be considered as candidates
+for injection.
+
+```c#
+[AutoRegister(
+   Find.AnyTypeOf,
+   typeof(IValidator<T>),
+   RegisterAs.SearchedTypeAsClosedGeneric,
+   WithLifetime.Scoped,
+   ServiceImplementationFilter = @"\.MandatoryValidations\.")]
+// => AddScoped(typeof(IValidator<Employee>), typeof(EmployeeValidator))
+// => AddScoped(typeof(IValidator<Company>, typeof(CompanyValidator))
+public partial class DependencyRegistration
+{
+}
+```
+
+### AutoRegister.ServiceTypeFilter
+When a class matches the `Find` and `Type` criteria, AutoRegister will determine
+which type to use to identify the service when registering it.
+
+If specified on an `[AutoRegister]` attribute, this will ensure that only types
+with a full name matching this regular expression will be considered as.
+
+```c#
+[AutoRegister(
+   Find.DescendantsOf,
+   typeof(RepositoryBase<,>),
+   RegisterAs.FirstDiscoveredInterfaceOnClass,
+   WithLifetime.Scoped,
+   ServiceTypeFilter = @"Repository$")]
+// => AddScoped(typeof(IEmployeeRepository>), typeof(EmployeeRepository))
+// => AddScoped(typeof(ICompanyRepository>, typeof(CompanyRepository))
+public partial class DependencyRegistration
+{
+}
 ```
