@@ -4,6 +4,7 @@
 
 * [Installation](#installation)
 * [First steps](#first-steps)
+* [How it works](#how-it-works)
 * [Benefits of registration by convention](#benefits-of-registration-by-convention)
 * [Identifying which classes to inject](#search-criteria)
 * [Specifying the service key](#specifying-the-service-key)
@@ -31,6 +32,37 @@ namespace BusinessLayer;
 // AutoRegister and AutoRegisterFilter attributes go here
 public partial class DependencyRegistration {}
 ```
+
+<a id="how-it-works"></a>
+## How it works
+First, I have a Roslyn source generator that looks for classes decorated with either
+the `[AutoRegister]` attribute or the `[AutoRegisterFilter]` attribute. When it finds
+such a class, it generates the following source code. This is to ensure you are able
+to call `RegisterServices` from the consuming project.
+
+```c#
+using Microsoft.Extensions.DependencyInjection;
+
+namespace YourNamespace
+{
+  partial class YourClassName
+  {
+    static partial void AfterRegisterServices(IServiceCollection services);
+    public static void RegisterServices(IServiceCollection services)
+    {
+    }
+  }
+}
+```
+
+Because Roslyn regenerates source on every keypress, scanning all classes in the
+project is not recommended. So I do that after the project is built instead.
+
+I then process each `[AutoFilter]` attribute and generate the required registration
+code in the `RegisterServices` method. In addition, I output a
+[manifest](./source-control.md) file with the name
+`{ProjectName}.Morris.AutoRegister.manifest` that lists all the registrations. This
+ensures the process is not a "black box", but instead fully auditable.
 
 <a id="benefits-of-registration-by-convention"></a>
 ## Benefits of registration by convention
@@ -101,7 +133,7 @@ see which classes are being registered.
 
 <a id="search-criteria"></a>
 ## Identifying which classes to inject
-To do
+You declare a convention using the `[AutoRegister]` attribute.
 
 <a id="specifying-the-service-key"></a>
 ## Specifying the service key

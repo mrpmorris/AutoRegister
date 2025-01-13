@@ -23,8 +23,6 @@ namespace BusinessLayer;
 public partial class DependencyRegistration {}
 ```
 
-
-
 <a id="register-a-single-class"></a>
 ## Register a single class
 This code will register `MyService` as Scoped.
