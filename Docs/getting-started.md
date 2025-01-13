@@ -84,7 +84,9 @@ partial class DependencyRegistration
 {
   public static void RegisterServices(IServiceCollection services)
   {
-    services.AddScoped(typeof(IPaymentService), typeof(MyNewPaymentServiceClass));
+    services.AddScoped(typeof(IPaymentService), typeof(ExistingPaymentService1));
+    services.AddScoped(typeof(IPaymentService), typeof(ExistingPaymentService2));
+    services.AddScoped(typeof(IPaymentService), typeof(MyNewPaymentService));
   }
 }
 ```
