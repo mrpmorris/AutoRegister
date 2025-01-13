@@ -28,20 +28,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Lib\Directory.Build.props = Lib\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildPipeline", "BuildPipeline", "{3B0A3997-3C05-4990-AC8F-4F3D90D1A5B7}"
-	ProjectSection(SolutionItems) = preProject
-		..\.github\workflows\release.yml = ..\.github\workflows\release.yml
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4D99F97B-C9AD-44D6-8E4F-1301744FE901}"
 	ProjectSection(SolutionItems) = preProject
 		..\Docs\benefits-of-registration-by-convention.md = ..\Docs\benefits-of-registration-by-convention.md
 		..\Docs\examples.md = ..\Docs\examples.md
-		..\Docs\how-it-works.md = ..\Docs\how-it-works.md
-		..\README.md = ..\README.md
 		..\Docs\getting-started.md = ..\Docs\getting-started.md
+		..\Docs\how-autoregister-works.md = ..\Docs\how-autoregister-works.md
+		..\README.md = ..\README.md
 		..\Docs\releases.md = ..\Docs\releases.md
 		..\Docs\source-control.md = ..\Docs\source-control.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildPipeline", "BuildPipeline", "{3B0A3997-3C05-4990-AC8F-4F3D90D1A5B7}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\release.yml = ..\.github\workflows\release.yml
 	EndProjectSection
 EndProject
 Global

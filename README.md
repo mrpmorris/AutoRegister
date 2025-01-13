@@ -16,7 +16,7 @@ public partial class MyModule
 
 # Documentation
 * [Benefits of registration by convention](./Docs/benefits-of-registration-by-convention.md)
-* [How it works](./Docs/how-it-works.md)
+* [How AutoRegister works](./Docs/how-autoregister-works.md)
 * [Getting started](./Docs/getting-started.md)
 * [Source control](./Docs/source-control.md)
 * [Examples](./Docs/examples.md)

@@ -3,6 +3,7 @@
 * [Register a single class](#register-a-single-class)
 * [Register classes implementing a marker interface](#register-classes-with-a-marker-interface) 
 * [Register classes descended from RepositoryBase<,>](#register-classes-descneded-from-repositorybase)
+* [Register all IPaymentStrategy implementations](#register-all-ipaymentstrategy-implementations)
 * [Register interfaces descended from IRepository](#register-interfaces-descended-from-irepository)
 
 <a id="register-a-single-class"></a>
@@ -73,6 +74,23 @@ public partial class DependencyRegistration {}
 // => services.AddScoped(typeof(CompanyRepository<CompanyId, Company>), typeof(CompanyRepository))
 ```
 
+<a id="register-all-ipaymentstrategy-implementations"></a>
+## Register all IPaymentStrategy implementations
+This code will find all classes that implement `IPaymentStrategy` and register
+the class using `IPaymentStrategy` as the injectable service type.
+
+```c#
+[AutoRegister(
+   Find.Exactly,
+   typeof(IPaymentStrategy),
+   RegisterAs.SearchedType,
+   WithLifetime.Scoped)]
+// => services.AddScoped(typeof(IPaymentStrategy), typeof(PaymentStrategy1))
+// => services.AddScoped(typeof(IPaymentStrategy), typeof(PaymentStrategy2))
+public partial class DependencyRegistration {}
+```
+
+
 <a id="register-interfaces-descended-from-irepository"></a>
 ## Register interfaces descended from IRepository
 This code will find all classes that implement an interface
@@ -87,7 +105,6 @@ ending with "Repository".
    RegisterAs.FirstDiscoveredInterfaceOnClass,
    WithLifetime.Scoped,
    ServiceTypeFilter = "Repository$)]
-public partial class DependencyRegistration {}
-
 // => services.AddScoped(typeof(IPersonRepository), typeof(PersonRepository))
+public partial class DependencyRegistration {}
 ```
