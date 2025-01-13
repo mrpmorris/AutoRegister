@@ -1,7 +1,5 @@
 # Getting started
 
-## Next steps
-
 * [Installation](#installation)
 * [First steps](#first-steps)
 * [How it works](#how-it-works)
