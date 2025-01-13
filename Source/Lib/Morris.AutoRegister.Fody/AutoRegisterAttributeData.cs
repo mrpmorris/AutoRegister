@@ -60,6 +60,7 @@ internal class AutoRegisterAttributeData
 			RegisterAs.DiscoveredClass => x => x.ServiceImplementation,
 			RegisterAs.SearchedType => _ => Type,
 			RegisterAs.SearchedTypeAsClosedGeneric => x => x.ServiceType.GetBaseClosedGenericType(Type),
+			RegisterAs.FirstDiscoveredInterfaceOnClass => x => GetFirstInterface(x.ServiceImplementation),
 			_ => throw new NotImplementedException(Register.ToString())
 		};
 	}
@@ -85,17 +86,18 @@ internal class AutoRegisterAttributeData
 
 		if (serviceType is not null)
 			serviceType = TransformKey((serviceType, type));
-
-		bool serviceTypeMatch =
-			ServiceTypeFilterRegex is null
-			||
-			(
-				serviceType is not null
-				&& ServiceTypeFilterRegex.IsMatch(serviceType.ToHumanReadableName())
-			);
+		bool serviceTypeMatch = DoesServiceTypeMatch(serviceType);
 
 		return serviceType is not null && serviceTypeMatch;
 	}
+
+	private bool DoesServiceTypeMatch(TypeReference? serviceType) =>
+		ServiceTypeFilterRegex is null
+		||
+		(
+			serviceType is not null
+			&& ServiceTypeFilterRegex.IsMatch(serviceType.ToHumanReadableName())
+		);
 
 	private TypeReference? FindAnyTypeOf(TypeReference typeReference) =>
 		typeReference.Resolve().IsAssignableTo(Type)
@@ -111,4 +113,11 @@ internal class AutoRegisterAttributeData
 		typeReference.IsSameAs(Type)
 		? typeReference
 		: null;
+
+	private TypeReference? GetFirstInterface(TypeReference typeReference) =>
+		typeReference
+		.Resolve()
+		.GetAllInterfaces()
+		.Where(DoesServiceTypeMatch)
+		.FirstOrDefault();
 }

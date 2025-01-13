@@ -451,7 +451,7 @@ public class RegisterAsTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped, ServiceTypeFilter = "1")]
+			[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped, ServiceTypeFilter = "IDoNotExist")]
 			public partial class MyModule
 			{
 			}
