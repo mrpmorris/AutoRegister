@@ -31,7 +31,7 @@ namespace NS1
 }
 ```
 |Module|Attribute|Scope|ServiceType|ServiceImplementation|
-|-|
+|-|-|-|-|-|
 |NS1.DependencyRegistration|
 ||Find DescendantsOf NS1.BaseClass RegisterAs DiscoveredClass|
 |||Scoped|ChildClass1|ChildClass1|
