@@ -296,5 +296,57 @@ public class RegisterAsTests
 			]);
 	}
 
+	[TestMethod]
+	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_ThenFirstInterfaceIsRegistered()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoRegister;
+
+			namespace MyNamespace;
+			[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+			}
+
+			public interface IInterface1 {}
+			public interface IInterface2 {}
+
+			public abstract class BaseClass {}
+			public class QualifyingClass1 : BaseClass, IInterface1, IInterface2 {}
+			public class QualifyingClass2 : BaseClass, IInterface2, IInterface1 {}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoRegisterAttributes:
+					[
+						new(
+							find: Find.DescendantsOf,
+							typeFullName: "MyNamespace.BaseClass",
+							registerAs: RegisterAs.FirstDiscoveredInterfaceOnClass,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.IInterface1",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass1"),
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.IInterface2",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass2")
+					]
+				)
+			]);
+	}
 
 }
