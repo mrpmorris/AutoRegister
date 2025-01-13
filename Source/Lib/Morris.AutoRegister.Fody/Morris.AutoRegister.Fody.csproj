@@ -7,14 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Include="..\Morris.AutoRegister\AutoRegisterAttribute.cs" Link="AutoRegisterAttribute.cs" />
-	  <Compile Include="..\Morris.AutoRegister\AutoRegisterFilterAttribute.cs" Link="AutoRegisterFilterAttribute.cs" />
-	  <Compile Include="..\Morris.AutoRegister\Find.cs" Link="Find.cs" />
-	  <Compile Include="..\Morris.AutoRegister\RegisterAs.cs" Link="RegisterAs.cs" />
-	  <Compile Include="..\Morris.AutoRegister\WithLifetime.cs" Link="WithLifetime.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="FodyHelpers" Version="6.9.1" />
 	</ItemGroup>
 
