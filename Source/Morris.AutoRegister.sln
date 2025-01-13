@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Lib\Directory.Build.props = Lib\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3B0A3997-3C05-4990-AC8F-4F3D90D1A5B7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildPipeline", "BuildPipeline", "{3B0A3997-3C05-4990-AC8F-4F3D90D1A5B7}"
 	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\release.yml = ..\.github\workflows\release.yml
 	EndProjectSection
