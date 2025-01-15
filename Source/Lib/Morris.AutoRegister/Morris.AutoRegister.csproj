@@ -8,30 +8,7 @@
 		<PackageId>$(MSBuildProjectName).Fody</PackageId>
 		<Title>AutoRegister</Title>
 		<Description>A reflection-free + convention-driven registration library for dependency injection.</Description>
-		<PackageIcon>logo-small.png</PackageIcon>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/mrpmorris/AutoRegister</RepositoryUrl>
-		<PackageTags>Dependency injection, Dependency registration, Convention</PackageTags>
 	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <DefineConstants>$(DefineConstants);PublicContracts</DefineConstants>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <DefineConstants>$(DefineConstants);PublicContracts</DefineConstants>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<None Include="..\..\..\Images\logo-small.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-		<None Include="..\..\..\README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="FodyPackaging" Version="6.9.1" PrivateAssets="All" />
