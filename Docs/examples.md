@@ -5,6 +5,8 @@
 * [Register classes descended from RepositoryBase<,>](#register-classes-descneded-from-repositorybase)
 * [Register all IPaymentStrategy implementations](#register-all-ipaymentstrategy-implementations)
 * [Register interfaces descended from IRepository](#register-interfaces-descended-from-irepository)
+* [Register first interface matching name `*IRepository`](#register-first-interface-name-matching-repository)
+
 
 <a id="register-a-single-class"></a>
 ## Register a single class
@@ -92,6 +94,18 @@ public partial class DependencyRegistration {}
 
 
 <a id="register-interfaces-descended-from-irepository"></a>
+## Register interfaces descended from IRepository
+```c#
+[AutoRegister(
+   Find.AnyTypeOf,
+   typeof(IRepository),
+   RegisterAs.DiscoveredType,
+   WithLifetime.Scoped)]
+// => services.AddScoped(typeof(ICustomerRepository), typeof(CustomerRepository))
+// => services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository))
+```
+
+<a id="register-first-interface-name-matching-repository"></a>
 ## Register interfaces descended from IRepository
 This code will find all classes that implement an interface
 that descends from `IRepository` and register them as the

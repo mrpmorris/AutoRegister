@@ -546,7 +546,7 @@ public class RegisterAsTests
 	public void WhenRegisteringAsDiscoveredType_AndFindCriteriaIsAnInterface_ThenDiscoveredInterfaceIsUsedAsServiceType()
 	{
 		string sourceCode =
-			"""
+		"""
 		using Morris.AutoRegister;
 
 		namespace MyNamespace;
