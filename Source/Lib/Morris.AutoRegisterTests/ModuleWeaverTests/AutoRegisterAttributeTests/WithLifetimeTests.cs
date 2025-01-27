@@ -15,7 +15,7 @@ public class WithLifetimeTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Singleton)]
+			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.ImplementingClass, WithLifetime.Singleton)]
 			public partial class MyModule
 			{
 			}
@@ -37,7 +37,7 @@ public class WithLifetimeTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "MyNamespace.QualifyingClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Singleton)
 					],
 					services:
@@ -59,7 +59,7 @@ public class WithLifetimeTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -81,7 +81,7 @@ public class WithLifetimeTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "MyNamespace.QualifyingClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -103,7 +103,7 @@ public class WithLifetimeTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Transient)]
+			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.ImplementingClass, WithLifetime.Transient)]
 			public partial class MyModule
 			{
 			}
@@ -125,7 +125,7 @@ public class WithLifetimeTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "MyNamespace.QualifyingClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Transient)
 					],
 					services:

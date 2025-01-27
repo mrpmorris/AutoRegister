@@ -15,7 +15,7 @@ public class ServiceTypeFilterTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped, ServiceTypeFilter = "ValidClass")]
+			[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.ImplementingClass, WithLifetime.Scoped, ServiceTypeFilter = "ValidClass")]
 			public partial class MyModule
 			{
 			}
@@ -42,7 +42,7 @@ public class ServiceTypeFilterTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace.BaseClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped,
 							serviceTypeFilter: "ValidClass")
 					],

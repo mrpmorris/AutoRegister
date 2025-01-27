@@ -16,7 +16,7 @@ public class ServiceImplementationTypeFilterTests
 
 			namespace MyNamespace1
 			{
-				[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped, ServiceImplementationTypeFilter = @"^MyNamespace2\.")]
+				[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.ImplementingClass, WithLifetime.Scoped, ServiceImplementationTypeFilter = @"^MyNamespace2\.")]
 				public partial class MyModule
 				{
 				}
@@ -48,7 +48,7 @@ public class ServiceImplementationTypeFilterTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace1.BaseClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped,
 							serviceImplementationTypeFilter: @"^MyNamespace2\.")
 					],

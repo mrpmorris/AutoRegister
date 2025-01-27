@@ -16,7 +16,7 @@ public class AutoRegisterFilterAttributeTests
 
 			namespace MyNamespace;
 			[AutoRegisterFilter(@"\.ValidClass\d+")]
-			[AutoRegister(Find.AnyTypeOf, typeof(BaseClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(BaseClass), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -42,7 +42,7 @@ public class AutoRegisterFilterAttributeTests
 						new(
 							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.BaseClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:

@@ -15,7 +15,7 @@ public class RemoveAutoRegisterDependencyTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -39,7 +39,7 @@ public class RemoveAutoRegisterDependencyTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -87,7 +87,7 @@ public class RemoveAutoRegisterDependencyTests
 			namespace MyNamespace;
 			[AutoRegisterFilter("Hello")]
 			[System.Serializable]
-			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}

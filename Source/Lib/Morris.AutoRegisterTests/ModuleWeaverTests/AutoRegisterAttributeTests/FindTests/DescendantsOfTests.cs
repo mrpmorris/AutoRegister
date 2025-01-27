@@ -15,7 +15,7 @@ public class DescendantsOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.DescendantsOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.DescendantsOf, typeof(SomeClass), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -37,7 +37,7 @@ public class DescendantsOfTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace.SomeClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services: []
@@ -54,7 +54,7 @@ public class DescendantsOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.DescendantsOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.DescendantsOf, typeof(SomeClass), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -77,7 +77,7 @@ public class DescendantsOfTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace.SomeClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -100,7 +100,7 @@ public class DescendantsOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.DescendantsOf, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.DescendantsOf, typeof(ISomeInterface), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -123,7 +123,7 @@ public class DescendantsOfTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace.ISomeInterface",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services: []
@@ -140,7 +140,7 @@ public class DescendantsOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.DescendantsOf, typeof(IBaseInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.DescendantsOf, typeof(IBaseInterface), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -164,7 +164,7 @@ public class DescendantsOfTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace.IBaseInterface",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -187,7 +187,7 @@ public class DescendantsOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.DescendantsOf, typeof(GenericBase<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.DescendantsOf, typeof(GenericBase<>), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -210,7 +210,7 @@ public class DescendantsOfTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace.GenericBase`1",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -233,7 +233,7 @@ public class DescendantsOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.DescendantsOf, typeof(IGenericInterface<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.DescendantsOf, typeof(IGenericInterface<>), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -262,7 +262,7 @@ public class DescendantsOfTests
 						new(
 							find: Find.DescendantsOf,
 							typeFullName: "MyNamespace.IGenericInterface`1",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:

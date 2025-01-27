@@ -8,14 +8,14 @@ namespace Morris.AutoRegisterTests.ModuleWeaverTests.AutoRegisterAttributeTests;
 public class RegisterAsTests
 {
 	[TestMethod]
-	public void WhenRegisteringAsDiscoveredClass_ThenDiscoveredClassIsUsedAsServiceType()
+	public void WhenRegisteringAsImplementingClass_ThenImplementingClassIsUsedAsServiceType()
 	{
 		string sourceCode =
 			"""
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.AnyTypeOf, typeof(IMarker), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(IMarker), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -40,7 +40,7 @@ public class RegisterAsTests
 						new(
 							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.IMarker",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:

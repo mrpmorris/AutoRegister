@@ -15,7 +15,7 @@ public class AnyTypeOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.AnyTypeOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(SomeClass), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -37,7 +37,7 @@ public class AnyTypeOfTests
 						new(
 							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.SomeClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -60,7 +60,7 @@ public class AnyTypeOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.AnyTypeOf, typeof(SomeClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(SomeClass), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -83,7 +83,7 @@ public class AnyTypeOfTests
 						new(
 							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.SomeClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -106,7 +106,7 @@ public class AnyTypeOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.AnyTypeOf, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(ISomeInterface), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -129,7 +129,7 @@ public class AnyTypeOfTests
 						new(
 							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.ISomeInterface",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -152,7 +152,7 @@ public class AnyTypeOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.AnyTypeOf, typeof(IBaseInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(IBaseInterface), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -176,7 +176,7 @@ public class AnyTypeOfTests
 						new(
 							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.IBaseInterface",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -199,7 +199,7 @@ public class AnyTypeOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.AnyTypeOf, typeof(GenericBase<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(GenericBase<>), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -222,7 +222,7 @@ public class AnyTypeOfTests
 						new(
 							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.GenericBase`1",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -245,7 +245,7 @@ public class AnyTypeOfTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.AnyTypeOf, typeof(IGenericInterface<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.AnyTypeOf, typeof(IGenericInterface<>), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -274,7 +274,7 @@ public class AnyTypeOfTests
 						new(
 							find: Find.AnyTypeOf,
 							typeFullName: "MyNamespace.IGenericInterface`1",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:

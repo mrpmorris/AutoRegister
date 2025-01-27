@@ -19,9 +19,9 @@ enum RegisterAs
 	/// </summary>
 	SearchedTypeAsClosedGeneric,
 	/// <summary>
-	/// The service key will be the class discovered.
+	/// The type of the implementing class will be used as the key.
 	/// </summary>
-	DiscoveredClass,
+	ImplementingClass,
 	/// <summary>
 	/// A service key will registered for the first interface
 	/// found declared on the class discovered.

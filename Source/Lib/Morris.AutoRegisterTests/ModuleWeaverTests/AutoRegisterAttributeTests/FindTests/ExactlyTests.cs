@@ -15,7 +15,7 @@ public class ExactlyTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(QualifyingClass), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -37,7 +37,7 @@ public class ExactlyTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "MyNamespace.QualifyingClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -59,7 +59,7 @@ public class ExactlyTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(BaseClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(BaseClass), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -82,7 +82,7 @@ public class ExactlyTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "MyNamespace.BaseClass",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services: []
@@ -98,7 +98,7 @@ public class ExactlyTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(ISomeInterface), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -121,7 +121,7 @@ public class ExactlyTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "MyNamespace.ISomeInterface",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -143,7 +143,7 @@ public class ExactlyTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(ISomeInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(ISomeInterface), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -167,7 +167,7 @@ public class ExactlyTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "MyNamespace.ISomeInterface",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -189,7 +189,7 @@ public class ExactlyTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(IBaseInterface), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(IBaseInterface), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -213,7 +213,7 @@ public class ExactlyTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "MyNamespace.IBaseInterface",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services: []
@@ -230,7 +230,7 @@ public class ExactlyTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(IGenericInterface<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(IGenericInterface<>), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -253,7 +253,7 @@ public class ExactlyTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "MyNamespace.IGenericInterface`1",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:
@@ -275,7 +275,7 @@ public class ExactlyTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(GenericBase<>), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(GenericBase<>), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -298,7 +298,7 @@ public class ExactlyTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "MyNamespace.GenericBase`1",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services: []

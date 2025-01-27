@@ -16,7 +16,7 @@ public class ModuleTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -35,7 +35,7 @@ public class ModuleTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "System.Object",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services: []
@@ -127,7 +127,7 @@ public class ModuleTests
 			using Microsoft.Extensions.DependencyInjection;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(object), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}

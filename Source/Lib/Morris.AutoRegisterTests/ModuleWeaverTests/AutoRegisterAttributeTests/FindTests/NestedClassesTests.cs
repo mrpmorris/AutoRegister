@@ -15,7 +15,7 @@ public class NestedClassesTests
 			using Morris.AutoRegister;
 
 			namespace MyNamespace;
-			[AutoRegister(Find.Exactly, typeof(IScoped), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+			[AutoRegister(Find.Exactly, typeof(IScoped), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 			public partial class MyModule
 			{
 			}
@@ -41,7 +41,7 @@ public class NestedClassesTests
 						new(
 							find: Find.Exactly,
 							typeFullName: "MyNamespace.IScoped",
-							registerAs: RegisterAs.DiscoveredClass,
+							registerAs: RegisterAs.ImplementingClass,
 							withLifetime: WithLifetime.Scoped)
 					],
 					services:

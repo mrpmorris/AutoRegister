@@ -57,7 +57,7 @@ internal class AutoRegisterAttributeData
 		};
 
 		TransformKey = Register switch {
-			RegisterAs.DiscoveredClass => x => x.ServiceImplementation,
+			RegisterAs.ImplementingClass => x => x.ServiceImplementation,
 			RegisterAs.SearchedType => _ => Type,
 			RegisterAs.SearchedTypeAsClosedGeneric => x => x.ServiceType.GetBaseClosedGenericType(Type),
 			RegisterAs.FirstDiscoveredInterfaceOnClass => x => GetFirstInterface(x.ServiceImplementation),

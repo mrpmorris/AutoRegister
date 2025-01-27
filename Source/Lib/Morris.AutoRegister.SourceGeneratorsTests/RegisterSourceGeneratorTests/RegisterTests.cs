@@ -11,7 +11,7 @@ public sealed class RegisterTests
 			using Morris.AutoRegister;
 			namespace Tests
 			{
-				[AutoRegister(Find.Exactly, typeof(object), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+				[AutoRegister(Find.Exactly, typeof(object), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 				public partial class MyModule
 				{
 				}
