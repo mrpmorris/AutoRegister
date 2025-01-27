@@ -61,6 +61,7 @@ internal class AutoRegisterAttributeData
 			RegisterAs.SearchedType => _ => Type,
 			RegisterAs.SearchedTypeAsClosedGeneric => x => x.ServiceType.GetBaseClosedGenericType(Type),
 			RegisterAs.FirstDiscoveredInterfaceOnClass => x => GetFirstInterface(x.ServiceImplementation),
+			RegisterAs.DiscoveredType => x => x.ServiceType,
 			_ => throw new NotImplementedException(Register.ToString())
 		};
 	}

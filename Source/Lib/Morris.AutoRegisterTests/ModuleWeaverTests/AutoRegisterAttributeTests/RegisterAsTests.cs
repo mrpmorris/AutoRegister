@@ -486,4 +486,116 @@ public class RegisterAsTests
 				)
 			]);
 	}
+
+	[TestMethod]
+	public void WhenRegisteringAsDiscoveredType_AndFindCriteriaIsAClass_ThenDiscoveredTypeIsUsedAsServiceType()
+	{
+		string sourceCode =
+			"""
+		using Morris.AutoRegister;
+
+		namespace MyNamespace;
+		[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.DiscoveredType, WithLifetime.Scoped)]
+		public partial class MyModule
+		{
+		}
+
+		public abstract class BaseClass {}
+		public class QualifyingClass1 : BaseClass {}
+		public class QualifyingClass2 : BaseClass {}
+		public class QualifyingClass3 : QualifyingClass1 {}
+		""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+				classFullName: "MyNamespace.MyModule",
+				autoRegisterAttributes:
+				[
+					new(
+						find: Find.DescendantsOf,
+						typeFullName: "MyNamespace.BaseClass",
+						registerAs: RegisterAs.DiscoveredType,
+						withLifetime: WithLifetime.Scoped)
+				],
+				services:
+				[
+					new(
+						lifetime: ServiceLifetime.Scoped,
+						serviceTypeFullName: "MyNamespace.QualifyingClass1",
+						serviceImplementationTypeFullName: "MyNamespace.QualifyingClass1"),
+					new(
+						lifetime: ServiceLifetime.Scoped,
+						serviceTypeFullName: "MyNamespace.QualifyingClass2",
+						serviceImplementationTypeFullName: "MyNamespace.QualifyingClass2"),
+					new(
+						lifetime: ServiceLifetime.Scoped,
+						serviceTypeFullName: "MyNamespace.QualifyingClass3",
+						serviceImplementationTypeFullName: "MyNamespace.QualifyingClass3"),
+				]
+			)
+			]);
+	}
+
+	[TestMethod]
+	public void WhenRegisteringAsDiscoveredType_AndFindCriteriaIsAnInterface_ThenDiscoveredInterfaceIsUsedAsServiceType()
+	{
+		string sourceCode =
+			"""
+		using Morris.AutoRegister;
+
+		namespace MyNamespace;
+		[AutoRegister(Find.AnyTypeOf, typeof(IMarker), RegisterAs.DiscoveredType, WithLifetime.Scoped)]
+		public partial class MyModule
+		{
+		}
+
+		public interface IMarker {}
+		public interface ISubMarker : IMarker {}
+		public class QualifyingClass1 : IMarker {}
+		public class QualifyingClass2 : ISubMarker {}
+		public class QualifyingClass3 : QualifyingClass2 {}
+		""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+				classFullName: "MyNamespace.MyModule",
+				autoRegisterAttributes:
+				[
+					new(
+						find: Find.AnyTypeOf,
+						typeFullName: "MyNamespace.IMarker",
+						registerAs: RegisterAs.DiscoveredType,
+						withLifetime: WithLifetime.Scoped)
+				],
+				services:
+				[
+					new(
+						lifetime: ServiceLifetime.Scoped,
+						serviceTypeFullName: "MyNamespace.IMarker",
+						serviceImplementationTypeFullName: "MyNamespace.QualifyingClass1"),
+					new(
+						lifetime: ServiceLifetime.Scoped,
+						serviceTypeFullName: "MyNamespace.ISubMarker",
+						serviceImplementationTypeFullName: "MyNamespace.QualifyingClass2"),
+					new(
+						lifetime: ServiceLifetime.Scoped,
+						serviceTypeFullName: "MyNamespace.ISubMarker",
+						serviceImplementationTypeFullName: "MyNamespace.QualifyingClass3"),
+				]
+			)
+			]);
+	}
+
 }

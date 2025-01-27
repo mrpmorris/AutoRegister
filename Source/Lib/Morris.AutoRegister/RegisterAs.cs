@@ -26,5 +26,9 @@ enum RegisterAs
 	/// A service key will registered for the first interface
 	/// found declared on the class discovered.
 	/// </summary>
-	FirstDiscoveredInterfaceOnClass
+	FirstDiscoveredInterfaceOnClass,
+	/// <summary>
+	/// The exact interface type or class type that matched the search criteria will be used as the service key.
+	/// </summary>
+	DiscoveredType
 }
