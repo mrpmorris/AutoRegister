@@ -15,7 +15,7 @@ This code will register `MyService` as Scoped.
 [AutoRegister(
    Find.Exactly,
    typeof(MyService),
-   RegisterAs.DiscoveredClass,
+   RegisterAs.ImplementingClass,
    WithLifetime.Scoped)]
 // => services.AddScoped(typeof(MyService), typeof(MyService))
 public partial class DependencyRegistration {}
@@ -44,14 +44,14 @@ fictitious `IScoped` or `ISingleton` and register the class.
 [AutoRegister(
    Find.Exactly,
    typeof(IScoped),
-   RegisterAs.DiscoveredClass,
+   RegisterAs.ImplementingClass,
    WithLifetime.Scoped)]
 // => services.AddScoped(typeof(ScopedService1), typeof(ScopedService1))
 // => services.AddScoped(typeof(ScopedService2), typeof(ScopedService2))
 [AutoRegister(
    Find.Exactly,
    typeof(ISingleton),
-   RegisterAs.DiscoveredClass,
+   RegisterAs.ImplementingClass,
    WithLifetime.Singleton)]
 // => services.AddScoped(typeof(SingletonService1), typeof(SingletonService1))
 // => services.AddScoped(typeof(SingletonService2), typeof(SingletonService2))

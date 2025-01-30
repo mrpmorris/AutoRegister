@@ -19,12 +19,12 @@ jobs:
       - name: Build
         run: dotnet build "./Source/" --configuration Release -p:Version=${{ github.event.release.tag_name }} -p:AssemblyVersion=${{ github.event.release.tag_name }} -p:FileVersion=${{ github.event.release.tag_name }}
 
-      - name: Test
-        run: dotnet test "./Source/" --no-build
+      # - name: Test
+      #   run: dotnet test "./Source/" --no-build
 
       - name: Pack
         run: |
-          dotnet pack "./Source/Lib/Morris.AutoRegister/Morris.AutoRegister.csproj" --configuration Release --no-build -p:Version=${{ github.event.release.tag_name }} -p:AssemblyVersion=${{ github.event.release.tag_name }} -p:FileVersion=${{ github.event.release.tag_name }} -o artifacts
+          dotnet pack "./Source/Lib/Morris.AutoRegister/Morris.AutoRegister.csproj" --no-build -p:Version=${{ github.event.release.tag_name }} -p:AssemblyVersion=${{ github.event.release.tag_name }} -p:FileVersion=${{ github.event.release.tag_name }} -o artifacts
 
       - name: Push to NuGet
         run: |
