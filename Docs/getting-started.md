@@ -90,14 +90,14 @@ third argument `RegisterAs` determines how the service should be registered.
 // => AddScoped(typeof(BaseClass), typeof(DescendantOfBaseClass))
 ```
 
-* **RegisterAs.DiscoveredClass**:
+* **RegisterAs.ImplementingClass**:
     * The candidate class's type will be used to register the class
 
 ```c#
-[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 // => AddScoped(typeof(DescendantBaseThatClass), typeof(DescendantOfBaseClass))
 
-[AutoRegister(Find.Exactly, typeof(IScoped), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+[AutoRegister(Find.Exactly, typeof(IScoped), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 // AddScoped(typeof(ClassImplementingIScoped), typeof(ClassImplementingIScoped))
 ```
 
@@ -163,7 +163,7 @@ expression on *all* of the filters will be considered as candidates for registra
 ```c#
 // Do not include any classes from the .OptionalPlugins. namespace
 [AutoRegisterFilter(@"^(?!.*\.OptionalPlugins\.).*$")]
-[AutoRegister(Find.AnyTypeOf, typeof(IService), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+[AutoRegister(Find.AnyTypeOf, typeof(IService), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 public partial class DependencyRegistration
 {
 }

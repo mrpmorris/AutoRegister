@@ -25,7 +25,7 @@ This can be used as a text representation of what has been registered that you c
 ```c#
 namespace NS1
 {
-   [AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.DiscoveredClass, WithLifetime.Scoped)]
+   [AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
    [AutoRegister(Find.AnyTypeOf, typeof(IPaymentStrategy), RegisterAs.SearchedType, WithLifetime.Singleton)]
    public partial class DependencyRegistration {}
 }
@@ -33,7 +33,7 @@ namespace NS1
 |Module|Attribute|Scope|ServiceType|ServiceImplementation|
 |-|-|-|-|-|
 |NS1.DependencyRegistration|
-||Find DescendantsOf NS1.BaseClass RegisterAs DiscoveredClass|
+||Find DescendantsOf NS1.BaseClass RegisterAs ImplementingClass|
 |||Scoped|ChildClass1|ChildClass1|
 |||Scoped|ChildClass2|ChildClass2|
 ||Find AnyTypeOf NS1.IPaymentStrategy RegisterAs SearchedType|
