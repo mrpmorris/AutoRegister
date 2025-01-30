@@ -9,13 +9,26 @@
 
 <a name="installation"></a>
 ## Installation
-To do
+On your project that contains your dependency implementations...
+1. Add a package reference for `Fody`
+1. Add a package reference for `Morris.AutoRegister.Fody`
+1. Build the app
+
+You should now see a file called `FodyWeavers.xml` in your project with the
+following content. If you don't then add it.
+```xml
+<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
+  <Morris.AutoRegister />
+</Weavers>
+```
 
 <a name="first-steps"></a>
 ## First steps
-1. Create a partial class to hold your registrations.
+In the project that holds your services' implementations (e.g. BusinessLayer)...
+1. Create a partial to hold your registrations.
 1. Decorate it with `AutoRegister` attributes.
-1. Call the static method `MyClassName.RegisterServices(IServiceCollection services)`
+
+Then call the static method `MyClassName.RegisterServices(IServiceCollection services)`
    from any projects that require those services.
 
 ```c#
