@@ -218,7 +218,7 @@ public class ModuleWeaver : BaseModuleWeaver
 
 	private void WriteManifestFile(string content)
 	{
-		string manifestFilePath = Path.ChangeExtension(ProjectFilePath, "Morris.AutoRegister.manifest");
+		string manifestFilePath = Path.ChangeExtension(ProjectFilePath, "Morris.AutoRegister.csv");
 		File.WriteAllText(manifestFilePath, content);
 	}
 

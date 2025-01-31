@@ -63,7 +63,7 @@ internal static class WeaverExecutor
 			Path.GetTempPath(),
 			$"{uniqueId}.csproj"
 		);
-		string manifestFilePath = Path.ChangeExtension(projectFilePath, "Morris.AutoRegister.manifest");
+		string manifestFilePath = Path.ChangeExtension(projectFilePath, "Morris.AutoRegister.csv");
 		string assemblyFilePath = Path.ChangeExtension(projectFilePath, "Morris.AutoRegister.Tests.dll");
 
 		try

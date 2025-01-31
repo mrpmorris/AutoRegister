@@ -7,7 +7,7 @@
 ## File contents
 When building a project with **AutoRegister** enabled, **AutoRegister**
 will generate a manifest text file with the name
-`{ProjectName}.Morris.AutoRegister.manifest` along side your
+`{ProjectName}.Morris.AutoRegister.csv` along side your
 `{ProjectName}.csproj` file.
 
 The contents of the file are a CSV formatted text file, containing the
@@ -58,9 +58,9 @@ command
 ### Azure
 ```
 - script: |
-    result=$(git status *.Morris.AutoRegister.manifest --porcelain)
+    result=$(git status *.Morris.AutoRegister.csv --porcelain)
     if [ -n "$result" ]; then
-      echo "Error: Uncommitted changes detected in .Morris.AutoRegister.manifest files:"
+      echo "Error: Uncommitted changes detected in .Morris.AutoRegister.csv files:"
       echo "$result"
       exit 1
     else
@@ -73,9 +73,9 @@ command
 ```
  - name: Ensure AutoRegister manifests are up to date
       run: |
-        result=$(git status *.Morris.AutoRegister.manifest --porcelain)
+        result=$(git status *.Morris.AutoRegister.csv --porcelain)
         if [ -n "$result" ]; then
-          echo "Error: Uncommitted changes detected in .Morris.AutoRegister.manifest files:"
+          echo "Error: Uncommitted changes detected in .Morris.AutoRegister.csv files:"
           echo "$result"
           exit 1
         else
