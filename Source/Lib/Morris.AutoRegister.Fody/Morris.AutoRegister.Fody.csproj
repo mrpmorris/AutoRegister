@@ -4,6 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
+		<PackageIcon>logo-small.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -12,6 +13,13 @@
 	  <Compile Include="..\Morris.AutoRegister\Find.cs" Link="Find.cs" />
 	  <Compile Include="..\Morris.AutoRegister\RegisterAs.cs" Link="RegisterAs.cs" />
 	  <Compile Include="..\Morris.AutoRegister\WithLifetime.cs" Link="WithLifetime.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\..\Images\logo-small.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
