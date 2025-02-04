@@ -22,7 +22,7 @@ public class RegisterSourceGenerator : IIncrementalGenerator
 					string? namespaceName =
 						targetSymbol.ContainingNamespace.IsGlobalNamespace
 						? null
-						: targetSymbol.ContainingNamespace.Name;
+						: targetSymbol.ContainingNamespace.ToDisplayString();
 					return (namespaceName, targetSymbol.Name);
 				}
 			)
@@ -40,7 +40,7 @@ public class RegisterSourceGenerator : IIncrementalGenerator
 					string? namespaceName =
 						targetSymbol.ContainingNamespace.IsGlobalNamespace
 						? null
-						: targetSymbol.ContainingNamespace.Name;
+						: targetSymbol.ContainingNamespace.ToDisplayString();
 					return (namespaceName, targetSymbol.Name);
 				}
 			)

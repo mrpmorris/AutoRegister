@@ -9,7 +9,7 @@ public sealed class RegisterTests
 		string sourceCode =
 			$$"""
 			using Morris.AutoRegister;
-			namespace Tests
+			namespace My.Tests
 			{
 				[AutoRegister(Find.Exactly, typeof(object), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
 				public partial class MyModule
@@ -22,7 +22,7 @@ public sealed class RegisterTests
 			$$"""
 			using Microsoft.Extensions.DependencyInjection;
 
-			namespace Tests
+			namespace My.Tests
 			{
 				partial class MyModule
 				{
