@@ -26,10 +26,10 @@ internal static class RegistrationHelper
 				unexpectedRegistrations: unexpectedRegistrations);
 
 		string? errorText = BuildErrorText(missingRegistrations, unexpectedRegistrations);
-		Assert.IsTrue(errorText is null, errorText);
+		Assert.True(errorText is null, errorText);
 
 		string expectedManifest = BuildExpectedManifest(expectedModuleRegistrations);
-		Assert.AreEqual(expectedManifest.StandardizeLines(), manifest.StandardizeLines());
+		Assert.Equal(expectedManifest.StandardizeLines(), manifest.StandardizeLines());
 	}
 
 	private static string? BuildErrorText(
@@ -68,12 +68,12 @@ internal static class RegistrationHelper
 		List<ServiceRegistration> unexpectedRegistrations)
 	{
 		Type moduleType = assembly.GetType(module.ClassFullName)!;
-		Assert.IsNotNull(moduleType, $"Module not found \"{module.ClassFullName}\".");
+		Assert.True(moduleType is not null, $"Module not found \"{module.ClassFullName}\".");
 
 		MethodInfo registerServicesMethod =
 			moduleType
 			.GetMethod("RegisterServices", BindingFlags.Public | BindingFlags.Static)!;
-		Assert.IsNotNull(registerServicesMethod, $"{module.ClassFullName}.RegisterServices method not found.");
+		Assert.True(registerServicesMethod is not null, $"{module.ClassFullName}.RegisterServices method not found.");
 
 		var services = new ServiceCollection();
 		registerServicesMethod.Invoke(

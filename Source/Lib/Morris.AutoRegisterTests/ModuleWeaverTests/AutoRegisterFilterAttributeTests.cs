@@ -4,10 +4,9 @@ using Morris.AutoRegisterTests.Helpers;
 
 namespace Morris.AutoRegisterTests.ModuleWeaverTests;
 
-[TestClass]
 public class AutoRegisterFilterAttributeTests
 {
-	[TestMethod]
+	[Fact]
 	public void WhenModuleHasAnAutoRegisterFilterAttribute_ThenOnlyCandidatesMatchingTheFilterAreRegistered()
 	{
 		string sourceCode =

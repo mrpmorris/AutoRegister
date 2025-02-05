@@ -4,10 +4,9 @@ using Morris.AutoRegisterTests.Helpers;
 
 namespace Morris.AutoRegisterTests.ModuleWeaverTests.AutoRegisterAttributeTests.FindTests;
 
-[TestClass]
 public class ServiceTypeFilterTests
 {
-	[TestMethod]
+	[Fact]
 	public void WhenAServiceTypeFilterIsSpecified_ThenOnlyServiceTypesMatchingThatFilterAreRegistered()
 	{
 		string sourceCode =

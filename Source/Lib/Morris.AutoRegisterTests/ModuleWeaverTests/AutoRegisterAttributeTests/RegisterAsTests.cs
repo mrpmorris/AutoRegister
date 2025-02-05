@@ -4,10 +4,9 @@ using Morris.AutoRegisterTests.Helpers;
 
 namespace Morris.AutoRegisterTests.ModuleWeaverTests.AutoRegisterAttributeTests;
 
-[TestClass]
 public class RegisterAsTests
 {
-	[TestMethod]
+	[Fact]
 	public void WhenRegisteringAsImplementingClass_ThenImplementingClassIsUsedAsServiceType()
 	{
 		string sourceCode =
@@ -62,7 +61,7 @@ public class RegisterAsTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenRegisteringAsSearchedType_ThenTypeFromFindCriteriaIsUsedAsServiceType()
 	{
 		string sourceCode =
@@ -117,7 +116,7 @@ public class RegisterAsTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenRegisteringSearchedTypeAsClosedGeneric_AndFindCriteriaIsAClass_ThenClosedGenericTypeFromFindCriteriaIsUsedAsServiceType()
 	{
 		string sourceCode =
@@ -179,7 +178,7 @@ public class RegisterAsTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenRegisteringSearchedTypeAsClosedGeneric_AndFindCriteriaIsAnInterface_ThenClosedGenericTypeFromFindCriteriaIsUsedAsServiceType()
 	{
 		string sourceCode =
@@ -241,7 +240,7 @@ public class RegisterAsTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenRegisteringSearchedTypeAsClosedGeneric_AndFindCriteriaIsNotOpenGeneric_ThenTypeFromFindCriteriaIsUsedAsServiceType()
 	{
 		string sourceCode =
@@ -296,7 +295,7 @@ public class RegisterAsTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_AndClassHasMultipleInterfaces_ThenFirstInterfaceIsRegistered()
 	{
 		string sourceCode =
@@ -349,7 +348,7 @@ public class RegisterAsTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_AndClassHasNoInterfaces_ThenClassIsNotRegistered()
 	{
 		string sourceCode =
@@ -389,7 +388,7 @@ public class RegisterAsTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_ThenFirstInterfaceMatchingServiceTypeFilterIsRegistered()
 	{
 		string sourceCode =
@@ -443,7 +442,7 @@ public class RegisterAsTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_AndClassesInterfacesDoNotMatchServiceTypeFilter_ThenClassIsNotRegistered()
 	{
 		string sourceCode =
@@ -487,7 +486,7 @@ public class RegisterAsTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenRegisteringAsDiscoveredType_AndFindCriteriaIsAClass_ThenDiscoveredTypeIsUsedAsServiceType()
 	{
 		string sourceCode =
@@ -542,7 +541,7 @@ public class RegisterAsTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenRegisteringAsDiscoveredType_AndFindCriteriaIsAnInterface_ThenDiscoveredInterfaceIsUsedAsServiceType()
 	{
 		string sourceCode =

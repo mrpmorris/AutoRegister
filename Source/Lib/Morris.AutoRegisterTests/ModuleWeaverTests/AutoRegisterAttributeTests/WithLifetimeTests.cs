@@ -4,10 +4,9 @@ using Morris.AutoRegisterTests.Helpers;
 
 namespace Morris.AutoRegisterTests.ModuleWeaverTests.AutoRegisterAttributeTests;
 
-[TestClass]
 public class WithLifetimeTests
 {
-	[TestMethod]
+	[Fact]
 	public void WhenSingleton_ThenRegistersAsSingleton()
 	{
 		string sourceCode =
@@ -51,7 +50,7 @@ public class WithLifetimeTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenScoped_ThenRegistersAsScoped()
 	{
 		string sourceCode =
@@ -95,7 +94,7 @@ public class WithLifetimeTests
 			]);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenTransient_ThenRegistersAsTransient()
 	{
 		string sourceCode =

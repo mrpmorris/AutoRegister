@@ -4,10 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Morris.AutoRegisterTests.ModuleWeaverTests;
 
-[TestClass]
 public class RemoveAutoRegisterDependencyTests
 {
-	[TestMethod]
+	[Fact]
 	public void WhenWeavingIsSuccessful_ThenReferenceToAutoRegisterShouldHaveBeenRemoved()
 	{
 		string sourceCode =
@@ -28,10 +27,10 @@ public class RemoveAutoRegisterDependencyTests
 			.GetReferencedAssemblies()
 			.Select(x => x.FullName.Split(',')[0])
 			.Any(x => x == "Morris.AutoRegister");
-		Assert.IsFalse(isReferenced, "Morris.AutoRegister should not be referenced.");
+		Assert.False(isReferenced, "Morris.AutoRegister should not be referenced.");
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenWeavingIsSuccessful_ThenAutoRegisterAttributesShouldHaveBeenRemoved()
 	{
 		string sourceCode =
@@ -51,10 +50,10 @@ public class RemoveAutoRegisterDependencyTests
 			module
 			.GetCustomAttributes()
 			.Count();
-		Assert.AreEqual(0, attributeCount);
+		Assert.Equal(0, attributeCount);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenWeavingIsSuccessful_ThenAutoRegisterFilterAttributesShouldHaveBeenRemoved()
 	{
 		string sourceCode =
@@ -74,10 +73,10 @@ public class RemoveAutoRegisterDependencyTests
 			module
 			.GetCustomAttributes()
 			.Count();
-		Assert.AreEqual(0, attributeCount);
+		Assert.Equal(0, attributeCount);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenWeavingIsSuccessful_ThenNonAutoRegisterAttributesShouldBePreserved()
 	{
 		string sourceCode =
@@ -99,10 +98,10 @@ public class RemoveAutoRegisterDependencyTests
 			module
 			.GetCustomAttributes()
 			.Count();
-		Assert.AreEqual(1, attributeCount);
+		Assert.Equal(1, attributeCount);
 
 		SerializableAttribute? serializableAttribute = module.GetCustomAttribute<SerializableAttribute>();
-		Assert.IsNotNull(serializableAttribute);
+		Assert.NotNull(serializableAttribute);
 	}
 
 }

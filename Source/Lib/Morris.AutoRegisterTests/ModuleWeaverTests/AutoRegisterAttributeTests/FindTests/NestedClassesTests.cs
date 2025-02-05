@@ -4,10 +4,9 @@ using Morris.AutoRegisterTests.Helpers;
 
 namespace Morris.AutoRegisterTests.ModuleWeaverTests.AutoRegisterAttributeTests.FindTests;
 
-[TestClass]
 public class NestedClassesTests
 {
-	[TestMethod]
+	[Fact]
 	public void WhenAClassIsNested_ThenThatClassCanStillBeRegistered()
 	{
 		string sourceCode =

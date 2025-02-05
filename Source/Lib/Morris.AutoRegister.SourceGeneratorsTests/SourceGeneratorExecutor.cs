@@ -44,9 +44,9 @@ internal static class SourceGeneratorExecutor
 		GeneratorRunResult result = runResult.Results.Single();
 
 		GeneratedSourceResult generatedSource = result.GeneratedSources.Single();
-		Assert.AreEqual("Morris.AutoRegister.RegisterSourceGenerator.g.cs", generatedSource.HintName);
+		Assert.Equal("Morris.AutoRegister.RegisterSourceGenerator.g.cs", generatedSource.HintName);
 		string generatedCode = generatedSource.SyntaxTree.ToString();
-		Assert.AreEqual(expectedGeneratedCode.StandardizeLines(), generatedCode.StandardizeLines());
+		Assert.Equal(expectedGeneratedCode.StandardizeLines(), generatedCode.StandardizeLines());
 	}
 
 	private static void AssertNoDiagnostics(CSharpCompilation compilation)

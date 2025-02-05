@@ -4,10 +4,9 @@ using Morris.AutoRegisterTests.Helpers;
 
 namespace Morris.AutoRegisterTests.ModuleWeaverTests.AutoRegisterAttributeTests.FindTests;
 
-[TestClass]
 public class DescendantsOfTests
 {
-	[TestMethod]
+	[Fact]
 	public void WhenFindingAClass_ThenTheSameClassIsNotRegistered()
 	{
 		string sourceCode =
@@ -46,7 +45,7 @@ public class DescendantsOfTests
 		);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenFindingAClass_ThenDescendantClassesAreRegistered()
 	{
 		string sourceCode =
@@ -92,7 +91,7 @@ public class DescendantsOfTests
 		);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenFindingAnInterface_ThenClassesImplementingTheExactInterfaceAreNotRegistered()
 	{
 		string sourceCode =
@@ -132,7 +131,7 @@ public class DescendantsOfTests
 		);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenFindingAnInterface_ThenClassesImplementingADescendantInterfaceAreRegistered()
 	{
 		string sourceCode =
@@ -179,7 +178,7 @@ public class DescendantsOfTests
 		);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenFindingOpenGenericClass_ThenClosedGenericDescendantsOfThatClassAreRegistered()
 	{
 		string sourceCode =
@@ -225,7 +224,7 @@ public class DescendantsOfTests
 		);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenFindingAnOpenGenericInterface_ThenClassesImplementingDescendantsOfThatInterfaceAreRegistered()
 	{
 		string sourceCode =

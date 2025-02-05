@@ -1,9 +1,8 @@
 ﻿namespace Morris.AutoRegister.SourceGeneratorsTests.RegisterSourceGeneratorTests;
 
-[TestClass]
 public sealed class RegisterTests
 {
-	[TestMethod]
+	[Fact]
 	public void WhenClassHasAutoRegisterAttribute_ThenRegisterMethodIsAdded()
 	{
 		string sourceCode =
@@ -43,7 +42,7 @@ public sealed class RegisterTests
 			);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenClassHasAutoRegisterFilterAttribute_ThenRegisterMethodIsAdded()
 	{
 		string sourceCode =

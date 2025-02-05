@@ -5,10 +5,9 @@ using System.Reflection;
 
 namespace Morris.AutoRegisterTests.ModuleWeaverTests;
 
-[TestClass]
 public class ModuleTests
 {
-	[TestMethod]
+	[Fact]
 	public void WhenClassHasAutoRegisterAttribute_ThenClassAppearsInManifest()
 	{
 		string sourceCode =
@@ -44,7 +43,7 @@ public class ModuleTests
 		);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenClassHasAutoRegisterFilterAttribute_ThenClassAppearsInManifest()
 	{
 		string sourceCode =
@@ -89,7 +88,7 @@ public class ModuleTests
 		);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenClassHasNoAutoRegisterAttributes_ThenClassDoesNotAppearInManifest()
 	{
 		string sourceCode =
@@ -118,7 +117,7 @@ public class ModuleTests
 		);
 	}
 
-	[TestMethod]
+	[Fact]
 	public void WhenClassHasAfterRegisterServicesMethod_ThenThatMethodIsCalledFromRegisterServices()
 	{
 		string sourceCode =
@@ -171,8 +170,8 @@ public class ModuleTests
 		catch (TargetInvocationException invocationException)
 		{
 			var applicationException = invocationException?.InnerException as ApplicationException;
-			Assert.IsNotNull(applicationException, "Expected inner exception to be ApplicationException.");
-			Assert.AreEqual("AfterRegisterServices was executed.", applicationException.Message);
+			Assert.True(applicationException is not null, "Expected inner exception to be ApplicationException.");
+			Assert.Equal("AfterRegisterServices was executed.", applicationException.Message);
 		}
 		
 	}
