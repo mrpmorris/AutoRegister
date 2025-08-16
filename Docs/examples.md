@@ -23,7 +23,8 @@ public partial class DependencyRegistration {}
 
 
 Alternatively, you can implement the following method on your registration
-class.
+class. Any registrations made in this method will **NOT** appear in your
+[manifest file](./source-control.md).
 
 ```c#
 static partial void AfterRegisterServices(IServiceCollection services)
@@ -31,9 +32,6 @@ static partial void AfterRegisterServices(IServiceCollection services)
    // This is called at the end of the RegisterServices method
 }
 ```
-
-Any registrations made here will **NOT** appear in your
-[manifest file](./source-control.md).
 
 <a id="register-classes-with-a-marker-interface"></a>
 ## Register classes implementing a marker interface
