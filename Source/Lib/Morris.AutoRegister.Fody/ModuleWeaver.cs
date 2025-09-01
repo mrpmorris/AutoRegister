@@ -31,7 +31,7 @@ public class ModuleWeaver : BaseModuleWeaver
 	private void ProcessClasses()
 	{
 		var manifestBuilder = new StringBuilder();
-		manifestBuilder.AppendLinuxLine(ManifestHeader);
+		manifestBuilder.AppendLine(ManifestHeader);
 
 		IEnumerable<TypeDefinition> classesToScan =
 			ModuleDefinition
@@ -94,7 +94,7 @@ public class ModuleWeaver : BaseModuleWeaver
 			classesToScan
 			.Where(c => autoRegisterFilterAttributes.All(f => f.Matches(c)));
 
-		manifestBuilder.AppendLinuxLine($"{type.ToHumanReadableName()}");
+		manifestBuilder.AppendLine($"{type.ToHumanReadableName()}");
 		foreach (AutoRegisterAttributeData autoRegisterAttributeData in autoRegisterAttributes)
 			ProcessAutoRegisterAttribute(
 				manifestBuilder: manifestBuilder,
@@ -145,7 +145,7 @@ public class ModuleWeaver : BaseModuleWeaver
 		if (autoRegisterAttributeData.ServiceImplementationTypeFilter is not null)
 			manifestBuilder.Append($" {nameof(AutoRegisterAttribute.ServiceImplementationTypeFilter)}=\"{autoRegisterAttributeData.ServiceImplementationTypeFilter}\"");
 
-		manifestBuilder.AppendLinuxLine();
+		manifestBuilder.AppendLine();
 
 		foreach (TypeDefinition candidate in filteredClasses)
 		{
@@ -170,7 +170,7 @@ public class ModuleWeaver : BaseModuleWeaver
 		manifestBuilder.Append($"{withLifetime},");
 		manifestBuilder.Append($"{serviceType!.ToHumanReadableName()},");
 		manifestBuilder.Append($"{serviceImplementationType!.ToHumanReadableName()}");
-		manifestBuilder.AppendLinuxLine();
+		manifestBuilder.AppendLine();
 
 		// Get references to needed runtime methods
 		MethodReference getTypeFromHandleRef = 

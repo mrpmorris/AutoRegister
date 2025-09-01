@@ -24,9 +24,9 @@ internal class ModuleRegistration
 		var builder = new StringBuilder();
 		builder.AppendLine(ClassFullName);
 		foreach (AutoRegisterAttributeRegistration attribute in AutoRegisterAttributes)
-			builder.AppendLinuxLine($",{attribute.ToString()}");
+			builder.AppendLine($",{attribute.ToString()}");
 		foreach (ServiceRegistration service in Services.OrderBy(x => x.ServiceTypeFullName))
-			builder.AppendLinuxLine($",,{service.ToString()}");
+			builder.AppendLine($",,{service.ToString()}");
 		return builder.ToString();
 	}
 }

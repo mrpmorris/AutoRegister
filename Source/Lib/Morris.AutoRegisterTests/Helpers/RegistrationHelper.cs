@@ -112,7 +112,7 @@ internal static class RegistrationHelper
 	private static string BuildExpectedManifest(IEnumerable<ModuleRegistration> expectedModuleRegistrations)
 	{
 		var builder = new StringBuilder();
-		builder.AppendLinuxLine(ModuleWeaver.ManifestHeader);
+		builder.AppendLine(ModuleWeaver.ManifestHeader);
 		foreach (var module in expectedModuleRegistrations)
 			builder.Append(module);
 		return builder.ToString();
