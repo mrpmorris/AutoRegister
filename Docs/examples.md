@@ -2,7 +2,7 @@
 
 * [Register a single class](#register-a-single-class)
 * [Register classes implementing a marker interface](#register-classes-with-a-marker-interface) 
-* [Register classes descended from RepositoryBase<,>](#register-classes-descneded-from-repositorybase)
+* [Register classes descended from RepositoryBase<,>](#register-classes-descended-from-repositorybase)
 * [Register all IPaymentStrategy implementations](#register-all-ipaymentstrategy-implementations)
 * [Register interfaces descended from IRepository](#register-interfaces-descended-from-irepository)
 * [Register first interface matching name `*IRepository`](#register-first-interface-name-matching-repository)
@@ -56,7 +56,7 @@ fictitious `IScoped` or `ISingleton` and register the class.
 public partial class DependencyRegistration {}
 ```
 
-<a id="register-classes-descneded-from-repositorybase"></a>
+<a id="register-classes-descended-from-repositorybase"></a>
 ## Register classes descended from RepositoryBase<,>
 This code will find all classes that descend from RepositoryBase&lt;,&gt;.
 The service key will be `RepositoryBase<,>` with the generic
