@@ -62,5 +62,5 @@ partial class DependencyRegistration
 * As fast as if you'd written it manually, but without the effort!
 
 For accountability, AutoReflect even generates a
-[manifest file](./source-control.md) you can check into source control, to
+[manifest file](https://github.com/mrpmorris/AutoRegister/blob/master/Docs/source-control.md) you can check into source control, to
 see which classes are being registered.

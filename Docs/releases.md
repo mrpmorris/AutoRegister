@@ -1,3 +1,4 @@
 # Releases
 
-There are no releases, yet.
+## Version 1.0
+First production-ready release.
