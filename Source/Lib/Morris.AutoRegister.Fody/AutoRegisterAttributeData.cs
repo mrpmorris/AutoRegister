@@ -119,6 +119,7 @@ internal class AutoRegisterAttributeData
 		typeReference
 		.Resolve()
 		.GetAllInterfaces()
+		.Where(x => x.Namespace != "System")
 		.Where(DoesServiceTypeMatch)
 		.FirstOrDefault();
 }

@@ -443,6 +443,66 @@ public class RegisterAsTests
 	}
 
 	[Fact]
+	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_AndClassImplementsSystemInterfaces_ThenSystemInterfacesAreIgnored()
+	{
+		string disposableSource = "void IDisposable.Dispose() {}";
+		string asyncDisposableSource = "ValueTask IAsyncDisposable.DisposeAsync() => default;";
+		string sourceCode =
+			$$"""
+			using System;
+			using System.Threading.Tasks;
+			using Morris.AutoRegister;
+
+			namespace MyNamespace;
+			[AutoRegister(Find.DescendantsOf, typeof(BaseClass), RegisterAs.FirstDiscoveredInterfaceOnClass, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+			}
+
+			public interface IInterface1 {}
+			public interface IInterface2 {}
+
+			public abstract class BaseClass {}
+			public class QualifyingClass1 : BaseClass, IDisposable, IInterface1, IInterface2 { {{disposableSource}} }
+			public class QualifyingClass2 : BaseClass, IInterface2, IInterface1 {}
+			public class DisqualifiedClass1 : BaseClass, IDisposable { {{disposableSource}} }
+			public class DisqualifiedClass2 : BaseClass, IAsyncDisposable { {{asyncDisposableSource}} }
+			public class DisqualifiedClass3 : BaseClass, IDisposable, IAsyncDisposable { {{disposableSource}} {{asyncDisposableSource}} }
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoRegisterAttributes:
+					[
+						new(
+							find: Find.DescendantsOf,
+							typeFullName: "MyNamespace.BaseClass",
+							registerAs: RegisterAs.FirstDiscoveredInterfaceOnClass,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.IInterface1",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass1"),
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.IInterface2",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass2")
+					]
+				)
+			]);
+	}
+
+	[Fact]
 	public void WhenRegisteringFirstDiscoveredInterfaceOnClass_AndClassesInterfacesDoNotMatchServiceTypeFilter_ThenClassIsNotRegistered()
 	{
 		string sourceCode =
