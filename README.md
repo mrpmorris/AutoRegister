@@ -15,9 +15,9 @@ public partial class MyModule
 ```
 
 # Documentation
-* [Benefits of registration by convention](./Docs/benefits-of-registration-by-convention.md)
-* [How AutoRegister works](./Docs/how-autoregister-works.md)
-* [Getting started](./Docs/getting-started.md)
-* [Source control](./Docs/source-control.md)
-* [Examples](./Docs/examples.md)
-* [Release notes](./Docs/releases.md)
+* [Benefits of registration by convention](https://github.com/mrpmorris/AutoRegister/blob/master/Docs/benefits-of-registration-by-convention.md)
+* [How AutoRegister works](https://github.com/mrpmorris/AutoRegister/blob/master/Docs/how-autoregister-works.md)
+* [Getting started](https://github.com/mrpmorris/AutoRegister/blob/master/Docs/getting-started.md)
+* [Source control](https://github.com/mrpmorris/AutoRegister/blob/master/Docs/source-control.md)
+* [Examples](https://github.com/mrpmorris/AutoRegister/blob/master/Docs/examples.md)
+* [Release notes](https://github.com/mrpmorris/AutoRegister/blob/master/Docs/releases.md)
