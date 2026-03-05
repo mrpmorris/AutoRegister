@@ -1,6 +1,6 @@
 ![](./Images/logo-small.png)
 # AutoRegister
-Reflection-free convention-based dependency registration.
+Reflection-free, build-time, convention-based dependency registration.
 
 AutoRegister is a [Fody](https://github.com/Fody/Fody) plugin that scans your assembly at build time and
 generates code to register your injectable dependencies.
