@@ -138,7 +138,7 @@ fictitious `IScoped` or `ISingleton` and register the class.
    typeof(ISingleton),
    RegisterAs.ImplementingClass,
    WithLifetime.Singleton)]
-// => services.AddScoped(typeof(SingletonService1), typeof(SingletonService1))
-// => services.AddScoped(typeof(SingletonService2), typeof(SingletonService2))
+// => services.AddSingleton(typeof(SingletonService1), typeof(SingletonService1))
+// => services.AddSingleton(typeof(SingletonService2), typeof(SingletonService2))
 public partial class DependencyRegistration {}
 ```
