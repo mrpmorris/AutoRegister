@@ -1,5 +1,9 @@
-![](./Images/logo-small.png)
 # AutoRegister
+![](./Images/logo-small.png)
+
+[![NuGet version](https://img.shields.io/nuget/v/Morris.AutoRegister.Fody.svg)](https://www.nuget.org/packages/Morris.AutoRegister.Fody)
+[![NuGet downloads](https://img.shields.io/nuget/dt/Morris.AutoRegister.Fody.svg)](https://www.nuget.org/packages/Morris.AutoRegister.Fody)
+
 Reflection-free, build-time, convention-based dependency registration.
 
 AutoRegister is a [Fody](https://github.com/Fody/Fody) plugin that scans your assembly at build time and
