@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Morris.AutoRegister.Fody;
+
 using ServiceTypeAndImplementation = (TypeReference ServiceType, TypeReference ServiceImplementation);
 
 internal class AutoRegisterAttributeData
@@ -14,7 +15,7 @@ internal class AutoRegisterAttributeData
 	public RegisterAs Register { get; private set; }
 	public string? ServiceTypeFilter { get; private set; }
 	public string? ServiceImplementationTypeFilter { get; private set; }
-	public TypeDefinition Type { get; private set; }
+	public TypeReference Type { get; private set; }
 	public WithLifetime WithLifetime { get; private set; }
 
 	private readonly Func<TypeReference, TypeReference?> GetKey;
@@ -35,7 +36,7 @@ internal class AutoRegisterAttributeData
 		Register = registerAs;
 		ServiceTypeFilter = serviceTypeFilter;
 		ServiceImplementationTypeFilter = serviceImplementationTypeFilter;
-		Type = type.Resolve();
+		Type = type;
 		WithLifetime = withLifetime;
 
 		if (serviceTypeFilter is not null)
@@ -44,10 +45,12 @@ internal class AutoRegisterAttributeData
 		if (serviceImplementationTypeFilter is not null)
 			ServiceImplementationTypeFilterRegex = new Regex(serviceImplementationTypeFilter, RegexOptions.Compiled);
 
+		TypeDefinition typeDefinition = type.Resolve();
+
 		GetPotentialKeys =
-			Type.IsInterface
-			? x => x.GetAllInterfaces()
-			: x => [x];
+			typeDefinition.IsInterface
+				? x => x.GetAllInterfaces()
+				: x => [x];
 
 		GetKey = Find switch {
 			Find.Exactly => FindExactly,
@@ -87,6 +90,7 @@ internal class AutoRegisterAttributeData
 
 		if (serviceType is not null)
 			serviceType = TransformKey((serviceType, type));
+
 		bool serviceTypeMatch = DoesServiceTypeMatch(serviceType);
 
 		return serviceType is not null && serviceTypeMatch;
@@ -101,25 +105,25 @@ internal class AutoRegisterAttributeData
 		);
 
 	private TypeReference? FindAnyTypeOf(TypeReference typeReference) =>
-		typeReference.Resolve().IsAssignableTo(Type)
-		? typeReference
-		: null;
+		typeReference.IsAssignableTo(Type)
+			? typeReference
+			: null;
 
 	private TypeReference? FindDescendantsOf(TypeReference typeReference) =>
-		typeReference.Resolve().DescendsFrom(Type)
+		typeReference.DescendsFrom(Type)
 		? typeReference
 		: null;
 
 	private TypeReference? FindExactly(TypeReference typeReference) =>
 		typeReference.IsSameAs(Type)
-		? typeReference
-		: null;
+			? typeReference
+			: null;
 
 	private TypeReference? GetFirstInterface(TypeReference typeReference) =>
 		typeReference
-		.Resolve()
-		.GetAllInterfaces()
-		.Where(x => x.Namespace != "System")
-		.Where(DoesServiceTypeMatch)
-		.FirstOrDefault();
+			.Resolve()
+			.GetAllInterfaces()
+			.Where(x => x.Namespace != "System")
+			.Where(DoesServiceTypeMatch)
+			.FirstOrDefault();
 }

@@ -166,10 +166,12 @@ public class ModuleWeaver : BaseModuleWeaver
 		TypeDefinition serviceImplementationType,
 		ILProcessor ilProcessor)
 	{
+		serviceType = ModuleDefinition.ImportReference(serviceType!);
+
 		manifestBuilder.Append(",,");
 		manifestBuilder.Append($"{withLifetime},");
-		manifestBuilder.Append($"{serviceType!.ToHumanReadableName()},");
-		manifestBuilder.Append($"{serviceImplementationType!.ToHumanReadableName()}");
+		manifestBuilder.Append($"{serviceType.ToHumanReadableName()},");
+		manifestBuilder.Append($"{serviceImplementationType.ToHumanReadableName()}");
 		manifestBuilder.AppendLine();
 
 		// Get references to needed runtime methods
@@ -177,11 +179,12 @@ public class ModuleWeaver : BaseModuleWeaver
 			ModuleDefinition
 			.ImportReference(
 				typeof(Type).GetMethod(nameof(Type.GetTypeFromHandle),
-				new[] { typeof(RuntimeTypeHandle) }
-			)
-		);
+					new[] { typeof(RuntimeTypeHandle) }
+				)!
+			);
 
-		TypeDefinition extensionType = FindTypeDefinition("Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions");
+		TypeDefinition extensionType =
+			FindTypeDefinition("Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions");
 
 		string addMethodName = withLifetime switch {
 			WithLifetime.Singleton => "AddSingleton",
