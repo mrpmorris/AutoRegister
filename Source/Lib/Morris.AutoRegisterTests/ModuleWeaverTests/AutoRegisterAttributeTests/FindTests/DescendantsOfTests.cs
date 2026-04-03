@@ -225,6 +225,53 @@ public class DescendantsOfTests
 	}
 
 	[Fact]
+	public void WhenClassDescendsFromIntermediateAbstractGeneric_ShouldRegisterAsClosedGenericInterface()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoRegister;
+
+			namespace MyNamespace;
+			[AutoRegister(Find.DescendantsOf, typeof(IOpenGeneric<,>), RegisterAs.SearchedTypeAsClosedGeneric, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+			}
+
+			public interface IOpenGeneric<TFirst, TSecond> {}
+			public abstract class AbstractMiddle<T> : IOpenGeneric<T, int> {}
+			public class ConcreteFromAbstractMiddle : AbstractMiddle<string> {}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoRegisterAttributes:
+					[
+						new(
+							find: Find.DescendantsOf,
+							typeFullName: "MyNamespace.IOpenGeneric`2",
+							registerAs: RegisterAs.SearchedTypeAsClosedGeneric,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.IOpenGeneric<System.String, System.Int32>",
+							serviceImplementationTypeFullName: "MyNamespace.ConcreteFromAbstractMiddle"),
+					]
+				)
+			]
+		);
+	}
+
+	[Fact]
 	public void WhenFindingAnOpenGenericInterface_ThenClassesImplementingDescendantsOfThatInterfaceAreRegistered()
 	{
 		string sourceCode =
