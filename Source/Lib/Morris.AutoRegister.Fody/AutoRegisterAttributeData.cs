@@ -86,7 +86,7 @@ internal class AutoRegisterAttributeData
 		serviceType =
 			GetPotentialKeys(type)
 			.Select(GetKey)
-			.FirstOrDefault();
+			.FirstOrDefault(x => x is not null);
 
 		if (serviceType is not null)
 			serviceType = TransformKey((serviceType, type));
