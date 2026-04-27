@@ -135,6 +135,52 @@ public class ExactlyTests
 	}
 
 	[Fact]
+	public void WhenFindingAnInterface_ThenClassesImplementingTheExactInterfaceAreRegistered_RegardlessOfInterfaceDeclarationOrder()
+	{
+		string sourceCode =
+			"""
+			using Morris.AutoRegister;
+
+			namespace MyNamespace;
+			[AutoRegister(Find.Exactly, typeof(IMarkerInterface), RegisterAs.ImplementingClass, WithLifetime.Scoped)]
+			public partial class MyModule
+			{
+			}
+
+			public interface IMarkerInterface {}
+			public interface ISomethingElse {}
+			public class QualifyingClass : ISomethingElse, IMarkerInterface {}
+			""";
+
+		WeaverExecutor.Execute(sourceCode, out Fody.TestResult? fodyTestResult, out string? manifest);
+
+		RegistrationHelper.AssertRegistration(
+			assembly: fodyTestResult.Assembly,
+			manifest: manifest,
+			expectedModuleRegistrations:
+			[
+				new(
+					classFullName: "MyNamespace.MyModule",
+					autoRegisterAttributes:
+					[
+						new(
+							find: Find.Exactly,
+							typeFullName: "MyNamespace.IMarkerInterface",
+							registerAs: RegisterAs.ImplementingClass,
+							withLifetime: WithLifetime.Scoped)
+					],
+					services:
+					[
+						new(
+							lifetime: ServiceLifetime.Scoped,
+							serviceTypeFullName: "MyNamespace.QualifyingClass",
+							serviceImplementationTypeFullName: "MyNamespace.QualifyingClass")
+					]
+				)
+			]);
+	}
+
+	[Fact]
 	public void WhenFindingAnInterface_ThenDescendantsOfClassesImplementingTheExactInterfaceAreRegistered()
 	{
 		string sourceCode =
